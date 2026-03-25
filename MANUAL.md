@@ -37,6 +37,22 @@ This repository does **not** store:
 - raw terminal transcripts,
 - or “I might organize this later” fragments.
 
+## Scope Exception: `physics/`
+
+This repository is primarily for ML systems knowledge.
+
+However, `physics/` is an intentional exception:
+- it may include broader physics study even when the connection to ML systems is indirect,
+- because long-term engineering depth can benefit from a stronger scientific foundation.
+
+This exception changes the **scope**, but not the **quality standard**.
+
+That means documents in `physics/` must still be:
+- durable,
+- structured,
+- high-signal,
+- and worth returning to later.
+
 ## Document Types
 
 Every document should belong to exactly one of these types.
@@ -139,6 +155,7 @@ Each document must go into the directory that best matches its dominant purpose.
 - `kernels/`: kernel construction principles
 - `profiling/`: benchmarking and measurement discipline
 - `roadmap/`: long-horizon study structure
+- `physics/`: broader physics foundations, allowed to be more general than the rest of the repository
 
 If a document could fit in multiple places, choose the directory that best answers:
 

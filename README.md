@@ -29,6 +29,7 @@ For repository standards, classification rules, and document acceptance criteria
 - `quantization/`: low-precision representation, error, and systems tradeoffs.
 - `kernels/`: kernel design principles for ML workloads.
 - `profiling/`: benchmarking methodology and profiler literacy.
+- `physics/`: broader physics study as a long-term scientific foundation, with the same quality standards as the rest of the repository.
 
 ## Current Direction
 
@@ -41,6 +42,10 @@ The focus is on building deep fluency in:
 - low-precision compute,
 - GPU kernel thinking,
 - and rigorous performance measurement.
+
+There is one intentional exception to the otherwise ML-systems-focused scope:
+
+- `physics/` is allowed to be broader than direct ML systems relevance, because it serves as a long-term scientific foundation area.
 
 ## How To Use This Repo
 
