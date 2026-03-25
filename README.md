@@ -4,6 +4,8 @@ A long-term public knowledge base for becoming a real ML systems engineer.
 
 This repository is not a project log, a paper dump, or a random memo archive. It is a structured knowledge system for the concepts that matter in modern ML systems work: mathematical foundations, computer architecture, GPU execution, CUDA, Triton, transformer inference, training systems, quantization, kernel design, and performance profiling.
 
+For repository standards, classification rules, and document acceptance criteria, see [`MANUAL.md`](MANUAL.md).
+
 ## Principles
 
 - Store durable knowledge, not disposable notes.
@@ -49,6 +51,8 @@ Each directory should eventually contain:
 - why they matter in ML systems,
 - tradeoffs and common mistakes,
 - and links between theory and implementation.
+
+Any new document added to this repository should follow the classification and quality rules in [`MANUAL.md`](MANUAL.md).
 
 The intended outcome is simple:
 
