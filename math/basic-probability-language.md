@@ -8,6 +8,8 @@ Probability begins with a small set of basic ideas:
 - sample space,
 - sample point,
 - event,
+- operations on events,
+- mutually exclusive events and partitions,
 - and replacement versus without replacement.
 
 These ideas form the language used to describe uncertain outcomes before any probability is calculated.
@@ -131,6 +133,100 @@ Mutually exclusive events:
 Exhaustive events:
 - events that together cover the entire sample space.
 
+### Operations on events
+
+Union:
+
+```text
+A ∪ B
+```
+
+means that `A` happens, or `B` happens, or both happen.
+
+Intersection:
+
+```text
+A ∩ B
+```
+
+means that `A` and `B` happen together.
+
+Complement:
+
+```text
+A^c
+```
+
+means that `A` does not happen.
+
+Difference:
+
+```text
+A - B = A ∩ B^c
+```
+
+means that `A` happens but `B` does not.
+
+Example with one die roll:
+
+```text
+Ω = {1, 2, 3, 4, 5, 6}
+A = {2, 4, 6}
+B = {4, 5, 6}
+```
+
+Then:
+
+```text
+A ∪ B = {2, 4, 5, 6}
+A ∩ B = {4, 6}
+A^c = {1, 3, 5}
+A - B = {2}
+```
+
+These operations are just set operations applied to events.
+
+### Mutually exclusive events
+
+Two events `A` and `B` are mutually exclusive if:
+
+```text
+A ∩ B = ∅
+```
+
+This means they cannot happen at the same time.
+
+For a collection of events `A1, A2, ..., An`, they are pairwise mutually exclusive if every different pair has empty intersection.
+
+Mutually exclusive means:
+- no overlap.
+
+### Partition of a sample space
+
+A collection of events `A1, A2, ..., An` is a partition of the sample space if:
+- the events are pairwise mutually exclusive,
+- and their union is the whole sample space.
+
+In other words, a partition breaks the sample space into separate pieces with:
+- no overlap,
+- and no gaps.
+
+Example for one die roll:
+
+```text
+A1 = {1, 3, 5}
+A2 = {2, 4, 6}
+```
+
+Then:
+
+```text
+A1 ∩ A2 = ∅
+A1 ∪ A2 = Ω
+```
+
+So `{A1, A2}` is a partition of `Ω`.
+
 ### With replacement and without replacement
 
 With replacement means that after drawing an item, it is returned before the next draw.
@@ -175,6 +271,9 @@ A careful setup makes later probability calculations straightforward.
 - Mixing up a random phenomenon with the experiment used to observe it.
 - Forgetting that a sample space must include all possible outcomes.
 - Treating an event as a single outcome instead of a set of outcomes.
+- Confusing union with intersection, especially reading "or" as if it excluded the overlap.
+- Forgetting that `A - B` means "in A but not in B."
+- Confusing mutually exclusive events with events that are merely different.
 - Ignoring how replacement changes the sample space.
 - Using probability formulas before the underlying experiment and event are clearly defined.
 
