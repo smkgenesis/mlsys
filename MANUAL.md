@@ -113,9 +113,9 @@ Purpose:
 - connect formal coursework or theory to ML systems practice.
 
 Examples:
-- probability for measurement uncertainty
 - discrete structures for scheduling policies
 - computer architecture for GPU bottlenecks
+- operating systems concepts for inference runtimes
 
 Expected contents:
 - academic topic,
@@ -166,7 +166,7 @@ Merge documents when they answer nearly the same question and repeat the same me
 
 Each document must go into the directory that best matches its dominant purpose.
 
-- `foundations/`: bridge from formal coursework to systems engineering
+- `foundations/`: bridge from core CS coursework to systems engineering; math-heavy material should usually go in `math/`
 - `math/`: probability, statistics, information theory, numerical reasoning
 - `architecture/`: memory hierarchy, compute organization, hardware cost reasoning
 - `gpu/`: GPU execution behavior and hardware constraints

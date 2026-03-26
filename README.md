@@ -18,7 +18,7 @@ For the operating workflow that turns raw study/project conversation into curate
 ## Repository Map
 
 - `roadmap/`: long-horizon study plan and capability progression.
-- `foundations/`: core CS and math background connected to ML systems.
+- `foundations/`: core CS background reinterpreted for ML systems engineering.
 - `math/`: probability, statistics, information theory, and error analysis for systems ML.
 - `architecture/`: computer architecture and memory hierarchy.
 - `gpu/`: GPU execution model and performance constraints.

@@ -1,12 +1,16 @@
 # foundations
 
-This directory connects formal coursework to ML systems engineering.
+This directory connects core CS coursework to ML systems engineering.
 
 Relevant topics include:
-- probability and statistics,
 - discrete structures,
 - computer architecture,
 - data structures,
+- algorithms,
+- operating systems,
 - and systems reasoning.
 
-The goal is to reinterpret academic foundations through the lens of real ML workloads.
+This directory is not the main home for mathematics or probability material.
+Those belong in `math/`.
+
+The goal here is to reinterpret computer science foundations through the lens of real ML workloads and systems engineering.
