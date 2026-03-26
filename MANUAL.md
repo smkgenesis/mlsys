@@ -138,6 +138,30 @@ Expected contents:
 - prerequisites,
 - and milestone capabilities.
 
+## Document Boundary Rule
+
+The default unit of writing in this repository is a concept-level document.
+
+That does not mean every noun deserves its own file. A topic should become a standalone document only when it has all of the following:
+- a clear question it answers,
+- a coherent mechanism or idea that can be explained as one unit,
+- reusable value outside the moment that produced it,
+- and a scope narrow enough to stay precise.
+
+A topic should usually remain part of another document when:
+- it is only a subsection of a larger explanation,
+- it depends too heavily on local project context,
+- it is too broad to stay coherent in one file,
+- or it does not yet support a meaningful explanation beyond a definition.
+
+Useful heuristic:
+- if a topic can be summarized as "What is X, why does it matter, how does it work, and what tradeoffs does it create?" it is often a good standalone concept document,
+- if the explanation is really about how multiple concepts interact, it should be a system document instead,
+- if the explanation is really about process or evaluation, it should be a method document instead.
+
+Split a document when multiple sections are each becoming independently reusable concepts.
+Merge documents when they answer nearly the same question and repeat the same mechanism or tradeoff analysis.
+
 ## Placement Rules
 
 Each document must go into the directory that best matches its dominant purpose.
@@ -191,6 +215,28 @@ Every serious document should try to include these sections when applicable:
 
 Not every file needs every section, but shallow summary-only documents are not acceptable.
 
+## ML Systems Relevance Rule
+
+Outside `physics/`, documents should usually explain why the topic matters for ML systems work.
+
+This is the default standard because the repository is not a general study notebook. It is a knowledge base for becoming stronger at ML systems engineering.
+
+In practice this means most non-`physics/` documents should connect the topic to at least one of:
+- inference behavior,
+- training behavior,
+- kernel design,
+- memory and bandwidth limits,
+- low-precision compute,
+- profiling and measurement,
+- or hardware-aware implementation reasoning.
+
+This rule is strong but not absolute.
+
+If a concept is clearly foundational and worth keeping, it may be added before the ML systems connection is fully developed, as long as:
+- the document is still durable and technically meaningful,
+- the direction toward ML systems relevance is plausible,
+- and the file is likely to be improved later rather than abandoned as generic background trivia.
+
 ## Quality Standard
 
 A document is worth keeping only if it does at least one of these well:
@@ -242,6 +288,38 @@ Create a new document only when:
 - the topic is genuinely distinct,
 - the scope is too large for the current file,
 - or the new file would become a meaningful standalone reference.
+
+When new knowledge appears through study, conversation, project work, or experimentation:
+- prefer extracting the durable lesson instead of preserving the original context,
+- prefer updating an existing document when the concept already has a natural home,
+- and create a new document only when the extracted knowledge is distinct enough to stand on its own.
+
+Raw conversation is not repository content. Repository content is the cleaned, generalized result of reasoning over that conversation.
+
+## Source Material Rule
+
+Useful source material can come from:
+- coursework,
+- personal study,
+- research reading,
+- project work,
+- debugging,
+- experiments,
+- and conversations that uncover real understanding.
+
+However, source material must be transformed before entering the repository.
+
+The repository should store:
+- the generalized concept,
+- the mechanism,
+- the durable lesson,
+- and the system interpretation.
+
+The repository should not store:
+- chat transcripts,
+- class-specific phrasing,
+- private project details,
+- or temporary thought fragments preserved only because they happened to be written down.
 
 ## Acceptance Checklist
 
