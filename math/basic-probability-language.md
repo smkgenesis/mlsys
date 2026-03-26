@@ -13,6 +13,8 @@ Probability begins with a small set of basic ideas:
 - probability as a numerical measure,
 - classical, empirical, axiomatic, and geometric probability,
 - and basic probability properties,
+- conditional probability and independence,
+- multiplication law, total probability, and Bayes' theorem,
 - and replacement versus without replacement.
 
 These ideas form the language used to describe uncertain outcomes before any probability is calculated.
@@ -394,6 +396,121 @@ The main intuition is:
 - complement subtracts from `1`,
 - and union requires correcting for overlap.
 
+### Conditional probability
+
+Conditional probability asks for the probability of an event after restricting attention to a condition that is already known to hold.
+
+If `P(A) > 0`, then:
+
+```text
+P(B | A) = P(A ∩ B) / P(A)
+```
+
+This means:
+- `A` becomes the new effective universe,
+- and `A ∩ B` is the part of that universe where `B` also happens.
+
+Conditional probability is not just a formula.
+For a fixed event `A`, the mapping `B -> P(B | A)` behaves like a probability measure inside the conditioned world.
+
+### Independence and dependence
+
+Two events `A` and `B` are independent if knowing that one happened does not change the probability of the other.
+
+When `P(A) > 0`, this means:
+
+```text
+P(B | A) = P(B)
+```
+
+An equivalent and more common test is:
+
+```text
+P(A ∩ B) = P(A) P(B)
+```
+
+If this fails, the events are dependent.
+
+Important facts:
+- if `A` and `B` are independent, then `A` and `B^c` are also independent,
+- if `P(A) > 0` and `P(B) > 0` and the events are mutually exclusive, then they are dependent,
+- pairwise independence is weaker than mutual independence for three or more events.
+
+For events `A1, A2, ..., An`:
+- pairwise independence means every pair satisfies the product rule,
+- mutual independence means every subset satisfies the product rule.
+
+### Multiplication law
+
+The multiplication law computes the probability that several events all happen together.
+
+For two events:
+
+```text
+P(A1 ∩ A2) = P(A1) P(A2 | A1)
+```
+
+For three events:
+
+```text
+P(A1 ∩ A2 ∩ A3) = P(A1) P(A2 | A1) P(A3 | A1 ∩ A2)
+```
+
+In general:
+
+```text
+P(A1 ∩ A2 ∩ ... ∩ An)
+= P(A1) P(A2 | A1) P(A3 | A1 ∩ A2) ... P(An | A1 ∩ ... ∩ A(n-1))
+```
+
+This is the chain rule for joint probability.
+
+If the events are independent, the conditional probabilities reduce to ordinary probabilities, so the formula becomes the usual product rule.
+
+### Formula of total probability
+
+Suppose `A1, A2, ..., An` form a partition of the sample space and each has positive probability.
+
+Then for any event `B`:
+
+```text
+P(B) = Σ P(Ai) P(B | Ai)
+```
+
+This works because `B` can be split into disjoint pieces:
+
+```text
+(A1 ∩ B), (A2 ∩ B), ..., (An ∩ B)
+```
+
+Each term is the contribution of one case `Ai` to the overall probability of `B`.
+
+So total probability is a weighted sum of conditional probabilities across a partition.
+
+### Bayes' theorem
+
+Bayes' theorem reverses the direction of conditioning.
+
+If `A1, A2, ..., An` form a partition, `P(Ai) > 0`, and `P(B) > 0`, then:
+
+```text
+P(Ai | B) = P(Ai ∩ B) / P(B)
+          = P(Ai) P(B | Ai) / Σ P(Aj) P(B | Aj)
+```
+
+Bayes' theorem updates the probability of a cause after observing evidence.
+
+The main terms are:
+- `P(Ai)`: prior probability,
+- `P(B | Ai)`: likelihood,
+- `P(B)`: total probability or evidence,
+- `P(Ai | B)`: posterior probability.
+
+The core intuition is:
+- start with the prior,
+- weight it by how well it explains the observed evidence,
+- and normalize by the total chance of the evidence.
+
 ### With replacement and without replacement
 
 With replacement means that after drawing an item, it is returned before the next draw.
@@ -444,6 +561,9 @@ A careful setup makes later probability calculations straightforward.
 - Applying classical probability when outcomes are not equally likely.
 - Treating empirical probability from a small number of trials as if it were exact.
 - Memorizing probability formulas without seeing that they come from the axioms and the event structure.
+- Confusing mutually exclusive events with independent events.
+- Forgetting that conditional probability changes the effective sample space.
+- Using Bayes' theorem mechanically without identifying the partition, prior, likelihood, and evidence clearly.
 - Ignoring how replacement changes the sample space.
 - Using probability formulas before the underlying experiment and event are clearly defined.
 
