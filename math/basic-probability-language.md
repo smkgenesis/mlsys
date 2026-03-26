@@ -10,6 +10,9 @@ Probability begins with a small set of basic ideas:
 - event,
 - operations on events,
 - mutually exclusive events and partitions,
+- probability as a numerical measure,
+- classical, empirical, axiomatic, and geometric probability,
+- and basic probability properties,
 - and replacement versus without replacement.
 
 These ideas form the language used to describe uncertain outcomes before any probability is calculated.
@@ -227,6 +230,170 @@ A1 ∪ A2 = Ω
 
 So `{A1, A2}` is a partition of `Ω`.
 
+### Probability of an event
+
+The probability of an event `A` is a real number between `0` and `1` that represents how likely `A` is to happen.
+
+Notation:
+
+```text
+P(A)
+```
+
+Interpretation:
+- `P(A) = 0` means `A` is impossible,
+- `P(A) = 1` means `A` is certain,
+- values between `0` and `1` represent different degrees of likelihood.
+
+### Classical probability
+
+Classical probability applies when:
+- the sample space is finite,
+- and all sample points are equally likely.
+
+If the sample space has `N` sample points and event `A` contains `n` of them, then:
+
+```text
+P(A) = n / N
+```
+
+This is the familiar rule:
+- favorable outcomes divided by total outcomes.
+
+Example:
+
+```text
+Ω = {1, 2, 3, 4, 5, 6}
+A = {2, 4, 6}
+P(A) = 3 / 6 = 1 / 2
+```
+
+### Empirical probability
+
+Empirical probability estimates probability from repeated trials.
+
+If an experiment is repeated `N` times and event `A` occurs `n(A)` times, then the relative frequency of `A` is:
+
+```text
+n(A) / N
+```
+
+This is used as an estimate of `P(A)`.
+
+As the number of trials becomes large, the relative frequency tends to become more stable.
+This is the basic intuition behind the law of large numbers.
+
+### Axiomatic probability
+
+Axiomatic probability is the formal mathematical foundation of probability.
+
+It starts with a probability space:
+
+```text
+(Ω, F, P)
+```
+
+where:
+- `Ω` is the sample space,
+- `F` is the collection of events,
+- `P` is a function assigning a real number to each event.
+
+The function `P` is a probability measure when it satisfies three axioms:
+
+1. Nonnegativity:
+
+```text
+0 <= P(A) <= 1
+```
+
+for every event `A`.
+
+2. Normalization:
+
+```text
+P(Ω) = 1
+```
+
+3. Countable additivity:
+for pairwise mutually exclusive events `A1, A2, ...`,
+
+```text
+P(A1 ∪ A2 ∪ ...) = P(A1) + P(A2) + ...
+```
+
+This framework is more general than classical or empirical probability.
+Those are special settings that fit inside the axiomatic view.
+
+### Geometric probability
+
+Geometric probability is used when the sample space is continuous and probability is defined by geometric proportion.
+
+Typical forms are:
+
+```text
+P(A) = length(A) / length(Ω)
+P(A) = area(A) / area(Ω)
+P(A) = volume(A) / volume(Ω)
+```
+
+This is the continuous analogue of favorable size divided by total size.
+
+### Basic properties of probability
+
+From the axioms, several standard rules follow.
+
+Impossible event and certain event:
+
+```text
+P(empty set) = 0
+P(Ω) = 1
+```
+
+Complement rule:
+
+```text
+P(A^c) = 1 - P(A)
+```
+
+Union rule:
+
+```text
+P(A ∪ B) = P(A) + P(B) - P(A ∩ B)
+```
+
+Union upper bound:
+
+```text
+P(A ∪ B) <= P(A) + P(B)
+```
+
+If `A` and `B` are mutually exclusive:
+
+```text
+P(A ∪ B) = P(A) + P(B)
+```
+
+If `A` is a subset of `B`:
+
+```text
+P(B - A) = P(B) - P(A)
+P(A) <= P(B)
+```
+
+For three events:
+
+```text
+P(A ∪ B ∪ C)
+= P(A) + P(B) + P(C)
+- P(A ∩ B) - P(B ∩ C) - P(C ∩ A)
++ P(A ∩ B ∩ C)
+```
+
+The main intuition is:
+- whole space has probability `1`,
+- complement subtracts from `1`,
+- and union requires correcting for overlap.
+
 ### With replacement and without replacement
 
 With replacement means that after drawing an item, it is returned before the next draw.
@@ -274,6 +441,9 @@ A careful setup makes later probability calculations straightforward.
 - Confusing union with intersection, especially reading "or" as if it excluded the overlap.
 - Forgetting that `A - B` means "in A but not in B."
 - Confusing mutually exclusive events with events that are merely different.
+- Applying classical probability when outcomes are not equally likely.
+- Treating empirical probability from a small number of trials as if it were exact.
+- Memorizing probability formulas without seeing that they come from the axioms and the event structure.
 - Ignoring how replacement changes the sample space.
 - Using probability formulas before the underlying experiment and event are clearly defined.
 
