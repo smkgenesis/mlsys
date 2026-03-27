@@ -31,6 +31,51 @@ The document describes the same pipeline from four complementary views whenever 
 This document is intentionally long because the point is not brevity.
 The point is to remove hidden inputs, skipped steps, and vague causality.
 
+## Deep Dive Map
+
+The current file is the end-to-end map.
+The folders below are the deep-dive workspaces for individual substeps, where theory, code, experiments, and notes can accumulate without overloading the main pipeline document.
+
+- [3.1 Raw Byte Arrival](03-1-raw-byte-arrival/README.md)
+- [4.1 Tokenizer State Used at Inference Time](04-1-tokenizer-state/README.md)
+- [4.2 Prompt String to Token IDs](04-2-prompt-string-to-token-ids/README.md)
+- [5.1 Runtime Scheduling Context](05-1-runtime-scheduling-context/README.md)
+- [5.2 Admission and Batching](05-2-admission-and-batching/README.md)
+- [5.3 KV Cache Reservation](05-3-kv-cache-reservation/README.md)
+- [6.1 Prompt Token IDs Copied to GPU](06-1-prompt-token-ids-on-gpu/README.md)
+- [6.2 State Just Before Model Math Begins](06-2-precompute-device-state/README.md)
+- [7.1 Token IDs to Initial Hidden Vectors](07-1-embedding-lookup/README.md)
+- [8.1 Attention RMSNorm](08-1-attention-rmsnorm/README.md)
+- [8.2 QKV Projection](08-2-qkv-projection/README.md)
+- [8.3 Rotary Position Encoding](08-3-rotary-position-encoding/README.md)
+- [8.4 Causal Self-Attention Over the Prompt](08-4-causal-self-attention/README.md)
+- [8.5 KV Cache Write During Prefill](08-5-kv-cache-write-during-prefill/README.md)
+- [8.6 Attention Output Projection](08-6-attention-output-projection/README.md)
+- [8.7 Residual Add After Attention](08-7-residual-add-after-attention/README.md)
+- [8.8 MLP RMSNorm](08-8-mlp-rmsnorm/README.md)
+- [8.9 MLP Block (SwiGLU Style)](08-9-mlp-block-swiglu/README.md)
+- [8.10 Residual Add After MLP](08-10-residual-add-after-mlp/README.md)
+- [9.1 Final Normalization](09-1-final-normalization/README.md)
+- [9.2 LM Head and Vocabulary Projection](09-2-lm-head-and-vocabulary-projection/README.md)
+- [9.3 First Next-Token Selection](09-3-first-next-token-selection/README.md)
+- [10.1 Current Token Becomes Next-Step Input](10-1-current-token-as-next-step-input/README.md)
+- [10.2 Device Placement of Current Token](10-2-device-placement-of-current-token/README.md)
+- [10.3 One-Token Embedding Lookup](10-3-one-token-embedding-lookup/README.md)
+- [10.4 Decode Layer Loop](10-4-decode-layer-loop/README.md)
+- [10.5 Attention During Decode](10-5-attention-during-decode/README.md)
+- [10.6 KV Cache Extension](10-6-kv-cache-extension/README.md)
+- [10.7 Output Projection, MLP, and Residual Path](10-7-output-projection-mlp-and-residual-path/README.md)
+- [10.8 Final Norm, LM Head, and Token Selection in Decode](10-8-final-norm-lm-head-and-token-selection-in-decode/README.md)
+- [11.1 Device-to-Host Token Transfer](11-1-device-to-host-token-transfer/README.md)
+- [11.2 Token ID to Text Fragment](11-2-token-id-to-text-fragment/README.md)
+- [11.3 Stream Fragment to the Client](11-3-stream-fragment-to-the-client/README.md)
+- [12 Stop Conditions and Loop Control](12-stop-conditions-and-loop-control/README.md)
+- [13.1 Final Assembled Response](13-1-final-assembled-response/README.md)
+- [13.2 Release KV Cache Resources](13-2-release-kv-cache-resources/README.md)
+- [13.3 Close Response Stream](13-3-close-response-stream/README.md)
+- [14 Why KV Cache Makes Generation Practical](14-kv-cache-and-generation-complexity/README.md)
+- [15 Python, Triton, and CUDA Views of the Same Pipeline](15-python-triton-and-cuda-views/README.md)
+
 
 ---
 
