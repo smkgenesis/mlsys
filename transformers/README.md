@@ -31,52 +31,6 @@ The document describes the same pipeline from four complementary views whenever 
 This document is intentionally long because the point is not brevity.
 The point is to remove hidden inputs, skipped steps, and vague causality.
 
-## Deep Dive Map
-
-The current file is the end-to-end map.
-The folders below are the deep-dive workspaces for individual substeps, where theory, code, experiments, and notes can accumulate without overloading the main pipeline document.
-
-- [3.1 Raw Byte Arrival](03-1-raw-byte-arrival/README.md)
-- [4.1 Tokenizer State Used at Inference Time](04-1-tokenizer-state/README.md)
-- [4.2 Prompt String to Token IDs](04-2-prompt-string-to-token-ids/README.md)
-- [5.1 Runtime Scheduling Context](05-1-runtime-scheduling-context/README.md)
-- [5.2 Admission and Batching](05-2-admission-and-batching/README.md)
-- [5.3 KV Cache Reservation](05-3-kv-cache-reservation/README.md)
-- [6.1 Prompt Token IDs Copied to GPU](06-1-prompt-token-ids-on-gpu/README.md)
-- [6.2 State Just Before Model Math Begins](06-2-precompute-device-state/README.md)
-- [7.1 Token IDs to Initial Hidden Vectors](07-1-embedding-lookup/README.md)
-- [8.1 Attention RMSNorm](08-1-attention-rmsnorm/README.md)
-- [8.2 QKV Projection](08-2-qkv-projection/README.md)
-- [8.3 Rotary Position Encoding](08-3-rotary-position-encoding/README.md)
-- [8.4 Causal Self-Attention Over the Prompt](08-4-causal-self-attention/README.md)
-- [8.5 KV Cache Write During Prefill](08-5-kv-cache-write-during-prefill/README.md)
-- [8.6 Attention Output Projection](08-6-attention-output-projection/README.md)
-- [8.7 Residual Add After Attention](08-7-residual-add-after-attention/README.md)
-- [8.8 MLP RMSNorm](08-8-mlp-rmsnorm/README.md)
-- [8.9 MLP Block (SwiGLU Style)](08-9-mlp-block-swiglu/README.md)
-- [8.10 Residual Add After MLP](08-10-residual-add-after-mlp/README.md)
-- [9.1 Final Normalization](09-1-final-normalization/README.md)
-- [9.2 LM Head and Vocabulary Projection](09-2-lm-head-and-vocabulary-projection/README.md)
-- [9.3 First Next-Token Selection](09-3-first-next-token-selection/README.md)
-- [10.1 Current Token Becomes Next-Step Input](10-1-current-token-as-next-step-input/README.md)
-- [10.2 Device Placement of Current Token](10-2-device-placement-of-current-token/README.md)
-- [10.3 One-Token Embedding Lookup](10-3-one-token-embedding-lookup/README.md)
-- [10.4 Decode Layer Loop](10-4-decode-layer-loop/README.md)
-- [10.5 Attention During Decode](10-5-attention-during-decode/README.md)
-- [10.6 KV Cache Extension](10-6-kv-cache-extension/README.md)
-- [10.7 Output Projection, MLP, and Residual Path](10-7-output-projection-mlp-and-residual-path/README.md)
-- [10.8 Final Norm, LM Head, and Token Selection in Decode](10-8-final-norm-lm-head-and-token-selection-in-decode/README.md)
-- [11.1 Device-to-Host Token Transfer](11-1-device-to-host-token-transfer/README.md)
-- [11.2 Token ID to Text Fragment](11-2-token-id-to-text-fragment/README.md)
-- [11.3 Stream Fragment to the Client](11-3-stream-fragment-to-the-client/README.md)
-- [12 Stop Conditions and Loop Control](12-stop-conditions-and-loop-control/README.md)
-- [13.1 Final Assembled Response](13-1-final-assembled-response/README.md)
-- [13.2 Release KV Cache Resources](13-2-release-kv-cache-resources/README.md)
-- [13.3 Close Response Stream](13-3-close-response-stream/README.md)
-- [14 Why KV Cache Makes Generation Practical](14-kv-cache-and-generation-complexity/README.md)
-- [15 Python, Triton, and CUDA Views of the Same Pipeline](15-python-triton-and-cuda-views/README.md)
-
-
 ---
 
 ## 0. Scope and Preconditions
@@ -209,6 +163,8 @@ z_t in R^(B x V)
 
 ### 3.1 Raw byte arrival
 
+Deep dive: [03-1-raw-byte-arrival](03-1-raw-byte-arrival/README.md)
+
 Input (origin)
 
 - UTF-8 encoded bytes sent by the client over the network
@@ -279,6 +235,8 @@ Output
 
 ### 4.1 Tokenizer state used at inference time
 
+Deep dive: [04-1-tokenizer-state](04-1-tokenizer-state/README.md)
+
 Input (origin)
 
 - `request.prompt` from Section 3
@@ -288,6 +246,8 @@ The tokenizer state is not created by the request.
 It was produced offline when the tokenizer was trained and serialized.
 
 ### 4.2 Prompt string -> token IDs
+
+Deep dive: [04-2-prompt-string-to-token-ids](04-2-prompt-string-to-token-ids/README.md)
 
 Process
 
@@ -351,6 +311,8 @@ Output
 
 ### 5.1 Runtime scheduling context
 
+Deep dive: [05-1-runtime-scheduling-context](05-1-runtime-scheduling-context/README.md)
+
 Input (origin)
 
 - `input_ids` from tokenization
@@ -361,6 +323,8 @@ The scheduler state already exists before the request arrives.
 It tracks active requests, available GPU capacity, and runtime policy.
 
 ### 5.2 Admission and batching
+
+Deep dive: [05-2-admission-and-batching](05-2-admission-and-batching/README.md)
 
 Process
 
@@ -402,6 +366,8 @@ Output
 - next consumer: KV block manager
 
 ### 5.3 KV cache reservation
+
+Deep dive: [05-3-kv-cache-reservation](05-3-kv-cache-reservation/README.md)
 
 Input (origin)
 
@@ -461,6 +427,8 @@ Output
 
 ### 6.1 Prompt token IDs copied to GPU
 
+Deep dive: [06-1-prompt-token-ids-on-gpu](06-1-prompt-token-ids-on-gpu/README.md)
+
 Input (origin)
 
 - `input_ids` from Section 4 in CPU RAM
@@ -505,6 +473,8 @@ Output
 
 ### 6.2 State just before model math begins
 
+Deep dive: [06-2-precompute-device-state](06-2-precompute-device-state/README.md)
+
 At this point the following already exist in GPU HBM:
 
 - `input_ids`
@@ -520,6 +490,8 @@ The first real Transformer math step now has everything it needs on the device.
 ## 7. Embedding Lookup
 
 ### 7.1 Token IDs -> initial hidden vectors
+
+Deep dive: [07-1-embedding-lookup](07-1-embedding-lookup/README.md)
 
 Input (origin)
 
@@ -610,6 +582,8 @@ through attention and MLP sub-blocks.
 
 ### 8.1 Attention RMSNorm
 
+Deep dive: [08-1-attention-rmsnorm](08-1-attention-rmsnorm/README.md)
+
 Input (origin)
 
 - `X^(ell)` from the previous layer, or `X^(0)` from embeddings for `ell = 0`
@@ -667,6 +641,8 @@ Output
 - next consumer: QKV projection
 
 ### 8.2 QKV projection
+
+Deep dive: [08-2-qkv-projection](08-2-qkv-projection/README.md)
 
 Input (origin)
 
@@ -741,6 +717,8 @@ Output
 
 ### 8.3 Rotary position encoding (RoPE)
 
+Deep dive: [08-3-rotary-position-encoding](08-3-rotary-position-encoding/README.md)
+
 Input (origin)
 
 - `Q` and `K` from QKV projection
@@ -799,6 +777,8 @@ Output
 - next consumer: self-attention
 
 ### 8.4 Causal self-attention over the prompt
+
+Deep dive: [08-4-causal-self-attention](08-4-causal-self-attention/README.md)
 
 Input (origin)
 
@@ -891,6 +871,8 @@ Output
 
 ### 8.5 KV cache write during prefill
 
+Deep dive: [08-5-kv-cache-write-during-prefill](08-5-kv-cache-write-during-prefill/README.md)
+
 Input (origin)
 
 - rotated keys `K_rot`
@@ -941,6 +923,8 @@ Output
 
 ### 8.6 Attention output projection
 
+Deep dive: [08-6-attention-output-projection](08-6-attention-output-projection/README.md)
+
 Input (origin)
 
 - `O_attn`
@@ -989,6 +973,8 @@ Output
 
 ### 8.7 Residual add after attention
 
+Deep dive: [08-7-residual-add-after-attention](08-7-residual-add-after-attention/README.md)
+
 Input (origin)
 
 - original layer input `X^(ell)`
@@ -1031,6 +1017,8 @@ Output
 
 ### 8.8 MLP RMSNorm
 
+Deep dive: [08-8-mlp-rmsnorm](08-8-mlp-rmsnorm/README.md)
+
 Input (origin)
 
 - `R^(ell)` from residual path
@@ -1061,6 +1049,8 @@ Output
 - normalized MLP input `Rn`
 
 ### 8.9 MLP block (SwiGLU style)
+
+Deep dive: [08-9-mlp-block-swiglu](08-9-mlp-block-swiglu/README.md)
 
 Input (origin)
 
@@ -1129,6 +1119,8 @@ Output
 
 ### 8.10 Residual add after MLP
 
+Deep dive: [08-10-residual-add-after-mlp](08-10-residual-add-after-mlp/README.md)
+
 Input (origin)
 
 - `R^(ell)`
@@ -1168,6 +1160,8 @@ To produce the first generated token, the server only needs the final hidden sta
 
 ### 9.1 Final normalization
 
+Deep dive: [09-1-final-normalization](09-1-final-normalization/README.md)
+
 Input (origin)
 
 - final layer output `X^(L)` from the prefill layer loop
@@ -1195,6 +1189,8 @@ Output
 - next consumer: LM head
 
 ### 9.2 LM head / vocabulary projection
+
+Deep dive: [09-2-lm-head-and-vocabulary-projection](09-2-lm-head-and-vocabulary-projection/README.md)
 
 Input (origin)
 
@@ -1241,6 +1237,8 @@ Output
 - next consumer: token selection
 
 ### 9.3 First next-token selection
+
+Deep dive: [09-3-first-next-token-selection](09-3-first-next-token-selection/README.md)
 
 Input (origin)
 
@@ -1331,6 +1329,8 @@ current token ID
 
 ### 10.1 Current token becomes next-step input
 
+Deep dive: [10-1-current-token-as-next-step-input](10-1-current-token-as-next-step-input/README.md)
+
 Input (origin)
 
 - token selected in the previous step
@@ -1348,6 +1348,8 @@ Output
 
 ### 10.2 Device placement of current token
 
+Deep dive: [10-2-device-placement-of-current-token](10-2-device-placement-of-current-token/README.md)
+
 Input (origin)
 
 - current token ID from prior decode selection
@@ -1362,6 +1364,8 @@ Output
 - GPU-resident current token ID
 
 ### 10.3 One-token embedding lookup
+
+Deep dive: [10-3-one-token-embedding-lookup](10-3-one-token-embedding-lookup/README.md)
 
 Input (origin)
 
@@ -1389,6 +1393,8 @@ Output
 - current-token hidden state entering layer 0
 
 ### 10.4 Decode layer loop
+
+Deep dive: [10-4-decode-layer-loop](10-4-decode-layer-loop/README.md)
 
 For each layer `ell`, decode now differs from prefill in one crucial way:
 
@@ -1418,6 +1424,8 @@ historical K_(1:t), V_(1:t)
 instead of recomputing earlier tokens.
 
 ### 10.5 Attention during decode
+
+Deep dive: [10-5-attention-during-decode](10-5-attention-during-decode/README.md)
 
 Input (origin)
 
@@ -1454,6 +1462,8 @@ Historical K/V are reused.
 
 ### 10.6 KV cache extension
 
+Deep dive: [10-6-kv-cache-extension](10-6-kv-cache-extension/README.md)
+
 Input (origin)
 
 - current token's `k_t` and `v_t`
@@ -1467,6 +1477,8 @@ This is the causal bridge from decode step `t` to decode step `t+1`.
 Without this write, the next step could not reuse current-token information.
 
 ### 10.7 Output projection, MLP, and residual path
+
+Deep dive: [10-7-output-projection-mlp-and-residual-path](10-7-output-projection-mlp-and-residual-path/README.md)
 
 All the same substeps from prefill still occur, but only on shape:
 
@@ -1489,6 +1501,8 @@ As sequence length grows, decode often becomes increasingly memory-bandwidth lim
 
 ### 10.8 Final norm, LM head, and token selection in decode
 
+Deep dive: [10-8-final-norm-lm-head-and-token-selection-in-decode](10-8-final-norm-lm-head-and-token-selection-in-decode/README.md)
+
 After all layers:
 
 - normalize the current token hidden state
@@ -1503,6 +1517,8 @@ This repeats the same final-token path as in Section 9, but now one step per gen
 ## 11. Detokenization and Streaming Back to the User
 
 ### 11.1 Device-to-host token transfer if needed
+
+Deep dive: [11-1-device-to-host-token-transfer](11-1-device-to-host-token-transfer/README.md)
 
 Input (origin)
 
@@ -1523,6 +1539,8 @@ Output
 - token ID available to tokenizer decode logic
 
 ### 11.2 Token ID -> text fragment
+
+Deep dive: [11-2-token-id-to-text-fragment](11-2-token-id-to-text-fragment/README.md)
 
 Input (origin)
 
@@ -1562,6 +1580,8 @@ Output
 
 ### 11.3 Stream fragment to the client
 
+Deep dive: [11-3-stream-fragment-to-the-client](11-3-stream-fragment-to-the-client/README.md)
+
 Input (origin)
 
 - decoded text fragment from detokenization
@@ -1584,6 +1604,8 @@ Output
 ---
 
 ## 12. Stop Conditions and Loop Control
+
+Deep dive: [12-stop-conditions-and-loop-control](12-stop-conditions-and-loop-control/README.md)
 
 At the end of every generation step, the runtime checks:
 
@@ -1615,6 +1637,8 @@ The generated token is appended to the known sequence, and the next decode step 
 
 ### 13.1 Final assembled response
 
+Deep dive: [13-1-final-assembled-response](13-1-final-assembled-response/README.md)
+
 Input (origin)
 
 - all generated token IDs and/or accumulated text fragments
@@ -1629,6 +1653,8 @@ Output
 - completed response string in CPU RAM
 
 ### 13.2 Release KV cache resources
+
+Deep dive: [13-2-release-kv-cache-resources](13-2-release-kv-cache-resources/README.md)
 
 Input (origin)
 
@@ -1667,6 +1693,8 @@ Output
 
 ### 13.3 Close response stream
 
+Deep dive: [13-3-close-response-stream](13-3-close-response-stream/README.md)
+
 Input (origin)
 
 - request completion state
@@ -1684,6 +1712,8 @@ Output
 ---
 
 ## 14. Why KV Cache Makes Generation Practical
+
+Deep dive: [14-kv-cache-and-generation-complexity](14-kv-cache-and-generation-complexity/README.md)
 
 This is the single most operationally important systems fact in autoregressive inference.
 
@@ -1714,6 +1744,8 @@ Operationally:
 ---
 
 ## 15. Python, Triton, and CUDA Views of the Same Pipeline
+
+Deep dive: [15-python-triton-and-cuda-views](15-python-triton-and-cuda-views/README.md)
 
 ### Python / PyTorch view
 
