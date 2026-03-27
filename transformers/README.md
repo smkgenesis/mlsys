@@ -1579,3 +1579,1507 @@ the first generated token, once copied back / decoded for streaming
 5. One-Line Causal Summary
 
 Prompt token IDs in HBM are gathered into embedding vectors, transformed through L repeated blocks of RMSNorm → QKV GEMM → RoPE → FlashAttention → output projection → residual → RMSNorm → SwiGLU MLP → residual, while K/V for every token are written into KV cache, and the final hidden state is projected by the LM head into logits from which the first output token is selected.
+
+---
+
+Transformer Inference (Part 3): Decode Loop, KV Cache Reuse, Streaming, and Cleanup
+
+This section starts from the exact state produced at the end of Part 2.
+
+Starting state inherited from Part 2
+
+Already true before decode step 1 starts:
+
+In GPU HBM
+
+full prompt KV cache for every layer
+
+model weights
+
+RoPE tables
+
+runtime block mapping tables
+
+final hidden state and logits for the prompt’s last position
+
+
+In CPU memory
+
+the first generated token ID may already have been copied back
+
+tokenizer state exists
+
+streaming response is open
+
+
+
+---
+
+Goal of Decode
+
+For each newly generated token:
+
+1. feed that token back into the model,
+
+
+2. process only one new token through all layers,
+
+
+3. reuse all previous K/V from KV cache,
+
+
+4. compute next-token logits,
+
+
+5. emit one token,
+
+
+6. append new K/V to KV cache,
+
+
+7. repeat until stop.
+
+
+
+This is the autoregressive generation loop.
+
+The key difference from prefill is:
+
+Prefill: process all N prompt tokens
+
+Decode: process exactly one newly generated token at a time
+
+
+
+---
+
+1. Decode Loop Entry
+
+1.1 Current Token Becomes Next Input
+
+Input (origin)
+
+next_token_id produced at the end of the previous step
+
+for the very first decode step, this is the first token produced by Part 2
+
+
+Process
+
+The previously generated token becomes the current model input token.
+
+This is the causal reason generation is autoregressive:
+
+token t+1 is generated from all previous tokens,
+
+then token t+1 becomes part of the input for generating token t+2.
+
+
+Math
+
+If the already known sequence is
+
+(x_1, x_2, \dots, x_t)
+
+then the model computes
+
+P(x_{t+1} \mid x_1, x_2, \dots, x_t)
+
+After choosing x_{t+1}, the next step conditions on
+
+(x_1, x_2, \dots, x_t, x_{t+1})
+
+PyTorch view
+
+current_token = next_token
+
+Triton view
+
+No Triton math kernel yet. This is runtime sequencing.
+
+CUDA view
+
+No CUDA compute yet. This is loop control.
+
+Hardware / memory
+
+current token ID may temporarily exist in CPU RAM
+
+then it is copied or already staged into GPU HBM
+
+
+Output
+
+current_token_id
+
+next consumer: decode embedding lookup
+
+
+
+---
+
+1.2 Device Placement of the Current Token
+
+Input (origin)
+
+current_token_id from 1.1
+
+
+Process
+
+Ensure the token ID exists in device memory so kernels can consume it.
+
+PyTorch view
+
+current_token = current_token.to("cuda")
+
+Triton view
+
+Not a Triton kernel; host/device data placement.
+
+CUDA view
+
+Usually a small host-to-device copy or device-side reuse from prior step.
+
+Hardware / memory
+
+source: CPU RAM or existing device buffer
+
+destination: GPU HBM
+
+
+Output
+
+current token ID in GPU HBM
+
+
+
+---
+
+2. Embedding Lookup for One Token
+
+Input (origin)
+
+current_token_id in HBM
+
+W_embed in HBM
+
+
+Process
+
+Read one row from the embedding matrix.
+
+This is exactly the same operation as Part 2 embedding lookup, except now sequence length is 1 for the new token.
+
+Math
+
+For token ID i_t:
+
+x_t = W_{embed}[i_t]
+
+Result:
+
+x_t \in \mathbb{R}^{d_{model}}
+
+or batched:
+
+X_t \in \mathbb{R}^{B \times 1 \times d_{model}}
+
+PyTorch view
+
+x = embed_tokens(current_token)   # [B, 1, d_model]
+
+Triton view
+
+Same gather pattern as prefill, but only for one token row per request.
+
+CUDA view
+
+A gather kernel:
+
+read token ID,
+
+compute row pointer,
+
+load row chunks,
+
+write one embedding vector.
+
+
+Hardware / memory
+
+current_token_id: HBM
+
+W_embed: HBM
+
+row fragment compute: registers
+
+output x: HBM
+
+
+Output
+
+x_t
+
+next consumer: layer 0 decode pass
+
+
+
+---
+
+3. Decode Layer Loop
+
+Now we process the current token through all layers.
+
+Important difference from prefill:
+
+the current layer input has shape [B, 1, d_model]
+
+but the layer also reads the historical KV cache for all previous tokens
+
+
+For each layer ℓ, we have:
+
+current token hidden state for this layer
+
+cached keys and values from all earlier tokens at this layer
+
+
+
+---
+
+3.1 RMSNorm (Decode Attention Input)
+
+Input (origin)
+
+current token hidden state for layer ℓ
+
+learned norm scale γ_attn
+
+
+Process
+
+Exactly the same RMSNorm as prefill, but now applied to only one token vector.
+
+Math
+
+For token vector x_t:
+
+\mathrm{RMS}(x_t) = \sqrt{\frac{1}{d_{model}} \sum_{j=1}^{d_{model}} x_{t,j}^2 + \epsilon}
+
+\hat{x}_{t,j} = \gamma_j \cdot \frac{x_{t,j}}{\mathrm{RMS}(x_t)}
+
+PyTorch view
+
+xn = rmsnorm_attn(x)
+
+Triton view
+
+One row normalization kernel, now operating on much smaller token count.
+
+CUDA view
+
+Same reduction kernel pattern:
+
+load row fragment,
+
+accumulate squared sum,
+
+reduce,
+
+normalize and scale.
+
+
+Hardware / memory
+
+read x_t: HBM
+
+reduction: registers/shared
+
+write xn: HBM
+
+
+Output
+
+xn
+
+next consumer: QKV projection
+
+
+
+---
+
+3.2 QKV Projection for the New Token
+
+Input (origin)
+
+xn
+
+W_qkv
+
+
+Process
+
+Compute Q, K, V only for the new token, not for the entire sequence.
+
+This is the crucial runtime saving.
+
+Math
+
+[q_t \mid k_t \mid v_t] = x_n W_{qkv}
+
+where the output is then reshaped into heads:
+
+q_t, k_t, v_t \in \mathbb{R}^{B \times H \times 1 \times d_{head}}
+
+PyTorch view
+
+qkv = xn @ W_qkv
+q, k, v = qkv.chunk(3, dim=-1)
+q = q.view(B, 1, H, d_head).transpose(1, 2)
+k = k.view(B, 1, H, d_head).transpose(1, 2)
+v = v.view(B, 1, H, d_head).transpose(1, 2)
+
+Triton view
+
+Same GEMM as prefill, but with one sequence position for the active token.
+
+CUDA view
+
+Still a GEMM/Tensor Core operation, but much smaller on the sequence dimension:
+
+input tile is tiny (1 × d_model per sequence position),
+
+weight tile is unchanged,
+
+output is one token’s Q/K/V.
+
+
+Hardware / memory
+
+read xn: HBM
+
+read W_qkv: HBM
+
+stage tiles: shared memory
+
+compute: Tensor Cores + registers
+
+write q_t, k_t, v_t: HBM
+
+
+Output
+
+q_t, k_t, v_t
+
+next consumer: RoPE
+
+
+
+---
+
+3.3 RoPE for the New Token
+
+Input (origin)
+
+q_t, k_t
+
+decode position index t
+
+RoPE sin/cos tables
+
+
+Process
+
+Apply rotation only for the current position t.
+
+All previous tokens’ keys are already rotated and already stored in KV cache.
+
+So in decode, RoPE is applied only to the new token’s Q and K.
+
+Math
+
+For each pair (2i, 2i+1):
+
+\begin{pmatrix}
+x'_{2i} \\
+x'_{2i+1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\cos\theta_{t,i} & -\sin\theta_{t,i} \\
+\sin\theta_{t,i} & \cos\theta_{t,i}
+\end{pmatrix}
+\begin{pmatrix}
+x_{2i} \\
+x_{2i+1}
+\end{pmatrix}
+
+PyTorch view
+
+q_t, k_t = apply_rotary_pos_emb(q_t, k_t, cos_t, sin_t)
+
+Triton view
+
+Elementwise kernel on one-token Q/K slices.
+
+CUDA view
+
+Same register-level pairwise rotation as prefill, but only for one position.
+
+Hardware / memory
+
+read q_t, k_t: HBM
+
+read sin/cos for position t: HBM
+
+compute in registers
+
+write rotated values to HBM
+
+
+Output
+
+q_t_rot, k_t_rot
+
+next consumer: attention + KV cache write
+
+
+
+---
+
+3.4 Read Historical KV Cache
+
+Input (origin)
+
+kv_block_table
+
+KV cache written during:
+
+Part 2 prefill for prompt tokens
+
+previous decode steps for generated tokens
+
+
+
+Process
+
+Load all previous keys and values for this layer so the current query can attend to them.
+
+This is the single most important difference between decode with cache and decode without cache.
+
+With KV cache:
+
+past keys/values are reused
+
+
+Without KV cache:
+
+they would need to be recomputed from scratch
+
+
+Math
+
+For current step t, the kernel needs:
+
+K_{1:t} = [K_1, K_2, \dots, K_t]
+
+V_{1:t} = [V_1, V_2, \dots, V_t]
+
+where the new K_t, V_t come from the current token, and K_1...K_{t-1}, V_1...V_{t-1} come from cache.
+
+PyTorch view
+
+Conceptually:
+
+k_hist = k_cache[layer, :, :, :t, :]
+v_hist = v_cache[layer, :, :, :t, :]
+
+In paged engines like vLLM, this is not a simple contiguous slice; the runtime follows a block table.
+
+Triton view
+
+A Triton paged-attention kernel receives:
+
+current query pointer
+
+block table
+
+base pointers for paged KV memory
+
+
+and streams blocks in logical order.
+
+CUDA view
+
+The kernel:
+
+computes physical cache addresses using kv_block_table
+
+loads K/V tiles from HBM
+
+streams them through shared memory as needed
+
+
+Hardware / memory
+
+KV cache resides in HBM
+
+selected tiles are loaded to shared memory
+
+address arithmetic in registers
+
+
+Data flow:
+
+HBM(KV cache) → shared → registers
+
+Output
+
+K/V history available to the attention kernel
+
+
+
+---
+
+3.5 Decode Attention (Current Query Against Cached History)
+
+Input (origin)
+
+q_t_rot
+
+cached historical K_{1:t-1}, V_{1:t-1}
+
+current k_t_rot, v_t
+
+
+Process
+
+Compute attention only for the current token’s query against all available keys up to the current position.
+
+This is fundamentally different from prefill:
+
+prefill computes attention for all prompt tokens
+
+decode computes attention for one new query against the cached history
+
+
+Math
+
+For each head and each previous position j:
+
+s_j = \frac{q_t \cdot k_j}{\sqrt{d_{head}}}
+
+Then:
+
+p_j = \frac{e^{s_j}}{\sum_{m=1}^{t} e^{s_m}}
+
+Then output:
+
+o_t = \sum_{j=1}^{t} p_j v_j
+
+Across all heads:
+
+O_{attn,t} \in \mathbb{R}^{B \times H \times 1 \times d_{head}}
+
+Why this is cheaper than recomputing everything
+
+Without KV cache, to generate token t+1, the system would need to recompute hidden states, keys, and values for all earlier tokens again.
+
+With KV cache, it only computes:
+
+q_t, k_t, v_t for the current token
+
+
+and reuses all historical K,V.
+
+That is why decode is practical.
+
+PyTorch view
+
+Conceptually:
+
+scores = (q_t @ k_hist.transpose(-2, -1)) / math.sqrt(d_head)
+probs = torch.softmax(scores, dim=-1)
+ctx = probs @ v_hist
+
+Optimized engines call paged attention / flash decode kernels instead of doing this naively.
+
+Triton view
+
+A Triton decode attention kernel usually:
+
+treats the current query as very small,
+
+streams large K/V history from paged memory,
+
+computes score fragments,
+
+performs streaming softmax,
+
+accumulates one output vector.
+
+
+CUDA view
+
+This kernel is often more memory-bound than compute-bound because:
+
+the current query is tiny,
+
+the historical K/V read is large,
+
+the kernel spends much of its time pulling K/V tiles from HBM.
+
+
+Conceptually:
+
+load q_t
+for each KV tile in history:
+    load K_tile, V_tile
+    scores = q_t @ K_tile^T
+    update running softmax stats
+    out_acc += partial_weights @ V_tile
+write final output
+
+Hardware / memory
+
+q_t: HBM → registers
+
+K/V history: HBM → shared memory
+
+score / softmax accumulators: registers
+
+final output: HBM
+
+
+Data flow:
+
+HBM(q_t, KV cache) → shared/registers → HBM(O_attn,t)
+
+Output
+
+attention output for the current token only
+
+next consumer: output projection
+
+
+
+---
+
+3.6 KV Cache Write for the Current Token
+
+Input (origin)
+
+k_t_rot, v_t
+
+kv_block_table
+
+
+Process
+
+Store the new token’s key and value in the request’s KV cache so that the next decode step can reuse them.
+
+This is the causal bridge between decode step t and decode step t+1.
+
+Math
+
+KV_K[\ell,b,h,t,:] \leftarrow k^{(\ell)}_{t}
+
+KV_V[\ell,b,h,t,:] \leftarrow v^{(\ell)}_{t}
+
+PyTorch view
+
+Conceptually:
+
+k_cache[layer, :, :, t, :] = k_t_rot
+v_cache[layer, :, :, t, :] = v_t
+
+Again, in paged systems this is a mapped write, not necessarily contiguous.
+
+Triton view
+
+Store/scatter kernel with physical address lookup from block table.
+
+CUDA view
+
+compute destination physical address
+
+store K/V fragments to HBM
+
+often coalesced stores across head dimension
+
+
+Hardware / memory
+
+source K/V: HBM or device buffers
+
+address arithmetic: registers
+
+destination KV cache: HBM
+
+
+Data flow:
+
+HBM(k_t,v_t) → registers(address calc) → HBM(KV cache)
+
+Output
+
+KV cache extended by one token for this layer
+
+next decode step will read it
+
+
+
+---
+
+3.7 Output Projection
+
+Input (origin)
+
+current token attention output O_attn,t
+
+W_o
+
+
+Process
+
+Concatenate heads and apply output projection.
+
+Math
+
+O_{proj,t} = \mathrm{Concat}(O_{attn,t}) W_o
+
+PyTorch view
+
+out = O_attn_t.transpose(1, 2).contiguous().view(B, 1, d_model)
+O_proj_t = out @ W_o
+
+Triton view
+
+Small GEMM on the current token.
+
+CUDA view
+
+Same Tensor Core GEMM pattern as before, but sequence dimension is 1.
+
+Hardware / memory
+
+read O_attn,t and W_o: HBM
+
+stage in shared memory
+
+compute in Tensor Cores / registers
+
+write O_proj_t: HBM
+
+
+Output
+
+projected attention contribution for the current token
+
+
+
+---
+
+3.8 Residual Add 1
+
+Input (origin)
+
+layer input token state
+
+projected attention output
+
+
+Math
+
+R_t^{(\ell)} = X_t^{(\ell)} + O_{proj,t}
+
+PyTorch view
+
+R_t = X_t + O_proj_t
+
+Triton view
+
+Elementwise add on one token row.
+
+CUDA view
+
+Read two vectors, add in registers, write result.
+
+Hardware / memory
+
+read from HBM
+
+compute in registers
+
+write to HBM
+
+
+Output
+
+residual token state after attention
+
+
+
+---
+
+3.9 RMSNorm (MLP Input)
+
+Input (origin)
+
+R_t^(ℓ)
+
+
+Process
+
+Normalize the current token vector before MLP.
+
+Math
+
+Same RMSNorm as before.
+
+PyTorch view
+
+Rn_t = rmsnorm_mlp(R_t)
+
+Triton / CUDA / Hardware
+
+Same row-wise reduction + scaling pattern as previous norms.
+
+Output
+
+Rn_t
+
+
+
+---
+
+3.10 MLP (Current Token Only)
+
+Input (origin)
+
+Rn_t
+
+W_up, W_gate, W_down
+
+
+Process
+
+Run SwiGLU MLP for only the current token.
+
+Math
+
+U_t = Rn_t W_{up}
+
+G_t = Rn_t W_{gate}
+
+H_t = U_t \odot \mathrm{SiLU}(G_t)
+
+M_t = H_t W_{down}
+
+PyTorch view
+
+u_t = up_proj(Rn_t)
+g_t = gate_proj(Rn_t)
+h_t = u_t * F.silu(g_t)
+M_t = down_proj(h_t)
+
+Triton view
+
+Same three-step GEMM/gate/GEMM pipeline, but on one token row.
+
+CUDA view
+
+small GEMM for U_t
+
+small GEMM for G_t
+
+fused elementwise gate
+
+small GEMM for M_t
+
+
+Hardware / memory
+
+HBM reads for token row and weights
+
+shared memory for tiles
+
+Tensor Cores / registers for GEMMs
+
+registers for SiLU and multiply
+
+write M_t to HBM
+
+
+Output
+
+current token MLP output
+
+
+
+---
+
+3.11 Residual Add 2
+
+Input (origin)
+
+R_t^(ℓ)
+
+M_t
+
+
+Math
+
+X_t^{(\ell+1)} = R_t^{(\ell)} + M_t
+
+PyTorch view
+
+X_next_t = R_t + M_t
+
+Triton view
+
+Elementwise add on one token row.
+
+CUDA view
+
+Vector add in registers.
+
+Hardware / memory
+
+read from HBM
+
+compute in registers
+
+write to HBM
+
+
+Output
+
+current token state for next layer
+
+
+
+---
+
+4. After the Final Decode Layer
+
+After all L layers, the current token has a final hidden representation.
+
+
+---
+
+4.1 Final RMSNorm
+
+Input (origin)
+
+final-layer current-token hidden state
+
+
+Process
+
+Apply final normalization.
+
+Math
+
+x_{final,t} = \mathrm{RMSNorm}(x_t^{(L)})
+
+PyTorch view
+
+x_final_t = final_norm(x_t)
+
+Triton / CUDA / Hardware
+
+Same norm kernel pattern.
+
+Output
+
+x_final_t
+
+
+
+---
+
+4.2 LM Head
+
+Input (origin)
+
+x_final_t
+
+W_vocab
+
+
+Process
+
+Project the current hidden vector into vocabulary space.
+
+Math
+
+z_t = x_{final,t} W_{vocab}
+
+where:
+
+z_t \in \mathbb{R}^{Vocab}
+
+PyTorch view
+
+z_t = x_final_t @ W_vocab
+
+Triton view
+
+Small-by-large GEMM from hidden dimension to vocabulary dimension.
+
+CUDA view
+
+Tensor Core GEMM for logits generation.
+
+Hardware / memory
+
+read x_final_t: HBM
+
+read W_vocab: HBM
+
+shared memory tile staging
+
+Tensor Core compute
+
+write logits z_t: HBM
+
+
+Output
+
+logits for the next token
+
+
+
+---
+
+4.3 Token Selection
+
+Input (origin)
+
+logits z_t
+
+
+Process
+
+Choose the next token using greedy decoding or sampling.
+
+Math
+
+Softmax with temperature:
+
+p_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
+
+Greedy:
+
+token_{t+1} = \arg\max_i z_i
+
+Sampling:
+
+token_{t+1} \sim p
+
+Possibly after top-k / top-p filtering.
+
+PyTorch view
+
+Greedy:
+
+token_next = torch.argmax(z_t, dim=-1)
+
+Sampling:
+
+probs = torch.softmax(z_t / temperature, dim=-1)
+token_next = torch.multinomial(probs, num_samples=1)
+
+Triton view
+
+Could be implemented as:
+
+reduction kernel for argmax, or
+
+softmax + filtered sampling kernel
+
+
+CUDA view
+
+argmax: reduction over vocabulary
+
+sampling: softmax + optional top-k/top-p + RNG draw
+
+
+Hardware / memory
+
+logits in HBM
+
+reduction / partial sums in registers/shared
+
+final token ID in HBM or copied to CPU RAM
+
+
+Output
+
+token_{t+1}
+
+next consumers:
+
+streaming output path
+
+next iteration of decode loop
+
+
+
+
+---
+
+5. Streaming the Token to the User
+
+5.1 Copy Token ID Back if Needed
+
+Input (origin)
+
+selected token ID from device-side output
+
+
+Process
+
+Move token ID to CPU if decode/streaming logic is CPU-side.
+
+PyTorch view
+
+token_cpu = token_next.cpu()
+
+Triton view
+
+Not a Triton kernel.
+
+CUDA view
+
+Device-to-host copy if needed.
+
+Hardware / memory
+
+source: GPU HBM
+
+transport: PCIe / NVLink
+
+destination: CPU RAM
+
+
+Output
+
+token ID in CPU memory
+
+
+
+---
+
+5.2 Detokenization of the New Token Piece
+
+Input (origin)
+
+token ID
+
+tokenizer decode tables in CPU RAM
+
+
+Process
+
+Map token ID back to text fragment.
+
+Math
+
+text\_piece = vocab^{-1}(token\_id)
+
+PyTorch view
+
+Usually not PyTorch; tokenizer library:
+
+piece = tokenizer.decode([token_id])
+
+Triton view
+
+Not applicable.
+
+CUDA view
+
+Not applicable.
+
+Hardware / memory
+
+tokenizer state: CPU RAM
+
+output text fragment: CPU RAM
+
+
+Output
+
+text piece such as " data" or "ing"
+
+
+
+---
+
+5.3 Stream Fragment Over Network
+
+Input (origin)
+
+decoded text piece
+
+
+Process
+
+Append the fragment to the active response stream so the client can render it immediately.
+
+PyTorch / Triton / CUDA views
+
+Not applicable; this is server/networking logic.
+
+Hardware / memory
+
+response buffers in CPU RAM
+
+network send through NIC
+
+
+Output
+
+fragment appears on the user’s screen
+
+
+
+---
+
+6. Loop Condition and Continuation
+
+Input (origin)
+
+just-generated token
+
+generation counters
+
+stop rules
+
+
+Process
+
+Check stop conditions:
+
+EOS produced
+
+max_new_tokens reached
+
+stop sequence matched
+
+client canceled request
+
+
+If none are true:
+
+the generated token becomes the next loop input,
+
+decode repeats.
+
+
+Math
+
+Autoregressive recurrence:
+
+x_{t+1} \sim P(x_{t+1} \mid x_1, x_2, \dots, x_t)
+
+and then x_{t+1} is appended to the known sequence.
+
+Output
+
+either continue decode loop
+
+or enter cleanup
+
+
+
+---
+
+7. Why KV Cache Changes Complexity
+
+Without KV cache
+
+At decode step t, the model would need to recompute hidden states, keys, and values for all previous tokens again.
+
+That means repeatedly doing work proportional to the whole prefix.
+
+With KV cache
+
+At decode step t, the model computes only:
+
+current token embedding
+
+current token Q/K/V
+
+current token forward through all layers
+
+
+and reads historical K/V from cache.
+
+That is the reason long generation is feasible.
+
+Operational meaning
+
+At token 10,000:
+
+with KV cache: read K/V for positions 1..9999, compute new token only
+
+without KV cache: recompute positions 1..9999 again
+
+
+This is the core inference optimization.
+
+
+---
+
+8. Cleanup After Generation Ends
+
+When stop conditions are met, the request enters termination.
+
+
+---
+
+8.1 Final Detokenization / Assembly
+
+Input (origin)
+
+all generated token IDs
+
+
+Process
+
+Decode the final list into a final text string if needed for non-streaming completion or final bookkeeping.
+
+Output
+
+full response string in CPU RAM
+
+
+
+---
+
+8.2 Free KV Cache Blocks
+
+Input (origin)
+
+request’s allocated KV blocks
+
+block manager reference counts
+
+
+Process
+
+For each block used by the request:
+
+1. decrement reference count
+
+
+2. if it reaches zero, return block to free pool
+
+
+
+Math
+
+For block b:
+
+refcount(b) \leftarrow refcount(b) - 1
+
+If:
+
+refcount(b) = 0
+
+then block b becomes reusable.
+
+PyTorch view
+
+Not part of PyTorch.
+
+Triton view
+
+Not a Triton math kernel.
+
+CUDA view
+
+May involve device metadata updates, but mostly runtime memory management.
+
+Hardware / memory
+
+block tables and counters in CPU RAM and/or GPU metadata buffers
+
+actual KV payload in HBM is usually not zeroed immediately; it is just marked reusable
+
+
+Output
+
+GPU KV blocks returned to free pool
+
+
+
+---
+
+8.3 Close Network Response
+
+Input (origin)
+
+request marked complete
+
+
+Process
+
+Finalize and close the HTTP/streaming response.
+
+Output
+
+request lifecycle ends
+
+
+Hardware / memory
+
+CPU-side networking logic
+
+final response buffers released
+
+
+
+---
+
+9. One-Line Causal Summary
+
+A generated token is fed back into the model, embedded, normalized, projected into Q/K/V, position-rotated, matched against all cached historical K/V, passed through output projection, residual, MLP, final norm, and LM head to produce the next-token logits; the chosen next token is streamed to the user, appended to the autoregressive loop, and its new K/V are stored so the following decode step can reuse them.
+
+
+---
+
+10. Final End-to-End Meaning of Part 3
+
+Part 2 built the initial KV cache from the prompt.
+
+Part 3 repeatedly does this:
+
+1. take one generated token,
+
+
+2. run one-token forward pass through all layers,
+
+
+3. read historical KV cache,
+
+
+4. write new K/V,
+
+
+5. produce the next token,
+
+
+6. stream it,
+
+
+7. repeat.
+
+
+
+That is the real execution of autoregressive Transformer inference.
