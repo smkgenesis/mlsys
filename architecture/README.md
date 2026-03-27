@@ -8,3 +8,6 @@ Core focus:
 - locality,
 - cache behavior,
 - and why real performance is often memory-bound.
+
+Current notes:
+- [MIPS ISA, Registers, Memory, and Immediate Operands](mips-isa-registers-memory-and-immediates.md)
