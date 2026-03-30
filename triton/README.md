@@ -9,3 +9,6 @@ This directory should focus on:
 - masks,
 - tiling,
 - and Triton-friendly layout decisions.
+
+Current notes:
+- [Triton Syntax Primer: Program IDs, Offsets, Loads, Stores, Masks, and Tiles](triton-syntax-primer-program-ids-offsets-loads-stores-masks-and-tiles.md)
