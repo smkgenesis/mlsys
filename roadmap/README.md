@@ -9,3 +9,6 @@ It should answer:
 - and what capabilities are missing.
 
 The purpose is not to track every task, but to make the learning path explicit.
+
+Current notes:
+- [Integrated Learning Database Strategy](integrated-learning-database-strategy.md)
