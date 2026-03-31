@@ -12,3 +12,4 @@ This directory should focus on:
 
 Current notes:
 - [Triton Syntax Primer: Program IDs, Offsets, Loads, Stores, Masks, and Tiles](triton-syntax-primer-program-ids-offsets-loads-stores-masks-and-tiles.md)
+- [Triton Embedding Lookup Kernel Walkthrough](triton-embedding-lookup-kernel-walkthrough.md)
