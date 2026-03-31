@@ -10,3 +10,6 @@ Core focus:
 - shared memory,
 - synchronization,
 - and hardware limits.
+
+Current notes:
+- [Heterogeneous Parallel Computing Foundations](heterogeneous-parallel-computing-foundations.md)
