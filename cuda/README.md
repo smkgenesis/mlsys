@@ -7,3 +7,6 @@ This directory should cover:
 - memory spaces,
 - kernel optimization patterns,
 - and common failure modes.
+
+Current notes:
+- [CUDA Program Structure: Data Parallelism, Kernels, Threading, Memory Transfer, and Compilation](cuda-program-structure.md)

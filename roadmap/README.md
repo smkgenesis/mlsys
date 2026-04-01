@@ -11,4 +11,4 @@ It should answer:
 The purpose is not to track every task, but to make the learning path explicit.
 
 Current notes:
-- [Integrated Learning Database Strategy](integrated-learning-database-strategy.md)
+- [Integrated Learning Database Strategy](learning-database-strategy.md)

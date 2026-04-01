@@ -189,18 +189,25 @@ If a document could fit in multiple places, choose the directory that best answe
 
 Use lowercase kebab-case names.
 
+Filenames should be short, scan-friendly, and concept-centered.
+The filename should usually be the shortest phrase that uniquely identifies the document's main idea.
+Put fuller scope and nuance in the document title and opening paragraphs rather than packing the entire summary into the filename.
+
 Good:
 - `memory-coalescing.md`
 - `prefill-vs-decode.md`
 - `roofline-model.md`
+- `cuda-program-structure.md`
+- `efficient-ai-and-scaling-laws.md`
 
 Bad:
 - `MyNotes.md`
 - `week3.md`
 - `stuff-about-cuda.md`
 - `important.md`
+- `a-document-that-tries-to-put-the-entire-outline-in-the-filename.md`
 
-The filename should make sense in search results without surrounding context.
+The filename should make sense in search results without surrounding context, but it should still remain easy to scan in directory listings and sidebars.
 
 ## Writing Standard
 

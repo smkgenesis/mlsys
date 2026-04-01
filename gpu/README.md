@@ -12,4 +12,4 @@ Core focus:
 - and hardware limits.
 
 Current notes:
-- [Heterogeneous Parallel Computing Foundations](heterogeneous-parallel-computing-foundations.md)
+- [Heterogeneous Parallel Computing Foundations](heterogeneous-computing.md)

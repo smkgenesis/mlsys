@@ -1,5 +1,10 @@
 # foundations
 
+Current notes:
+- [Black-Box and White-Box Thinking](black-box-vs-white-box.md)
+- [Infix, Postfix, and Stack Evaluation](infix-postfix-and-stacks.md)
+- [Recursion and Explicit Stack Simulation](recursion-and-stacks.md)
+
 This directory connects core CS coursework to ML systems engineering.
 
 Relevant topics include:
