@@ -435,6 +435,333 @@ This is a strong example of efficiency synergy:
 - fewer task-specific examples,
 - and more practical adaptation on constrained hardware.
 
+## Compute Efficiency in Practice
+
+Compute efficiency is about translating model improvements into real hardware-level gains.
+
+It asks:
+
+- how much useful work is achieved per unit of hardware time?
+- how much energy is consumed?
+- how much hardware sits idle?
+- where are the real bottlenecks: compute, memory bandwidth, communication, or orchestration?
+
+This matters because theoretical model efficiency does not automatically become wall-clock or energy efficiency.
+
+### Why compute efficiency matters now
+
+As model deployment and training scale up, data-center electricity use becomes a systems constraint in its own right.
+
+Efficiency gains therefore have at least three meanings:
+
+- lower operating cost,
+- better scalability,
+- and lower environmental impact.
+
+However, compute efficiency alone does not automatically reduce total environmental cost. If a system becomes cheaper to run and is then deployed much more widely, total consumption can still rise. This rebound effect is an AI version of Jevons Paradox:
+
+```text
+better efficiency per use does not guarantee lower total use
+```
+
+That means efficiency work should be understood together with deployment scale and demand growth.
+
+### Hardware utilization and distributed training
+
+Large-scale training and serving systems improve compute efficiency by distributing work across many devices.
+
+Two major strategies are:
+
+- data parallelism:
+  run the same model on multiple processors with different data batches
+- model parallelism:
+  split the model itself across multiple processors when it does not fit on one device
+
+These strategies increase throughput and make larger systems trainable, but they also introduce new bottlenecks:
+
+- synchronization overhead,
+- communication cost,
+- interconnect pressure,
+- and memory bandwidth limits.
+
+So distributed compute efficiency is not just “use more GPUs.” It is:
+
+- use them with high utilization,
+- minimize idle time,
+- and keep communication from erasing the benefit of added hardware.
+
+### Compute efficiency in cloud and edge settings
+
+In cloud systems, compute efficiency usually focuses on:
+
+- throughput,
+- utilization,
+- scheduling,
+- batching,
+- and cost per request or per training run.
+
+In edge settings, compute efficiency often focuses on:
+
+- low-latency execution,
+- energy use,
+- lightweight runtimes,
+- and adaptive execution under limited power and thermal budgets.
+
+The common lesson is that compute efficiency must be interpreted relative to deployment context rather than as one universal metric.
+
+### Production deployment patterns
+
+Real systems often achieve strong efficiency gains not from one dramatic technique but from coordinated combinations such as:
+
+- quantization,
+- pruning,
+- distillation,
+- batching,
+- hardware-aware model design,
+- mixed precision,
+- and lightweight inference engines.
+
+Typical deployment patterns differ by environment:
+
+- cloud serving:
+  prioritize throughput, scalability, and cost efficiency
+- edge real-time systems:
+  prioritize latency and power-aware execution
+- mobile applications:
+  balance responsiveness, thermal limits, and battery life
+- TinyML deployments:
+  optimize for extreme power and memory constraints
+
+This is why the same model architecture can be appropriate in one context and deeply inefficient in another.
+
+## Data Efficiency
+
+Data efficiency focuses on maximizing useful learning from limited or expensive data.
+
+It asks:
+
+- how much data is truly necessary?
+- how much of that data is redundant or low quality?
+- can the same level of performance be reached with better selection, better supervision, or better adaptation?
+
+As models scale, this question becomes more important rather than less.
+
+### From quantity to quality
+
+Early machine learning often struggled mainly with insufficient labeled data.
+The deep learning era then made large datasets a central driver of progress.
+
+But that success created new inefficiencies:
+
+- data collection is expensive,
+- labeling is slow,
+- storage and processing costs grow,
+- and high-quality data is finite in many domains.
+
+As a result, the field has increasingly shifted from:
+
+```text
+more data is always better
+```
+
+to:
+
+```text
+higher-quality and better-used data is often better
+```
+
+### Major data-efficiency techniques
+
+Important data-efficiency strategies include:
+
+- transfer learning:
+  reuse representations learned on large upstream datasets
+- data augmentation:
+  expand effective data diversity with controlled transformations
+- active learning:
+  label only the most informative examples
+- self-supervised learning:
+  learn from unlabeled data by generating supervisory structure from the data itself
+- curriculum learning:
+  structure training from easier to harder examples
+- data-centric AI:
+  improve curation, filtering, deduplication, and label quality rather than only changing the model
+
+These approaches reduce dependence on brute-force labeled dataset growth.
+
+### Foundation models and data scarcity
+
+Foundation models make data efficiency especially important.
+
+As such models grow, they begin to approach limits in:
+
+- high-quality text availability,
+- data diversity,
+- label trustworthiness,
+- and domain-specific coverage.
+
+At this point, simply increasing raw volume produces weaker returns.
+
+This shifts emphasis toward:
+
+- filtering,
+- deduplication,
+- data-quality measurement,
+- targeted sampling,
+- and better use of unlabeled or weakly labeled sources.
+
+### Why data efficiency affects compute and algorithmic efficiency
+
+Data efficiency does not stand alone.
+
+Smaller, better-curated datasets can:
+
+- reduce training time,
+- reduce memory and I/O load,
+- improve generalization,
+- and make compact or adapted models more practical.
+
+So data efficiency often reinforces compute and algorithmic efficiency rather than competing with them.
+
+## Context-Specific Efficiency Priorities
+
+Different deployment environments force different optimization priorities.
+
+### Cloud
+
+Primary pressures:
+
+- cost at scale,
+- throughput,
+- utilization,
+- and energy use.
+
+Cloud systems often prioritize:
+
+- serving more requests per unit infrastructure,
+- reducing training cost,
+- improving batch efficiency,
+- and lowering operational overhead.
+
+### Edge
+
+Primary pressures:
+
+- real-time response,
+- local compute limits,
+- connectivity constraints,
+- and power efficiency.
+
+Edge systems often prioritize:
+
+- low latency,
+- local inference,
+- predictable execution,
+- and tight hardware-aware design.
+
+### Mobile
+
+Primary pressures:
+
+- battery life,
+- thermal envelope,
+- memory footprint,
+- and perceived responsiveness.
+
+Mobile systems often prioritize:
+
+- compact models,
+- energy-aware inference,
+- and practical responsiveness under device limits.
+
+### TinyML
+
+Primary pressures:
+
+- extremely small memory,
+- milliwatt-scale power budgets,
+- and highly constrained compute.
+
+TinyML systems often prioritize:
+
+- minimal model size,
+- duty-cycled execution,
+- and aggressive compression and simplification.
+
+The practical consequence is:
+
+```text
+there is no context-free definition of an efficient ML system
+```
+
+A system is efficient only relative to the constraints it must satisfy.
+
+## Efficiency, Scalability, and Sustainability
+
+Efficiency, scalability, and sustainability reinforce one another when handled well.
+
+- efficiency reduces per-task resource use,
+- lower per-task cost makes broader deployment possible,
+- scalability makes efficiency improvements more consequential,
+- and sustainability pressures reinforce the value of efficient design.
+
+This creates a useful systems feedback loop:
+
+```text
+better efficiency -> more scalable deployment -> stronger incentive for sustainable design
+```
+
+But this loop remains healthy only if deployment growth does not fully erase efficiency gains through rebound effects.
+
+## Recurring Trade-off Patterns
+
+Efficiency dimensions often work together, but real systems also face direct tension between them.
+
+### Algorithmic efficiency vs. compute requirements
+
+Making models smaller or simpler can reduce memory and computation, but accuracy may drop on hard tasks.
+
+Recovering that lost quality may require:
+
+- more training,
+- better distillation,
+- more sophisticated adaptation,
+- or stronger deployment hardware.
+
+So “smaller” is not always cheaper in the full system sense.
+
+### Compute efficiency vs. real-time requirements
+
+A system can reduce energy or hardware cost by doing less work, but safety-critical or latency-critical applications may need very fast response regardless of energy efficiency.
+
+Autonomous systems are a good example:
+
+- low latency is non-negotiable,
+- but meeting that latency may require expensive or power-hungry hardware.
+
+### Data efficiency vs. generalization
+
+Using less data can reduce cost and accelerate iteration, but overly aggressive data reduction can remove diversity and weaken robustness.
+
+This may create downstream pressure for:
+
+- larger models,
+- more complex training,
+- or additional compute at deployment time.
+
+## Real-World Design Implication
+
+The efficiency framework is most useful when treated as a decision framework rather than a slogan.
+
+For any serious system, the useful questions are:
+
+1. What is the dominant constraint here?
+2. Which efficiency dimension is currently weakest?
+3. Which bottleneck is actually limiting the system: model size, data quality, memory bandwidth, latency, communication, or energy?
+4. Which improvement creates the best joint gain across quality, cost, speed, and sustainability?
+
+That mindset is more valuable than any single optimization trick.
+
 ## Tradeoffs
 
 - Scaling can improve performance predictably, but costs rise faster than benefits.
@@ -442,6 +769,9 @@ This is a strong example of efficiency synergy:
 - Quantization and compression can reduce cost dramatically, but real gains depend on hardware support and workload bottlenecks.
 - Test-time scaling can improve quality flexibly, but it raises inference cost and latency.
 - Data-efficient methods reduce labeling and retraining burdens, but often require stronger priors, pretrained models, or more complex adaptation logic.
+- Greater per-use efficiency can still coincide with greater total resource consumption if deployment expands enough.
+- Real-time requirements can force hardware and energy choices that conflict with abstract efficiency goals.
+- Context-specific constraints can make a technique highly effective in one deployment regime and a poor choice in another.
 
 ## Common Mistakes
 
@@ -451,6 +781,9 @@ This is a strong example of efficiency synergy:
 - Ignoring communication, bandwidth, and utilization bottlenecks in distributed or accelerator-heavy settings.
 - Treating scaling-law behavior as universal rather than regime-dependent.
 - Equating benchmark gains at extreme scale with meaningful or sustainable progress.
+- Treating cloud, edge, mobile, and TinyML efficiency as one problem with one best solution.
+- Assuming a smaller dataset is automatically better if it reduces cost, without checking generalization impact.
+- Assuming energy efficiency improvements necessarily reduce total environmental burden regardless of deployment growth.
 
 ## ML Systems Connection
 
@@ -469,6 +802,12 @@ For inference systems, they explain:
 - why quantization and compression are often deployment-critical,
 - why test-time compute allocation creates latency/quality tradeoffs,
 - and why hardware-aware design is necessary for edge, mobile, and cloud deployment.
+
+For deployment strategy, they explain:
+
+- why cloud, edge, mobile, and TinyML systems need different optimization priorities,
+- why production gains usually come from combinations of techniques rather than one isolated trick,
+- and why sustainability and accessibility concerns should be treated as system-design constraints rather than afterthoughts.
 
 For research strategy, they explain:
 
