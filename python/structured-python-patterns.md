@@ -2,31 +2,43 @@
 
 ## What
 
-This note covers a set of Python syntax and design patterns that appear frequently in ML systems code:
+This note explains a family of Python patterns that appear repeatedly in ML systems code:
 
-- `@dataclass` for structured state and configuration,
-- `Enum` for constrained named values,
-- modern type hints such as `list[str]` and `str | None`,
-- `field(default_factory=...)` for safe defaults,
-- and `slots=True` for fixed-shape objects.
+- structured records built with `@dataclass`,
+- constrained values represented with `Enum`,
+- modern type annotations such as `list[str]` and `str | None`,
+- abstract interfaces defined with `ABC` and `@abstractmethod`,
+- composition and delegation,
+- and collection-processing idioms such as `sorted(..., key=...)`, generator expressions, and `default_factory`.
 
-The examples here are intentionally masked and simplified. The goal is to teach the Python constructs themselves rather than preserve project-specific code.
+The examples are intentionally masked and rewritten as mock code. The goal is to teach the Python syntax and design habits, not preserve project-specific logic.
 
 ## Why It Matters
 
-A large amount of ML systems code is written in Python even when the heavy compute runs in C++, CUDA, Triton, or optimized tensor libraries.
+Python is often the language that holds the ML systems stack together even when the heavy compute runs somewhere else.
 
-That Python layer often defines:
+In practice, the Python layer usually defines:
 
 - configuration objects,
 - runtime state,
 - metadata records,
-- task descriptors,
-- and the interfaces around kernels, training loops, and evaluation pipelines.
+- policy or backend interfaces,
+- ranking and selection logic,
+- and wrappers around lower-level engines or kernels.
 
-If these Python structures are vague or ad hoc, the codebase becomes much harder to debug and evolve. Structured Python patterns make ML systems code easier to read, safer to change, and easier to reason about at runtime.
+That means Python quality directly affects how easy the system is to read, debug, tune, and extend.
 
-## Core Mechanism
+## Core Pattern
+
+Across many ML systems codebases, Python tends to organize itself into three layers:
+
+1. **Structured data** that captures configuration, metadata, and lightweight state.
+2. **Stable interfaces** that let multiple implementations share one API.
+3. **Selection and orchestration logic** that ranks, filters, routes, or delegates work.
+
+The syntax in this note fits naturally into those three layers.
+
+## 1. Structured Data with Dataclasses and Types
 
 ### `from __future__ import annotations`
 
@@ -34,7 +46,7 @@ If these Python structures are vague or ad hoc, the codebase becomes much harder
 from __future__ import annotations
 ```
 
-This makes type annotations more flexible by deferring their evaluation. In practice, it helps modern Python code use type hints more smoothly, especially when types refer to each other or when forward references would otherwise require string literals.
+This makes type annotations more flexible by deferring their evaluation. In modern Python code, it is commonly used to keep type hints cleaner, especially when types refer to each other or would otherwise require string-based forward references.
 
 ### `Enum` for constrained values
 
@@ -48,16 +60,16 @@ class JobStatus(str, Enum):
     DONE = "done"
 ```
 
-This pattern gives a small fixed set of named values instead of using loose string constants everywhere.
+This pattern replaces loose string constants with a small controlled set of named values.
 
 Why inherit from both `str` and `Enum`?
 
-- `Enum` gives the constrained set of members,
-- `str` makes the values easier to serialize, compare, and print in normal Python workflows.
+- `Enum` gives the constrained member set,
+- `str` makes the values easier to print, compare, and serialize in ordinary Python workflows.
 
-This is a good fit when a field should only take one of a small number of meaningful states.
+This is a good fit when a field should represent one of a small number of meaningful states.
 
-### `@dataclass` for structured records
+### `@dataclass` for lightweight records
 
 ```python
 from dataclasses import dataclass
@@ -70,15 +82,15 @@ class JobMeta:
     retries: int = 0
 ```
 
-`@dataclass` generates common boilerplate such as:
+`@dataclass` is a strong fit when a class exists mainly to store structured data rather than implement complex behavior.
+
+It automatically generates common boilerplate such as:
 
 - `__init__`,
 - `__repr__`,
 - and comparison helpers.
 
-This makes it a strong fit for classes whose main purpose is to store structured data rather than implement complex behavior.
-
-### `slots=True` for fixed-shape objects
+### `slots=True`
 
 ```python
 @dataclass(slots=True)
@@ -87,15 +99,13 @@ class JobMeta:
     active: bool = False
 ```
 
-`slots=True` means instances use a more fixed layout and do not behave like arbitrary dynamic attribute bags.
+`slots=True` gives the object a more fixed layout and discourages dynamic accidental attributes.
 
-This is useful when:
+In ML systems code, that usually signals:
 
-- the shape of the object is known,
-- accidental new attributes should be discouraged,
-- and the object may be instantiated many times.
-
-In ML systems code, that often applies to configuration objects, metadata containers, and runtime descriptors.
+- the object has a known schema,
+- it may be instantiated frequently,
+- and it should behave more like a disciplined record than a free-form container.
 
 ### Typed fields
 
@@ -105,13 +115,42 @@ score: float = 0.0
 max_steps: int = 8
 ```
 
-This syntax combines:
+This is the core dataclass field declaration style:
 
-- a field name,
-- a type annotation,
-- and optionally a default value.
+- field name,
+- type annotation,
+- optional default value.
 
-For dataclasses, this field declaration style is also used to generate the constructor signature.
+For dataclasses, these declarations define both the schema and the generated constructor signature.
+
+### Generic type syntax
+
+Modern Python commonly uses generic syntax directly on built-in containers:
+
+```python
+list[str]
+dict[str, Any]
+tuple[float, ...]
+```
+
+These mean:
+
+- a list of strings,
+- a dictionary with string keys and unconstrained values,
+- and a tuple containing floats, possibly of arbitrary length.
+
+### Modern union syntax
+
+```python
+comment: str | None = None
+```
+
+This means the value can be either:
+
+- a `str`,
+- or `None`.
+
+This is the modern version of what older code often wrote as `Optional[str]`.
 
 ### Safe defaults with `field(default_factory=...)`
 
@@ -134,7 +173,7 @@ tags: list[str] = []
 
 Because that would reuse the same list across instances.
 
-`default_factory` creates a fresh object each time a new instance is constructed.
+`default_factory` creates a fresh value every time a new instance is constructed.
 
 Common forms:
 
@@ -150,144 +189,32 @@ meta: JobMeta = field(default_factory=lambda: JobMeta(index=0))
 
 That means:
 
-- if no value is supplied,
-- call the function,
+- if no value is passed,
+- call the factory,
 - and use the newly created object as the default.
 
-### Modern union syntax
+### What this layer is buying you
 
-```python
-comment: str | None = None
-```
-
-This means the field can be:
-
-- a `str`,
-- or `None`.
-
-This is the modern form of what older code often wrote as `Optional[str]`.
-
-### Generic type syntax
-
-Modern Python uses bracketed generic syntax directly on built-in containers:
-
-```python
-list[str]
-dict[str, Any]
-tuple[float, ...]
-```
-
-These mean:
-
-- a list of strings,
-- a dictionary with string keys and unconstrained values,
-- and a tuple containing floats, potentially of arbitrary length.
-
-This syntax is now common in serious Python codebases and is worth becoming fluent in.
-
-## Mock Example
-
-The following example preserves the important Python syntax patterns while staying neutral and reusable:
-
-```python
-from __future__ import annotations
-
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any
-
-
-class JobStatus(str, Enum):
-    PENDING = "pending"
-    RUNNING = "running"
-    DONE = "done"
-
-
-@dataclass(slots=True)
-class JobMeta:
-    index: int
-    active: bool = False
-    retries: int = 0
-    notes: dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass(slots=True)
-class Record:
-    name: str
-    score: float = 0.0
-    tags: list[str] = field(default_factory=list)
-    status: JobStatus = JobStatus.PENDING
-    meta: JobMeta = field(default_factory=lambda: JobMeta(index=0))
-    comment: str | None = None
-
-
-@dataclass(slots=True)
-class PipelineConfig:
-    learning_rate: float = 0.01
-    dropout: float = 0.1
-    temperature: float = 0.5
-    max_items: int = 256
-    feature_dim: int = 128
-    max_steps: int = 8
-```
-
-This example demonstrates the same family of syntax and design choices without preserving domain-specific identifiers.
-
-## Design Habit Behind These Patterns
-
-These patterns represent a broader Python design style:
+These patterns encourage a stable Python design habit:
 
 - prefer structured records over loose nested dictionaries when the schema is known,
 - make state explicit,
 - attach types and defaults directly to the schema,
 - and separate data definition from execution logic.
 
-That style tends to scale better in ML systems code than ad hoc dictionaries or partially implicit configuration.
+## 2. Stable Interfaces with Abstract Base Classes
 
-## Tradeoffs
+ML systems code often needs multiple implementations behind one shared API:
 
-- Dataclasses are excellent for structured state, but they are not a replacement for every class. When behavior and invariants dominate, a more explicit class may be clearer.
-- `slots=True` improves discipline, but it also makes some dynamic patterns less convenient.
-- `Any` increases flexibility, but too much `Any` weakens the value of typing.
-- Typed containers improve readability, but only if the project actually treats the annotations as meaningful rather than decorative.
+- different backends,
+- different policies,
+- different retrieval strategies,
+- different storage layers,
+- or different runtime adapters.
 
-## Common Mistakes
+Python commonly expresses that with abstract base classes.
 
-- Using `[]` or `{}` directly as dataclass defaults instead of `default_factory`.
-- Treating dataclasses as magic and forgetting they are still normal Python classes with normal constructor and attribute behavior.
-- Assuming type hints enforce runtime correctness automatically. They are usually guidance, not runtime validation.
-- Overusing `Any` until the type annotations stop communicating useful structure.
-- Using dataclasses for highly dynamic objects whose shape is not stable.
-
-## Why This Matters for ML Systems
-
-These patterns show up constantly in ML systems work:
-
-- config objects for training and inference,
-- metadata records for pipelines and experiments,
-- structured runtime state around serving or batching,
-- and Python wrappers around lower-level kernels or libraries.
-
-Strong fluency with these syntax patterns makes it easier to read framework code, build reliable tooling, and keep the Python layer around optimized compute from becoming disorganized.
-
-## Interface and Delegation Patterns
-
-Another very common Python pattern in ML systems code is:
-
-- define a stable abstract interface,
-- implement multiple concrete strategies behind that interface,
-- and delegate real work to helper objects or internal runtime components.
-
-This pattern appears in:
-
-- backends,
-- policies,
-- storage adapters,
-- schedulers,
-- retrieval strategies,
-- and wrappers around lower-level engines.
-
-### Abstract base classes
+### `ABC` and `@abstractmethod`
 
 ```python
 from abc import ABC, abstractmethod
@@ -307,26 +234,26 @@ This defines a contract:
 
 - subclasses must implement `load`,
 - subclasses must implement `run`,
-- and callers can rely on those method names regardless of which concrete implementation they receive.
+- and callers can rely on those method names regardless of which implementation they receive.
 
-`ABC` means abstract base class. `@abstractmethod` marks methods that must be implemented by subclasses.
+`ABC` means abstract base class. `@abstractmethod` marks methods that concrete subclasses must define.
 
-The `raise NotImplementedError` line is a common defensive and documentary pattern that makes it explicit that the base class does not provide real behavior.
+The `raise NotImplementedError` line is a common documentary and defensive signal that the base class does not provide real behavior.
 
-### Flexible method signatures with `**kwargs`
+### `**kwargs` for flexible method signatures
 
 ```python
 def load(self, text: str, item_id: str, **kwargs) -> None:
     ...
 ```
 
-`**kwargs` collects extra keyword arguments into a dictionary.
+`**kwargs` collects additional keyword arguments into a dictionary.
 
 This is useful when:
 
 - the interface has a stable core shape,
 - optional metadata may vary across callers,
-- and implementations need some flexibility without constantly changing the public signature.
+- and implementations need flexibility without constantly changing the public signature.
 
 Common idiom:
 
@@ -336,7 +263,7 @@ label = kwargs.get("label", "default")
 
 This reads:
 
-- use the provided keyword value if present,
+- use the provided keyword argument if present,
 - otherwise fall back to the default.
 
 Another common defensive idiom is:
@@ -348,7 +275,16 @@ for dep in kwargs.get("dependencies", []) or []:
 
 This protects the loop both when the key is missing and when the caller explicitly passes `None`.
 
-### Composition instead of inheritance for helper behavior
+## 3. Composition and Delegation
+
+A common mistake when reading class-based Python is to think every relationship is inheritance.
+
+In practice, many ML systems classes use:
+
+- inheritance for API shape,
+- composition for implementation.
+
+### Composition
 
 ```python
 class Processor(BaseProcessor):
@@ -359,16 +295,11 @@ class Processor(BaseProcessor):
 This is composition:
 
 - the class inherits from `BaseProcessor` to satisfy the interface,
-- but it contains an `Engine` instance to do the actual work.
+- but it contains an `Engine` instance to do real work.
 
-That is different from inheriting behavior from the helper object.
+This is different from inheriting behavior from the helper object.
 
-This distinction is important:
-
-- inheritance is used for API shape,
-- composition is used for implementation structure.
-
-### Delegation methods
+### Delegation
 
 ```python
 def load(self, text: str, item_id: str, **kwargs) -> None:
@@ -380,17 +311,24 @@ def run(self, query: str) -> list[str]:
 
 These are delegation methods.
 
-They expose a clean public API while forwarding the real work to another object.
+They expose a stable public API while forwarding work to another object.
 
-This pattern is useful when:
+This is useful when:
 
-- different implementations should look the same to callers,
-- internals may change,
-- and the public policy or service object should remain small and readable.
+- callers should see one clean interface,
+- implementation details may change,
+- and the top-level policy or service object should stay small and readable.
 
-## Sorting, Ranking, and Local Annotations
+## 4. Ranking, Filtering, and Small Coordination Logic
 
-ML systems Python often includes ranking, filtering, and budget-selection logic. A few syntax patterns appear repeatedly in that style of code.
+ML systems Python often includes lightweight orchestration logic:
+
+- ranking candidates,
+- selecting a subset under a budget,
+- computing simple aggregate statistics,
+- and mutating lightweight runtime state.
+
+Several syntax patterns appear repeatedly in that style of code.
 
 ### Local variable annotations
 
@@ -401,9 +339,9 @@ selected: list[Item] = []
 
 These are local annotations.
 
-They make the intended contents of a variable clearer without changing runtime behavior in ordinary Python execution.
+They make the intended contents of a variable clearer without changing ordinary runtime behavior.
 
-This is especially helpful when a method builds several intermediate collections.
+They are especially helpful when a method builds several intermediate collections.
 
 ### Generator expressions in aggregates
 
@@ -411,12 +349,12 @@ This is especially helpful when a method builds several intermediate collections
 max_score = max((item.score for item in items), default=0.0)
 ```
 
-This uses:
+This combines:
 
-- a generator expression to produce values lazily,
-- and `default=` to avoid failure when the input is empty.
+- a generator expression, which produces values lazily,
+- and `default=`, which prevents failure on an empty input.
 
-This is a compact and useful Python pattern for computing summaries over collections.
+This is a compact and very common Python pattern for computing summaries over collections.
 
 ### Sorting with key functions
 
@@ -437,18 +375,16 @@ Important pieces:
 - `sorted(...)` returns a new sorted list,
 - `key=` tells Python what value to sort by,
 - `lambda ...` defines a short anonymous function inline,
-- `reverse=True` requests descending order.
+- `reverse=True` means descending order.
 
-This pattern is used constantly in selection, ranking, batching, and scheduling code.
+### Explicit loops are still normal Python
 
-### Explicit loops remain normal Python
-
-Even in codebases that use comprehensions and functional helpers, explicit loops are often the clearest choice for:
+Even in codebases that use comprehensions heavily, explicit loops are often the clearest choice for:
 
 - accumulating scores,
 - tracking budgets,
 - mutating object state,
-- and selecting the subset of records that fit a constraint.
+- and selecting the subset of records that fits a constraint.
 
 Example:
 
@@ -461,15 +397,33 @@ for item in ordered:
         used += item.size
 ```
 
-This style is often more readable than forcing everything into one expression.
+This style is often clearer than forcing the whole operation into one expression.
 
-## Mock Example: Interface plus Ranking Policy
+## Integrated Mock Example
+
+The following example ties the main patterns together in one neutral, masked piece of code:
 
 ```python
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any
+
+
+class JobStatus(str, Enum):
+    PENDING = "pending"
+    RUNNING = "running"
+    DONE = "done"
+
+
+@dataclass(slots=True)
+class JobMeta:
+    index: int
+    active: bool = False
+    retries: int = 0
+    notes: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -479,6 +433,16 @@ class Item:
     score: float = 0.0
     order: int = 0
     size: int = 1
+    status: JobStatus = JobStatus.PENDING
+    meta: JobMeta = field(default_factory=lambda: JobMeta(index=0))
+    comment: str | None = None
+
+
+@dataclass(slots=True)
+class PipelineConfig:
+    limit: int = 256
+    feature_dim: int = 128
+    temperature: float = 0.5
 
 
 class BaseSelector(ABC):
@@ -491,9 +455,18 @@ class BaseSelector(ABC):
         raise NotImplementedError
 
 
+class Engine:
+    def __init__(self, feature_dim: int) -> None:
+        self.feature_dim = feature_dim
+
+    def score(self, text: str, query: str) -> float:
+        return float(len(text) + len(query)) / max(self.feature_dim, 1)
+
+
 class ScoreSelector(BaseSelector):
-    def __init__(self, limit: int) -> None:
-        self.limit = limit
+    def __init__(self, config: PipelineConfig) -> None:
+        self.config = config
+        self.engine = Engine(config.feature_dim)
         self.items: list[Item] = []
         self.counter = 0
 
@@ -505,6 +478,7 @@ class ScoreSelector(BaseSelector):
                 score=float(kwargs.get("score", 0.0)),
                 order=self.counter,
                 size=int(kwargs.get("size", 1)),
+                meta=JobMeta(index=self.counter),
             )
         )
         self.counter += 1
@@ -512,31 +486,46 @@ class ScoreSelector(BaseSelector):
     def select(self, query: str) -> list[Item]:
         ordered = sorted(
             self.items,
-            key=lambda item: item.score,
+            key=lambda item: item.score + self.engine.score(item.text, query),
             reverse=True,
         )
         chosen: list[Item] = []
         used = 0
         for item in ordered:
-            if used + item.size <= self.limit:
+            if used + item.size <= self.config.limit:
                 chosen.append(item)
                 used += item.size
         return chosen
-
-
-class RecentSelector(BaseSelector):
-    def __init__(self, limit: int) -> None:
-        self.limit = limit
-        self.items: list[Item] = []
-        self.counter = 0
-
-    def add(self, text: str, item_id: str, **kwargs) -> None:
-        self.items.append(Item(item_id=item_id, text=text, order=self.counter))
-        self.counter += 1
-
-    def select(self, query: str) -> list[Item]:
-        ordered = sorted(self.items, key=lambda item: item.order, reverse=True)
-        return ordered[: self.limit]
 ```
 
-This example keeps the important syntax and design patterns while avoiding any project-specific content.
+This example is not important because of its domain behavior. It is useful because it shows the syntax patterns working together in the kind of class-oriented, systems-facing Python that appears often in ML codebases.
+
+## Tradeoffs
+
+- Dataclasses are excellent for structured state, but they are not a replacement for every class. When behavior and invariants dominate, a more explicit class may be clearer.
+- `slots=True` improves discipline, but it also makes some dynamic patterns less convenient.
+- `Any` increases flexibility, but too much `Any` weakens the value of typing.
+- Abstract base classes make interfaces clearer, but they can add unnecessary ceremony if there is only one implementation and no real abstraction need.
+- Delegation improves boundaries, but too many thin wrappers can make control flow harder to follow.
+
+## Common Mistakes
+
+- Using `[]` or `{}` directly as dataclass defaults instead of `default_factory`.
+- Treating dataclasses as magic and forgetting they are still ordinary Python classes.
+- Assuming type hints enforce runtime correctness automatically. Usually they are guidance, not runtime validation.
+- Overusing `Any` until the type hints stop communicating useful structure.
+- Confusing composition with inheritance when reading class relationships.
+- Using abstract interfaces where a simple concrete class would be clearer.
+- Turning small ranking or filtering logic into overly compressed one-liners that are harder to maintain than explicit loops.
+
+## Why This Matters for ML Systems
+
+These patterns appear constantly in ML systems work:
+
+- config objects for training and inference,
+- metadata records for pipelines and experiments,
+- interface layers over different backends or policies,
+- wrappers around runtimes, encoders, or kernels,
+- and ranking, routing, or budget-selection logic in orchestration code.
+
+Strong fluency with these patterns makes it easier to read framework code, build reliable tooling, and keep the Python layer around optimized compute from becoming the least understandable part of the system.
