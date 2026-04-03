@@ -11,3 +11,4 @@ This directory should cover:
 Current notes:
 - [CUDA Program Structure: Data Parallelism, Kernels, Threading, Memory Transfer, and Compilation](cuda-program-structure.md)
 - [Multidimensional Grids and Data Mapping](multidimensional-grids-and-data-mapping.md)
+- [CUDA Compute Architecture and Scheduling](compute-architecture-and-scheduling.md)
