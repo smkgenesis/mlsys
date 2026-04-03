@@ -23,6 +23,7 @@ For the operating workflow that turns raw study/project conversation into curate
 - `architecture/`: computer architecture and memory hierarchy.
 - `gpu/`: GPU execution model and performance constraints.
 - `cuda/`: CUDA-specific concepts and optimization patterns.
+- `python/`: Python language and runtime patterns that matter in ML systems code.
 - `triton/`: Triton kernel concepts and design patterns.
 - `transformers/`: transformer internals from a systems perspective.
 - `inference/`: LLM inference systems, serving, batching, and KV cache behavior.

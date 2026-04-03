@@ -171,6 +171,7 @@ Each document must go into the directory that best matches its dominant purpose.
 - `architecture/`: memory hierarchy, compute organization, hardware cost reasoning
 - `gpu/`: GPU execution behavior and hardware constraints
 - `cuda/`: CUDA-specific execution and optimization knowledge
+- `python/`: Python language, runtime, concurrency, and packaging knowledge that supports ML systems engineering
 - `triton/`: Triton-specific kernel thinking and layout strategy
 - `transformers/`: transformer internals from a systems lens
 - `inference/`: inference runtime behavior and serving concerns
