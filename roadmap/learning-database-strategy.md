@@ -72,6 +72,7 @@ Primary destinations:
 - `foundations/`
 - `math/`
 - `architecture/`
+- `python/` when the concept is language/runtime behavior that improves systems reasoning
 
 ### 2. Hardware and Execution Layer
 
@@ -88,6 +89,7 @@ Primary destinations:
 - `architecture/`
 - `gpu/`
 - `cuda/`
+- `python/` when host-side runtime behavior, concurrency, or tooling is part of the bottleneck
 
 ### 3. Kernel and Program Construction Layer
 
@@ -104,6 +106,7 @@ Primary destinations:
 - `cuda/`
 - `triton/`
 - `kernels/`
+- `python/` when the dominant lesson is about orchestration, runtime overhead, or framework-facing code structure
 
 ### 4. ML System Layer
 
@@ -137,6 +140,24 @@ Typical questions:
 
 Primary destinations:
 - `roadmap/`
+
+### Where Python Fits
+
+Python is a cross-cutting systems language in this repository rather than just a general programming language.
+
+Its role includes:
+
+- orchestration around accelerated kernels,
+- framework-level model code,
+- data pipelines and multiprocessing behavior,
+- benchmarking, profiling, and experiment tooling,
+- and environment and packaging discipline.
+
+As a result:
+
+- Python notes that teach durable runtime or systems behavior should live in `python/`,
+- roadmap-level study guidance for Python belongs in `roadmap/`,
+- and Python-specific material should be connected to `training/`, `cuda/`, `triton/`, and future inference or profiling notes whenever it acts as the control layer around lower-level execution.
 
 ## Source-to-Repository Translation Rules
 

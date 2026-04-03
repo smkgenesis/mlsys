@@ -12,3 +12,4 @@ The purpose is not to track every task, but to make the learning path explicit.
 
 Current notes:
 - [Integrated Learning Database Strategy](learning-database-strategy.md)
+- [Python for ML Systems](python-for-ml-systems.md)
