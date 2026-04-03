@@ -269,3 +269,274 @@ These patterns show up constantly in ML systems work:
 - and Python wrappers around lower-level kernels or libraries.
 
 Strong fluency with these syntax patterns makes it easier to read framework code, build reliable tooling, and keep the Python layer around optimized compute from becoming disorganized.
+
+## Interface and Delegation Patterns
+
+Another very common Python pattern in ML systems code is:
+
+- define a stable abstract interface,
+- implement multiple concrete strategies behind that interface,
+- and delegate real work to helper objects or internal runtime components.
+
+This pattern appears in:
+
+- backends,
+- policies,
+- storage adapters,
+- schedulers,
+- retrieval strategies,
+- and wrappers around lower-level engines.
+
+### Abstract base classes
+
+```python
+from abc import ABC, abstractmethod
+
+
+class BaseProcessor(ABC):
+    @abstractmethod
+    def load(self, text: str, item_id: str, **kwargs) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def run(self, query: str) -> list[str]:
+        raise NotImplementedError
+```
+
+This defines a contract:
+
+- subclasses must implement `load`,
+- subclasses must implement `run`,
+- and callers can rely on those method names regardless of which concrete implementation they receive.
+
+`ABC` means abstract base class. `@abstractmethod` marks methods that must be implemented by subclasses.
+
+The `raise NotImplementedError` line is a common defensive and documentary pattern that makes it explicit that the base class does not provide real behavior.
+
+### Flexible method signatures with `**kwargs`
+
+```python
+def load(self, text: str, item_id: str, **kwargs) -> None:
+    ...
+```
+
+`**kwargs` collects extra keyword arguments into a dictionary.
+
+This is useful when:
+
+- the interface has a stable core shape,
+- optional metadata may vary across callers,
+- and implementations need some flexibility without constantly changing the public signature.
+
+Common idiom:
+
+```python
+label = kwargs.get("label", "default")
+```
+
+This reads:
+
+- use the provided keyword value if present,
+- otherwise fall back to the default.
+
+Another common defensive idiom is:
+
+```python
+for dep in kwargs.get("dependencies", []) or []:
+    ...
+```
+
+This protects the loop both when the key is missing and when the caller explicitly passes `None`.
+
+### Composition instead of inheritance for helper behavior
+
+```python
+class Processor(BaseProcessor):
+    def __init__(self, mode: str) -> None:
+        self.engine = Engine(mode)
+```
+
+This is composition:
+
+- the class inherits from `BaseProcessor` to satisfy the interface,
+- but it contains an `Engine` instance to do the actual work.
+
+That is different from inheriting behavior from the helper object.
+
+This distinction is important:
+
+- inheritance is used for API shape,
+- composition is used for implementation structure.
+
+### Delegation methods
+
+```python
+def load(self, text: str, item_id: str, **kwargs) -> None:
+    self.engine.load(text, item_id, **kwargs)
+
+def run(self, query: str) -> list[str]:
+    return self.engine.run(query)
+```
+
+These are delegation methods.
+
+They expose a clean public API while forwarding the real work to another object.
+
+This pattern is useful when:
+
+- different implementations should look the same to callers,
+- internals may change,
+- and the public policy or service object should remain small and readable.
+
+## Sorting, Ranking, and Local Annotations
+
+ML systems Python often includes ranking, filtering, and budget-selection logic. A few syntax patterns appear repeatedly in that style of code.
+
+### Local variable annotations
+
+```python
+ranked: list[tuple[float, Item]] = []
+selected: list[Item] = []
+```
+
+These are local annotations.
+
+They make the intended contents of a variable clearer without changing runtime behavior in ordinary Python execution.
+
+This is especially helpful when a method builds several intermediate collections.
+
+### Generator expressions in aggregates
+
+```python
+max_score = max((item.score for item in items), default=0.0)
+```
+
+This uses:
+
+- a generator expression to produce values lazily,
+- and `default=` to avoid failure when the input is empty.
+
+This is a compact and useful Python pattern for computing summaries over collections.
+
+### Sorting with key functions
+
+```python
+ordered = sorted(items, key=lambda item: item.score, reverse=True)
+```
+
+This is one of the most important Python collection patterns.
+
+Read it as:
+
+- sort `items`,
+- by each item's `score`,
+- highest first.
+
+Important pieces:
+
+- `sorted(...)` returns a new sorted list,
+- `key=` tells Python what value to sort by,
+- `lambda ...` defines a short anonymous function inline,
+- `reverse=True` requests descending order.
+
+This pattern is used constantly in selection, ranking, batching, and scheduling code.
+
+### Explicit loops remain normal Python
+
+Even in codebases that use comprehensions and functional helpers, explicit loops are often the clearest choice for:
+
+- accumulating scores,
+- tracking budgets,
+- mutating object state,
+- and selecting the subset of records that fit a constraint.
+
+Example:
+
+```python
+chosen: list[Item] = []
+used = 0
+for item in ordered:
+    if used + item.size <= limit:
+        chosen.append(item)
+        used += item.size
+```
+
+This style is often more readable than forcing everything into one expression.
+
+## Mock Example: Interface plus Ranking Policy
+
+```python
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+
+@dataclass(slots=True)
+class Item:
+    item_id: str
+    text: str
+    score: float = 0.0
+    order: int = 0
+    size: int = 1
+
+
+class BaseSelector(ABC):
+    @abstractmethod
+    def add(self, text: str, item_id: str, **kwargs) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def select(self, query: str) -> list[Item]:
+        raise NotImplementedError
+
+
+class ScoreSelector(BaseSelector):
+    def __init__(self, limit: int) -> None:
+        self.limit = limit
+        self.items: list[Item] = []
+        self.counter = 0
+
+    def add(self, text: str, item_id: str, **kwargs) -> None:
+        self.items.append(
+            Item(
+                item_id=item_id,
+                text=text,
+                score=float(kwargs.get("score", 0.0)),
+                order=self.counter,
+                size=int(kwargs.get("size", 1)),
+            )
+        )
+        self.counter += 1
+
+    def select(self, query: str) -> list[Item]:
+        ordered = sorted(
+            self.items,
+            key=lambda item: item.score,
+            reverse=True,
+        )
+        chosen: list[Item] = []
+        used = 0
+        for item in ordered:
+            if used + item.size <= self.limit:
+                chosen.append(item)
+                used += item.size
+        return chosen
+
+
+class RecentSelector(BaseSelector):
+    def __init__(self, limit: int) -> None:
+        self.limit = limit
+        self.items: list[Item] = []
+        self.counter = 0
+
+    def add(self, text: str, item_id: str, **kwargs) -> None:
+        self.items.append(Item(item_id=item_id, text=text, order=self.counter))
+        self.counter += 1
+
+    def select(self, query: str) -> list[Item]:
+        ordered = sorted(self.items, key=lambda item: item.order, reverse=True)
+        return ordered[: self.limit]
+```
+
+This example keeps the important syntax and design patterns while avoiding any project-specific content.
