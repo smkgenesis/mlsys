@@ -17,6 +17,7 @@ Does not belong here:
 Current notes:
 - [Basic Proof Techniques](basic-proof-techniques.md)
 - [Mathematical Induction](mathematical-induction.md)
+- [Strong Induction](strong-induction.md)
 - [Basic Probability Language](probability-language.md)
 - [The Pigeonhole Principle](pigeonhole-principle.md)
 - [Discrete Random Variables](discrete-random-variables.md)
