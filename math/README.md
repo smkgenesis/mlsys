@@ -16,6 +16,7 @@ Does not belong here:
 
 Current notes:
 - [Basic Proof Techniques](basic-proof-techniques.md)
+- [Countable and Uncountable Sets](countable-and-uncountable-sets.md)
 - [Mathematical Induction](mathematical-induction.md)
 - [Strong Induction](strong-induction.md)
 - [Sets](sets.md)
