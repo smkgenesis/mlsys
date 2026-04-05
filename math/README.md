@@ -15,6 +15,7 @@ Does not belong here:
 - cross-topic study strategy, which belongs in `roadmap/`.
 
 Current notes:
+- [Basic Proof Techniques](basic-proof-techniques.md)
 - [Basic Probability Language](probability-language.md)
 - [The Pigeonhole Principle](pigeonhole-principle.md)
 - [Discrete Random Variables](discrete-random-variables.md)
