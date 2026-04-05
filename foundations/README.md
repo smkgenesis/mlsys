@@ -3,7 +3,6 @@
 Current notes:
 - [Black-Box and White-Box Thinking](black-box-vs-white-box.md)
 - [Infix, Postfix, and Stack Evaluation](infix-postfix-and-stacks.md)
-- [The Pigeonhole Principle](pigeonhole-principle.md)
 - [Universal Problem-Solving Template](problem-solving-template.md)
 - [Recursion and Explicit Stack Simulation](recursion-and-stacks.md)
 

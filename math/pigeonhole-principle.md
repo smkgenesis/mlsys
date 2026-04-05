@@ -253,7 +253,7 @@ So it is often best used as:
 - a lower-bound argument,
 - or a first structural observation.
 
-## Why This Matters for Computer Science
+## Why This Matters Beyond Pure Math
 
 The pigeonhole principle is not just a classroom theorem.
 

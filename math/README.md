@@ -2,6 +2,7 @@
 
 Current notes:
 - [Basic Probability Language](probability-language.md)
+- [The Pigeonhole Principle](pigeonhole-principle.md)
 - [Discrete Random Variables](discrete-random-variables.md)
 - [Continuous and Mixed Random Variables](continuous-and-mixed-random-variables.md)
 - [Measures of Location and Spread](measures-of-location-and-spread.md)
