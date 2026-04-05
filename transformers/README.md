@@ -1,9 +1,26 @@
 # transformers
 
+Transformer architecture and internal model computation.
+
+Belongs here:
+- attention mechanics,
+- MLP blocks,
+- positional encoding,
+- residual structure,
+- and end-to-end causal understanding of how a transformer computes.
+
+Does not belong here:
+- serving-runtime topics whose primary question is batching, scheduler behavior, or KV-cache management; those belong in `inference/`.
+
+Current notes:
+- [End-to-End Autoregressive Transformer Inference](README.md)
+
+---
+
 End-to-End Autoregressive Transformer Inference:
 User String -> Tokenization -> GPU Execution -> Returned String
 
-This document describes the full causal path of Transformer inference with deliberately low abstraction.
+This document describes the full causal path of transformer inference with deliberately low abstraction.
 
 The goal is not to say "attention happens" or "the model generates text" and stop there.
 The goal is to make every major transformation explicit:

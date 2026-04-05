@@ -166,20 +166,20 @@ Merge documents when they answer nearly the same question and repeat the same me
 
 Each document must go into the directory that best matches its dominant purpose.
 
-- `foundations/`: bridge from core CS coursework to systems engineering; math-heavy material should usually go in `math/`
-- `math/`: probability, statistics, information theory, numerical reasoning
-- `architecture/`: memory hierarchy, compute organization, hardware cost reasoning
-- `gpu/`: GPU execution behavior and hardware constraints
+- `foundations/`: basic CS foundations only; use this for CS-first concepts such as recursion, stacks, core data structure reasoning, and similar material. Cross-domain reasoning templates or mathematically primary topics should usually go elsewhere.
+- `math/`: mathematics, probability, statistics, information theory, numerical reasoning, and mathematically primary discrete topics
+- `architecture/`: general computer architecture, ISA, memory hierarchy, and hardware cost/performance reasoning
+- `gpu/`: GPU execution behavior and hardware constraints that are not tied to one programming model
 - `cuda/`: CUDA-specific execution and optimization knowledge
 - `python/`: Python language, runtime, concurrency, and packaging knowledge that supports ML systems engineering
 - `triton/`: Triton-specific kernel thinking and layout strategy
-- `transformers/`: transformer internals from a systems lens
-- `inference/`: inference runtime behavior and serving concerns
-- `training/`: training-time systems behavior
+- `transformers/`: transformer architecture and internal model computation
+- `inference/`: inference runtime behavior, serving concerns, prefill/decode behavior, batching, and KV-cache management
+- `training/`: training-time systems behavior and model optimization methods
 - `quantization/`: low-precision methods and error/runtime tradeoffs
-- `kernels/`: kernel construction principles
+- `kernels/`: kernel construction principles that cut across specific frameworks
 - `profiling/`: benchmarking and measurement discipline
-- `roadmap/`: long-horizon study structure
+- `roadmap/`: long-horizon study structure, cross-topic learning strategy, and general study method
 - `physics/`: broader physics foundations, allowed to be more general than the rest of the repository
 
 If a document could fit in multiple places, choose the directory that best answers:

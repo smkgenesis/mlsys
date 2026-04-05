@@ -1,15 +1,19 @@
 # gpu
 
-GPU execution concepts that matter in ML systems work.
+GPU hardware execution concepts that matter in ML systems work.
 
-Core focus:
+Belongs here:
 - SIMT execution,
 - warps,
 - occupancy,
-- coalescing,
-- shared memory,
+- scheduling,
 - synchronization,
-- and hardware limits.
+- hardware limits,
+- and GPU design ideas that are not tied to CUDA syntax.
+
+Does not belong here:
+- CUDA API and launch-model material; that belongs in `cuda/`,
+- framework-specific kernel design guidance; that belongs in `kernels/` or `triton/`.
 
 Current notes:
 - [Heterogeneous Parallel Computing Foundations](heterogeneous-computing.md)

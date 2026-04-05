@@ -1,13 +1,20 @@
 # architecture
 
-Computer architecture knowledge for ML systems.
+General computer architecture for ML systems.
 
-Core focus:
+This directory is for hardware ideas that are broader than GPU-only execution and broader than CUDA.
+
+Belongs here:
+- ISA basics,
+- CPU-style performance models,
 - memory hierarchy,
+- cache and locality reasoning,
 - bandwidth vs latency,
-- locality,
-- cache behavior,
-- and why real performance is often memory-bound.
+- multicore and hardware cost/performance tradeoffs.
+
+Does not belong here:
+- GPU-specific execution details that belong in `gpu/`,
+- CUDA programming-model details that belong in `cuda/`.
 
 Current notes:
 - [Computer Architecture Overview and the Seven Great Ideas](computer-architecture-overview.md)

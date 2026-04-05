@@ -1,5 +1,19 @@
 # math
 
+Mathematics and mathematically primary topics.
+
+Belongs here:
+- probability,
+- statistics,
+- information theory,
+- numerical reasoning,
+- useful linear algebra,
+- and mathematically primary discrete topics such as counting principles.
+
+Does not belong here:
+- CS-first foundations, which belong in `foundations/`,
+- cross-topic study strategy, which belongs in `roadmap/`.
+
 Current notes:
 - [Basic Probability Language](probability-language.md)
 - [The Pigeonhole Principle](pigeonhole-principle.md)
@@ -8,11 +22,4 @@ Current notes:
 - [Measures of Location and Spread](measures-of-location-and-spread.md)
 - [Moments, MGFs, and Basic Inequalities](moments-mgfs-and-inequalities.md)
 
-Mathematics for ML systems should focus on what helps reason about approximation, stability, and measurement.
-
-This directory should cover:
-- probability,
-- statistics,
-- information theory,
-- numerical error,
-- and useful linear algebra.
+Mathematics in this repository should still stay oriented toward what supports later ML systems reasoning, especially approximation, uncertainty, stability, and measurement.

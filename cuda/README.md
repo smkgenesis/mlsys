@@ -1,12 +1,18 @@
 # cuda
 
-CUDA-specific knowledge for writing and reasoning about ML kernels.
+CUDA-specific execution and optimization knowledge.
 
-This directory should cover:
+Belongs here:
 - thread/block/grid structure,
-- memory spaces,
+- CUDA memory spaces,
 - kernel optimization patterns,
-- and common failure modes.
+- launch configuration,
+- occupancy and scheduling as exposed through CUDA,
+- and CUDA-specific constraints or failure modes.
+
+Does not belong here:
+- GPU concepts that are hardware-general and not CUDA-specific; those belong in `gpu/`,
+- framework-agnostic kernel design principles; those belong in `kernels/`.
 
 Current notes:
 - [CUDA Program Structure: Data Parallelism, Kernels, Threading, Memory Transfer, and Compilation](cuda-program-structure.md)

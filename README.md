@@ -17,20 +17,20 @@ For the operating workflow that turns raw study/project conversation into curate
 
 ## Repository Map
 
-- `roadmap/`: long-horizon study plan and capability progression.
-- `foundations/`: core CS background reinterpreted for ML systems engineering.
-- `math/`: probability, statistics, information theory, and error analysis for systems ML.
-- `architecture/`: computer architecture and memory hierarchy.
-- `gpu/`: GPU execution model and performance constraints.
-- `cuda/`: CUDA-specific concepts and optimization patterns.
+- `roadmap/`: cross-topic study strategy, capability planning, and learning method.
+- `foundations/`: basic computer science foundations only, such as core reasoning habits, recursion, stacks, and other CS-first concepts.
+- `math/`: mathematics, probability, statistics, information theory, and mathematically primary discrete topics.
+- `architecture/`: general computer architecture, memory hierarchy, ISA, and hardware cost/performance reasoning.
+- `gpu/`: GPU execution ideas that are hardware-level but not CUDA-specific.
+- `cuda/`: CUDA-specific execution model, launch model, and optimization patterns.
 - `python/`: Python language and runtime patterns that matter in ML systems code.
-- `triton/`: Triton kernel concepts and design patterns.
-- `transformers/`: transformer internals from a systems perspective.
-- `inference/`: LLM inference systems, serving, batching, and KV cache behavior.
-- `training/`: training-time systems topics such as memory, optimizer state, and precision.
-- `quantization/`: low-precision representation, error, and systems tradeoffs.
-- `kernels/`: kernel design principles for ML workloads.
-- `profiling/`: benchmarking methodology and profiler literacy.
+- `triton/`: Triton programming model and kernel construction patterns.
+- `transformers/`: transformer architecture and internal model computation.
+- `inference/`: runtime behavior of serving and generation systems, including prefill/decode, batching, and KV cache management.
+- `training/`: training-time system behavior and model optimization methods that matter for deployment or training efficiency.
+- `quantization/`: low-precision representation, approximation error, and quantized runtime tradeoffs.
+- `kernels/`: kernel design principles that cut across CUDA, Triton, and operator-specific implementation.
+- `profiling/`: measurement, benchmarking, and profiler literacy.
 - `physics/`: broader physics study as a long-term scientific foundation, with the same quality standards as the rest of the repository.
 
 ## Current Direction
