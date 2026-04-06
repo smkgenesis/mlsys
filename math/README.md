@@ -19,6 +19,7 @@ Current notes:
 - [Countable and Uncountable Sets](countable-and-uncountable-sets.md)
 - [Mathematical Induction](mathematical-induction.md)
 - [Strong Induction](strong-induction.md)
+- [Structural Induction](structural-induction.md)
 - [Sets](sets.md)
 - [Relations and Functions](relations-and-functions.md)
 - [Basic Probability Language](probability-language.md)
