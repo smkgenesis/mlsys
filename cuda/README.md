@@ -19,3 +19,4 @@ Current notes:
 - [Multidimensional Grids and Data Mapping](multidimensional-grids-and-data-mapping.md)
 - [CUDA Compute Architecture and Scheduling](compute-architecture-and-scheduling.md)
 - [CUDA Memory Types, Tiling, Boundary Checks, and Occupancy](memory-types-tiling-and-occupancy.md)
+- [CUDA Performance Considerations: Memory Coalescing, Latency Hiding, and Thread Coarsening](memory-coalescing-and-latency-hiding.md)

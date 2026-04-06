@@ -16,4 +16,5 @@ Does not belong here:
 
 Current notes:
 - [Triton Syntax Primer: Program IDs, Offsets, Loads, Stores, Masks, and Tiles](triton-syntax-primer.md)
+- [Triton Launch Configuration and Kernel Reading](launch-configuration-and-kernel-reading.md)
 - [Triton Embedding Lookup Kernel Walkthrough](embedding-lookup-kernel.md)
