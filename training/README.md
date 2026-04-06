@@ -17,5 +17,6 @@ Does not belong here:
 
 Current notes:
 - [Efficient AI: Scaling Laws, Efficiency Frameworks, and Algorithmic Efficiency](efficient-ai-and-scaling-laws.md)
+- [Knowledge Distillation](knowledge-distillation.md)
 - [Model Optimization Framework](model-optimization-framework.md)
 - [Pruning](pruning.md)
