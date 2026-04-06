@@ -18,6 +18,7 @@ Current notes:
 - [Basic Proof Techniques](basic-proof-techniques.md)
 - [Countable and Uncountable Sets](countable-and-uncountable-sets.md)
 - [Mathematical Induction](mathematical-induction.md)
+- [Propositional Logic](propositional-logic.md)
 - [Strong Induction](strong-induction.md)
 - [Structural Induction](structural-induction.md)
 - [Sets](sets.md)
