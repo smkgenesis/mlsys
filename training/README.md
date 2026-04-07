@@ -20,3 +20,4 @@ Current notes:
 - [Knowledge Distillation](knowledge-distillation.md)
 - [Model Optimization Framework](model-optimization-framework.md)
 - [Pruning](pruning.md)
+- [Structured Approximations](structured-approximations.md)
