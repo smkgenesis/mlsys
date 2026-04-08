@@ -1,4 +1,4 @@
-# Heterogeneous Parallel Computing Foundations
+# 00. Heterogeneous Computing
 
 ## What
 
@@ -226,7 +226,7 @@ The important implication is that the unit of learning is not just a command or 
 - Thinking GPUs simply behave like faster CPUs rather than processors designed around a different optimization target.
 - Learning a programming model only as syntax and missing the hardware and workload assumptions that make the model useful.
 
-## ML Systems Connection
+## Why This Matters for ML Systems
 
 These PMPP Chapter 1 ideas map directly onto modern ML systems.
 
@@ -245,3 +245,7 @@ They also explain many recurring ML systems facts:
 - and future scalability depends on regular computation structure and disciplined memory behavior.
 
 In this sense, PMPP Chapter 1 is not just historical context. It is a compact systems lens for understanding why GPU programming, CUDA, Triton, and hardware-aware ML engineering matter at all.
+
+## Short Takeaway
+
+Heterogeneous computing matters because modern performance no longer comes from making one CPU core endlessly faster; it comes from splitting work across processors with different strengths, exposing large amounts of structured parallelism, and managing memory movement well enough that throughput hardware such as GPUs can actually stay busy.

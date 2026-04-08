@@ -2,7 +2,7 @@
 
 A long-term public knowledge base for becoming a real ML systems engineer.
 
-This repository is not a project log, a paper dump, or a random memo archive. It is a structured knowledge system for the concepts that matter in modern ML systems work: mathematical foundations, computer architecture, GPU execution, CUDA, Triton, transformer inference, training systems, quantization, kernel design, and performance profiling.
+This repository is not a project log, a paper dump, or a random memo archive. It is a structured knowledge system for the concepts that matter in modern ML systems work: mathematical foundations, computer architecture, CUDA, Triton, transformer computation, training systems, quantization, and performance profiling.
 
 For repository standards, classification rules, and document acceptance criteria, see [`MANUAL.md`](MANUAL.md).
 For the operating workflow that turns raw study/project conversation into curated repository content, see [`WORKFLOW.md`](WORKFLOW.md).
@@ -84,15 +84,12 @@ The repository should optimize for:
 - `foundations/`: basic computer science foundations only, such as core reasoning habits, recursion, stacks, and other CS-first concepts.
 - `math/`: mathematics, probability, statistics, information theory, and mathematically primary discrete topics.
 - `architecture/`: general computer architecture, memory hierarchy, ISA, and hardware cost/performance reasoning.
-- `gpu/`: GPU execution ideas that are hardware-level but not CUDA-specific.
 - `cuda/`: CUDA-specific execution model, launch model, and optimization patterns.
 - `python/`: Python language and runtime patterns that matter in ML systems code.
 - `triton/`: Triton programming model and kernel construction patterns.
 - `transformers/`: transformer architecture and internal model computation.
-- `inference/`: runtime behavior of serving and generation systems, including prefill/decode, batching, and KV cache management.
 - `training/`: training-time system behavior and model optimization methods that matter for deployment or training efficiency.
 - `quantization/`: low-precision representation, approximation error, and quantized runtime tradeoffs.
-- `kernels/`: kernel design principles that cut across CUDA, Triton, and operator-specific implementation.
 - `profiling/`: measurement, benchmarking, and profiler literacy.
 - `physics/`: broader physics study as a long-term scientific foundation, with the same quality standards as the rest of the repository.
 

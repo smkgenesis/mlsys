@@ -61,10 +61,12 @@ Examples of topics that often need reframing before becoming files:
 
 Use the directory that best matches the document's dominant teaching purpose.
 
-- Put it in `architecture/` when the core lesson is hardware structure, hierarchy, or cost.
-- Put it in `gpu/` when the core lesson is GPU execution behavior or constraints.
-- Put it in `cuda/` or `triton/` when the material is specific to those programming models.
-- Put it in `inference/` or `training/` when runtime behavior is the real subject.
+- Put it in `architecture/` when the core lesson is hardware structure, hierarchy, ISA, or cost reasoning.
+- Put it in `cuda/` when the core lesson is GPU execution behavior as exposed through CUDA kernels, launch structure, memory spaces, or CUDA-side optimization.
+- Put it in `triton/` when the material is specifically about the Triton programming model, pointer arithmetic, masks, tiling, or Triton kernel reading/writing.
+- Put it in `transformers/` when the core lesson is the causal computation path inside transformer inference or model-side sequence processing.
+- Put it in `training/` when training-side efficiency, optimization methods, or training/deployment tradeoffs are the real subject.
+- Put it in `quantization/` when numerical representation, low-precision formats, or quantization error/runtime tradeoffs are the real subject.
 - Put it in `foundations/` when formal coursework is being translated into ML systems understanding.
 - Put it in `physics/` only for the intentional scope exception.
 

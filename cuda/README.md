@@ -3,6 +3,7 @@
 CUDA-specific execution and optimization knowledge.
 
 Belongs here:
+- heterogeneous CPU/GPU execution framing when it is used as the precondition for CUDA,
 - thread/block/grid structure,
 - CUDA memory spaces,
 - kernel optimization patterns,
@@ -11,10 +12,11 @@ Belongs here:
 - and CUDA-specific constraints or failure modes.
 
 Does not belong here:
-- GPU concepts that are hardware-general and not CUDA-specific; those belong in `gpu/`,
-- framework-agnostic kernel design principles; those belong in `kernels/`.
+- general computer architecture material with no direct CUDA learning role; that belongs in `architecture/`,
+- or transformer/operator material whose primary question is not CUDA execution behavior.
 
 Current notes:
+- [00. Heterogeneous Computing](00-heterogeneous-computing.md)
 - [01. CUDA Program Structure](01-cuda-program-structure.md)
 - [02. Multidimensional Grids and Data Mapping](02-multidimensional-grids-and-data-mapping.md)
 - [03. Compute Architecture and Scheduling](03-compute-architecture-and-scheduling.md)
@@ -26,7 +28,7 @@ Current notes:
 ---
 
 CUDA Execution and Optimization:
-Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels
+Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels
 
 This document describes the CUDA side of ML systems with deliberately mechanism-level emphasis.
 
@@ -94,7 +96,8 @@ The notes in this folder unpack each piece of that story.
 The current conceptual sequence is:
 
 ```text
-program structure
+heterogeneous framing
+-> program structure
 -> multidimensional mapping
 -> scheduling and occupancy
 -> memory hierarchy and tiling
@@ -108,7 +111,31 @@ It is the conceptual progression by which CUDA starts to feel like a real execut
 
 ---
 
-## 2. CUDA Begins with the Host/Device Split
+## 2. CUDA Begins with the Heterogeneous Performance Problem
+
+Deep dive: [00. Heterogeneous Computing](00-heterogeneous-computing.md)
+
+Before CUDA even becomes a programming model, there is a hardware and systems reason it needs to exist.
+
+The old performance story was:
+
+- wait for CPUs to get faster,
+- write mostly sequential programs,
+- and let hardware improvements carry much of the speedup burden.
+
+That stopped scaling cleanly once power, heat, and single-core complexity became dominant constraints.
+
+Modern high-performance systems therefore became heterogeneous:
+
+- CPUs remain strong for control-heavy and orchestration-heavy work,
+- GPUs provide throughput for massive numbers of structured parallel operations,
+- and performance depends on moving the right parts of the application onto the right processor while controlling memory movement costs.
+
+This framing matters because CUDA is easier to learn when it is seen as the programmer-facing interface to that heterogeneous division of labor, not as an arbitrary syntax layer.
+
+---
+
+## 3. CUDA Begins with the Host/Device Split
 
 Deep dive: [01. CUDA Program Structure](01-cuda-program-structure.md)
 
@@ -146,7 +173,7 @@ Everything else in the folder builds on that.
 
 ---
 
-## 3. Mapping Threads to Data Is the First Real Skill
+## 4. Mapping Threads to Data Is the First Real Skill
 
 Deep dive: [02. Multidimensional Grids and Data Mapping](02-multidimensional-grids-and-data-mapping.md)
 
@@ -182,7 +209,7 @@ If that mapping is wrong or awkward, the entire kernel becomes fragile or slow.
 
 ---
 
-## 4. The Hardware Does Not Execute Blocks Abstractly
+## 5. The Hardware Does Not Execute Blocks Abstractly
 
 Deep dive: [03. Compute Architecture and Scheduling](03-compute-architecture-and-scheduling.md)
 
@@ -228,7 +255,7 @@ against each other.
 
 ---
 
-## 5. CUDA Performance Is Usually a Memory Story First
+## 6. CUDA Performance Is Usually a Memory Story First
 
 Deep dive: [04. Memory Types, Tiling, and Occupancy](04-memory-types-tiling-and-occupancy.md)
 
@@ -261,7 +288,7 @@ That is the beginning of serious CUDA optimization reasoning.
 
 ---
 
-## 6. Traffic Shape Matters as Much as Traffic Volume
+## 7. Traffic Shape Matters as Much as Traffic Volume
 
 Deep dive: [05. Memory Coalescing and Latency Hiding](05-memory-coalescing-and-latency-hiding.md)
 
@@ -292,7 +319,7 @@ This note functions as the main “performance mindset” document in the folder
 
 ---
 
-## 7. Convolution Is the First Full Pattern Case
+## 8. Convolution Is the First Full Pattern Case
 
 Deep dive: [06. Convolution](06-convolution.md)
 
@@ -323,7 +350,7 @@ This note matters because it turns CUDA performance ideas into a concrete operat
 
 ---
 
-## 8. Stencil Sweeps Show Where the Convolution Analogy Breaks
+## 9. Stencil Sweeps Show Where the Convolution Analogy Breaks
 
 Deep dive: [07. Stencil Sweeps](07-stencil-sweeps.md)
 
@@ -356,7 +383,7 @@ This is one of the first places where CUDA optimization starts to look like genu
 
 ---
 
-## 9. The Main Distinctions This Folder Tries to Keep Sharp
+## 10. The Main Distinctions This Folder Tries to Keep Sharp
 
 Several distinctions matter across these notes.
 
@@ -389,7 +416,7 @@ These distinctions are what turn CUDA from memorized terminology into usable eng
 
 ---
 
-## 10. Why This Folder Matters for ML Systems
+## 11. Why This Folder Matters for ML Systems
 
 This folder matters because many ML systems bottlenecks eventually become CUDA questions when workloads hit GPUs.
 
@@ -420,7 +447,7 @@ That is the real CUDA mindset.
 
 ---
 
-## 11. File Sequence and Future Expansion
+## 12. File Sequence and Future Expansion
 
 The current deep-dive notes are:
 
@@ -450,7 +477,7 @@ So the current order should be read as:
 
 ---
 
-## 12. After This Folder You Should Understand
+## 13. After This Folder You Should Understand
 
 After finishing this folder, you should be able to explain:
 
