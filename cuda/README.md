@@ -21,4 +21,4 @@ Current notes:
 - [CUDA Convolution: Constant Memory and Halo Tiling](convolution-constant-memory-and-halo-tiling.md)
 - [CUDA Memory Types, Tiling, Boundary Checks, and Occupancy](memory-types-tiling-and-occupancy.md)
 - [CUDA Performance Considerations: Memory Coalescing, Latency Hiding, and Thread Coarsening](memory-coalescing-and-latency-hiding.md)
-- [CUDA Stencil Sweeps: Thread Coarsening and Register Tiling](stencil-sweeps-thread-coarsening-and-register-tiling.md)
+- [CUDA Stencil Sweeps: Thread Coarsening and Register Tiling](stencil-sweeps.md)
