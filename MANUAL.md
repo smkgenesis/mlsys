@@ -210,18 +210,75 @@ Bad:
 
 The filename should make sense in search results without surrounding context, but it should still remain easy to scan in directory listings and sidebars.
 
+## Sequence Rules
+
+Directories should not become unordered topic buckets.
+
+When a folder contains multiple documents on one study track, it should have:
+
+- a readable progression from foundational to advanced material,
+- a `README.md` that serves as the folder's canonical top-level walkthrough,
+- and titles that may include visible sequence numbers when that makes the progression easier to follow.
+
+Prefer keeping filenames short and stable even when visible numbering is added to document titles or folder README ordering.
+
+The goal is:
+
+```text
+folder = guided study sequence
+not
+folder = random note pile
+```
+
+## Folder README Standard
+
+A folder `README.md` should usually do more than list files.
+
+The target model is:
+
+```text
+README.md = top-level narrative + coverage-complete compression layer
+child documents = deeper focused expansions
+```
+
+That means a strong folder README should:
+
+- explain the full conceptual or causal arc of the folder,
+- summarize the key contents of all major child documents in compressed form,
+- preserve the intended reading sequence,
+- make the connection between sections explicit,
+- and point to subdocuments as deep dives rather than leaving the README as a thin index.
+
+The `transformers/README.md` style is the current reference point for this standard.
+
+A weak folder README usually looks like:
+
+- a bare file list,
+- a short course outline that does not actually cover the content,
+- or a disconnected set of links without a unifying narrative.
+
+A strong folder README should be readable on its own while still motivating the deeper documents beneath it.
+
 ## Writing Standard
 
 Every serious document should try to include these sections when applicable:
 
 1. `What`
 2. `Why It Matters`
-3. `Core Mechanism`
-4. `Tradeoffs`
+3. `Core Idea` or `Core Mechanism`
+4. `How It Works`, `Mechanism`, `Tradeoffs`, or another topic-specific middle section
 5. `Common Mistakes`
-6. `ML Systems Connection`
+6. `Why This Matters for ML Systems`
+7. `Short Takeaway`
 
-Not every file needs every section, but shallow summary-only documents are not acceptable.
+Not every file needs every section literally, but documents in the same area should not drift into completely different heading styles without a reason.
+
+The goal is not rigid templating for its own sake.
+The goal is:
+
+- predictable reading flow,
+- durable structure,
+- and easier future reorganization.
 
 ## ML Systems Relevance Rule
 

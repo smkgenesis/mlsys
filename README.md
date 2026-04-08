@@ -15,6 +15,59 @@ For the operating workflow that turns raw study/project conversation into curate
 - Keep the structure stable enough that future study can build on it.
 - Write so that returning months later is fast.
 
+## Structural Rules
+
+This repository should read more like a curriculum than a pile of notes.
+
+That means three rules should stay stable across the repo:
+
+### 1. Documents should use a consistent internal structure
+
+Most serious documents should share a common skeleton so that reading feels predictable.
+
+The default target sections are:
+
+1. `What`
+2. `Why It Matters`
+3. `Core Idea` or `Core Mechanism`
+4. `How It Works`, `Mechanism`, or another topic-specific middle section
+5. `Common Mistakes`
+6. `Why This Matters for ML Systems`
+7. `Short Takeaway`
+
+Not every file needs every section literally, but documents should not drift into arbitrary one-off heading structures without a reason.
+
+### 2. Folder READMEs should act as canonical walkthroughs
+
+Each folder should read in a natural order rather than as an unordered bucket.
+
+The folder `README.md` should not be a shallow file index.
+It should function as the top-level narrative for that folder, similar in spirit to `transformers/README.md`.
+
+In practice this means:
+
+- the folder `README.md` should explain the whole conceptual or causal arc of the folder,
+- it should cover the contents of the child documents in compressed form without leaving major gaps,
+- it should point to deeper subdocuments where appropriate,
+- the order should move from foundational material to more advanced material,
+- and document titles may include visible sequence numbers when that improves readability.
+
+The point is to make each folder feel like a guided study track with one clear entry document and many deep dives.
+
+### 3. Titles and filenames should stay short
+
+Document titles should be concise and scan-friendly.
+Filenames should be even shorter.
+
+Use the document body to carry nuance.
+Do not pack the entire outline into the title or filename.
+
+The repository should optimize for:
+
+- easy sidebar scanning,
+- easy grep/search,
+- and clear progression.
+
 ## Repository Map
 
 - `roadmap/`: cross-topic study strategy, capability planning, and learning method.
