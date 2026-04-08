@@ -1,4 +1,4 @@
-# Triton Embedding Lookup Kernel Walkthrough
+# 03. Embedding Lookup
 
 ## What
 
@@ -450,7 +450,7 @@ After this, the chosen token position has become its dense hidden vector.
 - Forgetting that output-row selection and embedding-row selection use different indices.
 - Thinking embedding lookup is mostly arithmetic. In practice it is often dominated by memory access.
 
-## ML Systems Connection
+## Why This Matters for ML Systems
 
 This kernel is the first transformer-side step that turns symbolic model input into dense numeric state.
 
@@ -472,3 +472,7 @@ Embedding lookup is therefore a small but accurate first example of the larger T
 ```text
 program instance -> offsets -> pointers -> loads -> local work -> stores
 ```
+
+## Short Takeaway
+
+This embedding lookup kernel is the first concrete example of the Triton execution model in action: one program instance owns one token position, builds hidden-dimension offsets, turns token IDs and strides into addresses, applies a boundary mask, and moves one embedding row into the output without needing complex math.

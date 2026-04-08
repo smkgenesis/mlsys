@@ -1,4 +1,4 @@
-# Triton Syntax Primer: Program IDs, Offsets, Loads, Stores, Masks, and Tiles
+# 01. Triton Syntax Primer
 
 ## What
 
@@ -451,7 +451,7 @@ This is a good first Triton example because it is mostly about addresses, loads,
 - Confusing conceptual dimensions with memory strides. A row stride often equals embedding size in standard row-major layout, but stride is a memory-layout property, not the definition of the embedding itself.
 - Thinking `tl.dot(a, b)` is elementwise multiplication rather than multiply-and-sum across a reduction dimension.
 
-## ML Systems Connection
+## Why This Matters for ML Systems
 
 These syntax patterns are the bridge between high-level transformer operations and hardware-conscious kernel reasoning.
 
@@ -472,3 +472,7 @@ In other words, many transformer kernels can be understood as variations on the 
 - and store results.
 
 That is why a clear first-pass understanding of these few syntax forms goes much further than memorizing isolated code snippets.
+
+## Short Takeaway
+
+Triton kernels are built from a small core vocabulary: program IDs choose which chunk of work an instance owns, `tl.arange` creates local offsets, pointer arithmetic turns those offsets into addresses, loads and stores move tile data, masks protect boundary cases, and a small set of math and reduction primitives expresses the local computation.

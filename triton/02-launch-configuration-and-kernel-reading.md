@@ -1,4 +1,4 @@
-# Triton Launch Configuration and Kernel Reading
+# 02. Launch Configuration and Kernel Reading
 
 ## What
 
@@ -413,7 +413,7 @@ writes the hidden-state output for that token position.
 - Treating `tl.constexpr` as just “constant” rather than compile-time specialization.
 - Trying to understand the arithmetic before understanding the pointers and masks.
 
-## ML Systems Connection
+## Why This Matters for ML Systems
 
 These ideas are not just Triton syntax trivia.
 
