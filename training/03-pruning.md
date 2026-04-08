@@ -1,4 +1,4 @@
-# Pruning
+# 03. Pruning
 
 ## What
 
@@ -344,3 +344,7 @@ Understanding pruning well helps answer:
 - when structured reduction is better than sparse reduction,
 - how model compression interacts with accelerator behavior,
 - and why model optimization must always be evaluated as part of the full system rather than as an isolated algorithmic trick.
+
+## Short Takeaway
+
+Pruning removes weights or larger structures from an existing model to reduce storage and computation, but its real value depends on what kind of pruning is used and whether the target hardware can actually exploit the resulting structure. The central pruning question is not “how many parameters disappeared?” but “did the deployment bottleneck improve?”

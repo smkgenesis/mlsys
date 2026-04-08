@@ -50,7 +50,10 @@ In practice this means:
 - it should cover the contents of the child documents in compressed form without leaving major gaps,
 - it should point to deeper subdocuments where appropriate,
 - the order should move from foundational material to more advanced material,
-- and document titles may include visible sequence numbers when that improves readability.
+- and document titles and folder-local filenames should use visible sequence numbers when that improves readability and progression clarity.
+
+This is not a special rule for one folder.
+It is the intended standard for the repository as a whole.
 
 The point is to make each folder feel like a guided study track with one clear entry document and many deep dives.
 

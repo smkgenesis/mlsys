@@ -199,7 +199,9 @@ Good:
 - `prefill-vs-decode.md`
 - `roofline-model.md`
 - `cuda-program-structure.md`
-- `efficient-ai-and-scaling-laws.md`
+- `01-efficient-ai.md`
+- `03-pruning.md`
+- `05-structured-approximations.md`
 
 Bad:
 - `MyNotes.md`
@@ -218,7 +220,7 @@ When a folder contains multiple documents on one study track, it should have:
 
 - a readable progression from foundational to advanced material,
 - a `README.md` that serves as the folder's canonical top-level walkthrough,
-- and titles that may include visible sequence numbers when that makes the progression easier to follow.
+- and titles and folder-local filenames that may include visible sequence numbers when that makes the progression easier to follow.
 
 Prefer keeping filenames short and stable even when visible numbering is added to document titles or folder README ordering.
 
@@ -258,6 +260,8 @@ A weak folder README usually looks like:
 - or a disconnected set of links without a unifying narrative.
 
 A strong folder README should be readable on its own while still motivating the deeper documents beneath it.
+
+This standard should eventually be reflected across all major folders in the repository, not just one exemplar directory.
 
 ## Writing Standard
 

@@ -1,4 +1,4 @@
-# Efficient AI: Scaling Laws, Efficiency Frameworks, and Algorithmic Efficiency
+# 01. Efficient AI
 
 ## What
 
@@ -1094,19 +1094,6 @@ Actual performance also depends on:
 
 A theoretically lighter model can still run worse if it maps poorly to the target system.
 
-## Summary
-
-Efficient AI is best understood as a systems design discipline rather than a narrow optimization topic.
-
-Its durable lessons are:
-
-1. scaling laws are useful but bounded,
-2. efficiency has three coupled dimensions: algorithmic, compute, and data,
-3. deployment context determines which trade-offs matter most,
-4. end-to-end co-design is stronger than isolated optimization,
-5. sustainability, equity, and optimization limits are part of serious system design,
-6. and practical engineering requires measuring real system behavior rather than trusting abstract complexity metrics alone.
-
 ## Tradeoffs
 
 - Scaling can improve performance predictably, but costs rise faster than benefits.
@@ -1132,7 +1119,7 @@ Its durable lessons are:
 - Assuming energy efficiency improvements necessarily reduce total environmental burden regardless of deployment growth.
 - Confusing improvement in one local metric with improvement of the whole deployed system.
 
-## ML Systems Connection
+## Why This Matters for ML Systems
 
 These ideas are central to modern ML systems engineering.
 
@@ -1167,3 +1154,16 @@ For broader engineering judgment, they explain:
 - why “efficient” is always context-dependent,
 - why system design includes social and environmental consequences,
 - and why good optimization work includes knowing when further optimization is no longer worth the cost.
+
+## Short Takeaway
+
+Efficient AI is best understood as a systems design discipline rather than a narrow optimization topic.
+
+Its durable lessons are:
+
+1. scaling laws are useful but bounded,
+2. efficiency has three coupled dimensions: algorithmic, compute, and data,
+3. deployment context determines which trade-offs matter most,
+4. end-to-end co-design is stronger than isolated optimization,
+5. sustainability, equity, and optimization limits are part of serious system design,
+6. and practical engineering requires measuring real system behavior rather than trusting abstract complexity metrics alone.

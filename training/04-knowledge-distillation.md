@@ -1,4 +1,4 @@
-# Knowledge Distillation
+# 04. Knowledge Distillation
 
 ## What
 
@@ -347,7 +347,7 @@ This is why distillation sits naturally beside pruning in the model-representati
 - Comparing pruning and distillation as if they solve the same optimization problem in the same way.
 - Forgetting that dense distilled students are often easier to deploy than sparse pruned models.
 
-## Why This Matters Beyond This Chapter
+## Why This Matters for ML Systems
 
 Knowledge distillation is one of the best examples of a systems-aware optimization method:
 

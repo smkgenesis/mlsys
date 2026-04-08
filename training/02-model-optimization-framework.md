@@ -1,4 +1,4 @@
-# Model Optimization Framework
+# 02. Model Optimization Framework
 
 ## What
 
@@ -324,5 +324,9 @@ It helps answer:
 - which optimization family should be tried first,
 - how deployment context changes the right decision,
 - and why model optimization must be measured at the system level rather than judged only by parameter count or benchmark accuracy.
+
+## Short Takeaway
+
+Model optimization is best understood as a three-layer systems framework: model representation changes what must be computed, numerical representation changes how values are stored and computed, and hardware implementation changes how the resulting workload maps onto real processors. The right optimization path depends on the actual deployment bottleneck, not on abstract compression goals alone.
 
 For ML systems work, this is the bridge between high-level efficiency goals and the concrete optimization tools that follow, such as quantization, pruning, distillation, sparsity, factorization, and fusion.

@@ -1,4 +1,4 @@
-# Neural Architecture Search
+# 06. Neural Architecture Search
 
 ## What
 
@@ -437,6 +437,43 @@ to:
 - quantization and lower-precision execution
 
 That transition is one of the most useful takeaways from the whole Chapter 10 flow.
+
+## Common Mistakes
+
+- Treating NAS as “search everything” instead of designing a tractable and meaningful search space.
+- Optimizing only for accuracy while ignoring latency, memory, and hardware constraints.
+- Assuming FLOPs are a sufficient proxy for deployment efficiency.
+- Running custom NAS when existing NAS-discovered architectures already satisfy the deployment need.
+- Ignoring the fact that evaluation cost usually dominates the practicality of NAS.
+
+## Why This Matters for ML Systems
+
+NAS matters for ML systems because it makes deployment constraints part of architecture design itself.
+
+Instead of:
+
+- designing for accuracy first,
+- then trying to repair efficiency later,
+
+NAS can search directly for architectures that are:
+
+- latency-aware,
+- memory-aware,
+- energy-aware,
+- and hardware-aware from the start.
+
+This is especially important when:
+
+- hardware is unusual,
+- deployment scale is massive,
+- or small efficiency gains produce large operational savings.
+
+It also reinforces a broader systems lesson:
+
+```text
+the best architecture is not the one that looks elegant on paper,
+but the one that best satisfies the real deployment objective
+```
 
 ## Short Takeaway
 

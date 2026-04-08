@@ -1,4 +1,4 @@
-# Structured Approximations
+# 05. Structured Approximations
 
 ## What
 
@@ -436,6 +436,37 @@ make the model representation cheaper
 ```
 
 but the mechanism is different.
+
+## Common Mistakes
+
+- Treating factorization as a guaranteed latency win instead of checking whether the factored operators are actually efficient on the target runtime.
+- Choosing ranks only by compression ratio without checking task quality.
+- Flattening higher-order tensors too casually and losing structure that tensor decomposition could exploit.
+- Treating low-rank factorization and tensor decomposition as purely mathematical rewrites rather than deployment trade-offs.
+- Assuming fewer stored parameters automatically implies lower end-to-end cost.
+
+## Why This Matters for ML Systems
+
+Structured approximations matter for ML systems because they directly target:
+
+- parameter storage,
+- memory movement,
+- operator structure,
+- and hardware mapping.
+
+They are especially relevant when the deployment problem is constrained less by raw model quality and more by:
+
+- memory bandwidth,
+- parameter footprint,
+- accelerator friendliness,
+- and the cost of dense linear operations.
+
+These methods also reinforce a central systems lesson:
+
+```text
+compressed representation is useful only if the new operator structure
+is actually efficient on the target hardware and software stack
+```
 
 ## Short Takeaway
 
