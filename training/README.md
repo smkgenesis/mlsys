@@ -19,5 +19,6 @@ Current notes:
 - [Efficient AI: Scaling Laws, Efficiency Frameworks, and Algorithmic Efficiency](efficient-ai-and-scaling-laws.md)
 - [Knowledge Distillation](knowledge-distillation.md)
 - [Model Optimization Framework](model-optimization-framework.md)
+- [Neural Architecture Search](neural-architecture-search.md)
 - [Pruning](pruning.md)
 - [Structured Approximations](structured-approximations.md)
