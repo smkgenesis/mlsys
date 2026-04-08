@@ -46,16 +46,23 @@ It should function as the top-level narrative for that folder, similar in spirit
 
 In practice this means:
 
-- the folder `README.md` should explain the whole conceptual or causal arc of the folder,
+- the folder `README.md` should itself be a real top-level document, not just a guide to other files,
+- it should explain the whole conceptual or causal arc of the folder as one continuous narrative,
 - it should cover the contents of the child documents in compressed form without leaving major gaps,
 - it should point to deeper subdocuments where appropriate,
 - the order should move from foundational material to more advanced material,
 - and document titles and folder-local filenames should use visible sequence numbers when that improves readability and progression clarity.
 
+That numbering should also remain extensible:
+
+- new documents may be inserted later,
+- so sequences should be designed to grow,
+- and numbering should support future expansion rather than assuming the folder is already complete.
+
 This is not a special rule for one folder.
 It is the intended standard for the repository as a whole.
 
-The point is to make each folder feel like a guided study track with one clear entry document and many deep dives.
+The point is to make each folder feel like a guided study track with one clear parent document and many deep dives beneath it.
 
 ### 3. Titles and filenames should stay short
 

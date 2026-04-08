@@ -26,294 +26,493 @@ Current notes:
 ---
 
 Training Efficiency and Model Optimization:
-Efficiency Framing -> Optimization Dimensions -> Structural Methods -> Architecture Search
+Efficiency Pressure -> Optimization Stack -> Structural Methods -> Architecture Search -> Precision Bridge
 
-This folder describes the training-side view of efficiency in ML systems.
+This document describes the training-side efficiency story in ML systems with deliberately system-level framing.
 
-The goal is not only to say that models should be "smaller" or "faster."
-The goal is to explain:
-- what efficiency means at the system level,
+The goal is not merely to say that models should be:
+- smaller,
+- cheaper,
+- or faster.
+
+The goal is to make the major optimization choices explicit:
+- why efficiency becomes a systems problem in the first place,
+- what kinds of constraints force model optimization,
 - which optimization dimensions exist,
-- how structural optimization methods differ,
-- what each method changes in the model or training process,
-- and how those choices connect to deployment constraints such as memory, latency, hardware support, and operating cost.
+- how the major structural methods differ,
+- where their costs really appear,
+- and why structural improvement alone is often not enough to meet deployment targets.
 
-The documents in this folder are meant to be read as one connected arc:
-- first define efficiency as a systems problem,
-- then define the optimization framework,
-- then examine the major structural optimization families one by one.
-
-This folder is therefore not just a bag of compression techniques.
-It is a compact course on how to reason about model efficiency from a training-and-deployment perspective.
+The documents in this folder are deep dives.
+This README is the parent document that ties them together into one continuous narrative.
 
 ---
 
 ## 0. Scope and Preconditions
 
-This folder assumes that the reader already has a basic understanding of:
+This folder assumes a basic understanding of:
 
 - neural network structure,
 - training and validation loss,
-- standard dense linear layers and convolutions,
+- dense linear layers and convolutions,
 - deployment metrics such as latency, throughput, memory footprint, and FLOPs,
 - and the difference between training-time and inference-time concerns.
 
-The main emphasis here is not on deriving every optimization algorithm from scratch.
+The emphasis here is not on preserving textbook chapter boundaries.
 The emphasis is on:
 
-- systems framing,
-- mechanism-level understanding,
-- tradeoff analysis,
-- and deployment relevance.
+- mechanism,
+- deployment relevance,
+- trade-offs,
+- and system bottlenecks.
 
-Throughout the folder, model optimization is treated as a systems problem rather than a purely mathematical or research-paper problem.
+Throughout this folder, model optimization is treated as a systems problem rather than a purely mathematical transformation.
 
-That means the repeated questions are:
+That means the recurring questions are:
 
-- what resource is being reduced?
-- what new cost is being introduced?
-- what assumptions does the method make about hardware or runtime?
-- and when does the theoretical win actually show up in practice?
+- what resource is limiting the system?
+- what exactly does this method reduce?
+- what new cost does it introduce?
+- and when does the paper-level gain become a real deployment gain?
 
 ---
 
-## 1. Global Conceptual Map
+## 1. Why Training-Side Efficiency Becomes a Systems Problem
 
-Before diving into the individual methods, it helps to state the overall flow in one line:
+Deep dive: [01. Efficient AI](01-efficient-ai.md)
+
+The first fact this folder tries to establish is that efficiency is not a niche optimization topic.
+It is a first-class ML systems concern.
+
+Modern ML systems are constrained not only by model quality, but by:
+
+- training cost,
+- inference memory footprint,
+- energy use,
+- hardware utilization,
+- deployment latency,
+- and operating cost at scale.
+
+This is why the folder begins with efficient AI rather than immediately jumping into compression methods.
+
+Efficiency has to be understood as a coupled problem across:
+
+- algorithmic efficiency,
+- compute efficiency,
+- and data efficiency.
+
+That broader framing matters because many optimization conversations are too narrow.
+
+Examples:
+
+- a model can be smaller but still map poorly to hardware,
+- a theoretically cheaper method can still lose end-to-end if communication dominates,
+- and a stronger model can still be impractical if it breaks memory or latency budgets.
+
+The opening note in this folder therefore gives the big picture:
+- scaling laws,
+- compute-optimal allocation,
+- context-specific efficiency priorities,
+- sustainability and cost,
+- and why “more capable” and “more deployable” are not the same.
+
+Without that framing, later optimization methods are easy to misunderstand as isolated tricks.
+
+---
+
+## 2. The Optimization Stack
+
+Deep dive: [02. Model Optimization Framework](02-model-optimization-framework.md)
+
+Once efficiency is recognized as a systems problem, the next question is:
 
 ```text
-efficiency pressure
--> identify which resource is limiting deployment or training
--> choose the optimization dimension that matches that bottleneck
--> apply a structural or numerical method
--> recover quality if needed
--> measure whether the full system actually improved
+which optimization dimension actually matches the bottleneck?
 ```
 
-Within this folder, the main structural story is:
+This is the job of the model optimization framework.
+
+The central idea is that optimization happens through three connected layers:
+
+1. model representation
+2. numerical representation
+3. hardware implementation
+
+These layers answer different questions.
+
+### 2.1 Model representation
+
+This changes what the model is.
+
+Typical examples:
+- pruning,
+- distillation,
+- structured approximations,
+- architecture search.
+
+The question here is:
 
 ```text
-efficiency as a multi-dimensional systems problem
--> model optimization framework
+can we change the structure or parameterization so there is less work to do?
+```
+
+### 2.2 Numerical representation
+
+This changes how values are stored and computed.
+
+Typical examples:
+- quantization,
+- reduced precision,
+- mixed precision.
+
+The question here is:
+
+```text
+can we represent the remaining work more cheaply?
+```
+
+### 2.3 Hardware implementation
+
+This changes how the resulting workload maps onto real processors.
+
+Typical examples:
+- fusion,
+- sparsity-aware execution,
+- hardware-aware scheduling,
+- operator implementation choices.
+
+The question here is:
+
+```text
+does the supposedly improved model actually run efficiently on target hardware?
+```
+
+This framework matters because it prevents a common failure mode:
+
+- applying an optimization technique before identifying which resource is actually limiting performance.
+
+It also gives the structure for the rest of this folder.
+
+Most of the current notes live in the **model representation** branch.
+
+---
+
+## 3. Structural Optimization as the Main Branch in This Folder
+
+The current center of gravity in this folder is structural optimization.
+
+That means the current notes mostly ask:
+
+```text
+how can we make the model representation itself cheaper?
+```
+
+There are several fundamentally different ways to answer that.
+
+The most important distinction is that these methods do not all solve the same problem in the same way.
+
+Some methods:
+- remove parts of an existing model,
+others:
+- train a new smaller model,
+others:
+- rewrite the parameterization,
+and others:
+- search for a better architecture upstream.
+
+That is why the current sequence goes:
+
+```text
+framework
 -> pruning
 -> distillation
 -> structured approximations
 -> neural architecture search
 ```
 
-These methods are related, but they do not solve the same problem in the same way.
-
-The point of this folder is to make those differences explicit.
+This is not a random list.
+It is a progression through distinct structural optimization strategies.
 
 ---
 
-## 2. Read in This Order
-
-### 2.1 Efficiency framing first
-
-Deep dive: [01. Efficient AI](01-efficient-ai.md)
-
-Start here because this document explains why efficiency is a first-class ML systems concern rather than a secondary optimization topic.
-
-It covers:
-- algorithmic, compute, and data efficiency,
-- scaling-law intuition,
-- compute-optimal resource allocation,
-- and why efficiency has to be understood as a coupled resource-allocation problem.
-
-This note gives the broad system lens that makes the later optimization methods easier to place.
-
-### 2.2 The optimization stack
-
-Deep dive: [02. Model Optimization Framework](02-model-optimization-framework.md)
-
-This is the main organizing document for the rest of the folder.
-
-It defines the three optimization layers:
-- model representation,
-- numerical representation,
-- hardware implementation.
-
-It also explains how to map deployment constraints such as memory, latency, throughput, and energy to the optimization dimension that is most likely to help.
-
-This note should be treated as the folder’s conceptual hub.
-
-### 2.3 Pruning
+## 4. Pruning: Make the Existing Model Smaller by Removal
 
 Deep dive: [03. Pruning](03-pruning.md)
 
-Pruning is the first major structural optimization method because it starts from an existing trained model and removes weights or larger structures judged to be less important.
+Pruning is the first major structural method because it is the most direct.
 
-It covers:
-- unstructured, structured, and dynamic pruning,
-- pruning criteria,
-- iterative vs one-shot workflows,
-- and the crucial difference between parameter sparsity and real hardware speedup.
+It starts with an existing model and asks:
 
-This note establishes the "remove parts of the model" branch of structural optimization.
+```text
+which parameters or larger structures contribute the least,
+and can be removed with limited damage?
+```
 
-### 2.4 Knowledge distillation
+The key forms are:
+
+- unstructured pruning,
+- structured pruning,
+- dynamic pruning.
+
+The important systems distinction is:
+
+- unstructured pruning can produce high sparsity,
+- but structured pruning is much easier for ordinary hardware to exploit.
+
+So pruning immediately teaches one of the major lessons of this folder:
+
+```text
+paper compression is not the same thing as deployment speedup
+```
+
+This is why the pruning note is not really about deleting weights in the abstract.
+It is about:
+
+- redundancy,
+- sparsity,
+- bandwidth,
+- hardware support,
+- and end-to-end bottlenecks.
+
+Pruning belongs early in the sequence because it is the cleanest “remove what seems unnecessary” strategy.
+
+---
+
+## 5. Distillation: Make a Smaller Model Learn Better
 
 Deep dive: [04. Knowledge Distillation](04-knowledge-distillation.md)
 
-Distillation is the second major structural method, but it solves the efficiency problem differently.
+Distillation answers the same high-level efficiency question differently.
 
-Instead of deleting parts of a trained model, it trains a smaller student model using supervision from a larger teacher.
+Instead of:
+- removing pieces of an existing model,
 
-It covers:
-- teacher-student intuition,
-- soft targets and temperature,
-- distillation loss,
-- regularization and generalization effects,
-- and why dense distilled students are often easier to deploy than sparse pruned models.
+it says:
+- keep a strong teacher,
+- train a smaller student,
+- and transfer behavior through soft targets.
 
-This note is best read after pruning because it provides the main alternative compression path.
+The core value of distillation is that it often produces:
 
-### 2.5 Structured approximations
+- small dense models,
+- with better performance than small models trained from scratch,
+- and cleaner deployment characteristics than sparse pruned models.
+
+This makes it one of the most practically important methods in the folder.
+
+Distillation also sharpens another recurring contrast:
+
+- pruning compresses by removal,
+- distillation compresses by supervised transfer.
+
+That difference matters because the deployment artifact is different:
+
+- pruning often leaves the original architecture family intact, possibly with sparsity or reduced structure,
+- distillation often yields a smaller dense student that maps neatly onto standard kernels.
+
+So distillation belongs after pruning because it is the main alternative compression path.
+
+---
+
+## 6. Structured Approximations: Make the Parameterization Cheaper
 
 Deep dive: [05. Structured Approximations](05-structured-approximations.md)
 
-This note covers the "rewrite the parameterization" branch.
+Structured approximations introduce a third branch.
 
-Instead of removing parameters or training a student, it compresses models by factorizing large parameter objects into lower-rank forms.
+This time the question is not:
 
-It covers:
+- what can be removed?
+
+and not:
+
+- what can be taught to a smaller student?
+
+Instead it is:
+
+```text
+can a large parameter object be rewritten into a lower-rank form
+that preserves most of its useful structure?
+```
+
+This is the role of:
+
 - low-rank matrix factorization,
-- tensor decomposition,
-- rank selection,
-- storage/computation trade-offs,
-- and the systems question of whether the factorized operators are actually efficient on target hardware.
+- tensor decomposition.
 
-This note is best read after pruning and distillation because it completes the core trio of structural compression mechanisms:
+These methods matter because they target:
+
+- parameter storage,
+- memory movement,
+- and the structure of linear operators themselves.
+
+They also teach another important systems lesson:
+
+```text
+fewer stored parameters does not guarantee lower latency
+unless the new factorized operators are actually efficient on the target stack
+```
+
+So structured approximations are not just linear algebra.
+They are deployment trade-offs about:
+
+- rank choice,
+- operator shape,
+- hardware mapping,
+- and the cost of extra factorized computation.
+
+This branch belongs after pruning and distillation because it completes the core structural trio:
+
 - remove,
 - imitate,
 - or reparameterize.
 
-### 2.6 Neural architecture search
+---
+
+## 7. Neural Architecture Search: Move Upstream and Search the Design
 
 Deep dive: [06. Neural Architecture Search](06-neural-architecture-search.md)
 
-NAS moves one level upstream.
+NAS is the most upstream method in the current sequence.
 
-Rather than compressing an architecture that already exists, it searches for a better architecture under accuracy and deployment constraints.
-
-It covers:
-- search space design,
-- search strategies,
-- evaluation metrics,
-- hardware-aware NAS,
-- and when the search cost is actually worth paying.
-
-This note belongs last in the current sequence because it reframes the whole structural optimization question:
+Instead of taking an architecture as given, it asks:
 
 ```text
-instead of asking how to fix an existing model,
-ask what architecture should have been built under the constraint in the first place
+what architecture should we have built under the deployment constraint
+in the first place?
 ```
 
----
+This changes the problem significantly.
 
-## 3. Coverage
+Pruning, distillation, and factorization mostly begin from an architecture that already exists.
+NAS instead turns architecture choice itself into an optimization problem involving:
 
-This folder currently covers five tightly connected topics.
+- search space,
+- search strategy,
+- evaluation criteria,
+- and often hardware-aware constraints.
 
-### 3.1 Efficiency as a systems problem
+This is why NAS belongs last in the current structural sequence.
+It is not “one more compression trick.”
+It is a reframing of the design problem itself.
 
-Covered in:
-- [01. Efficient AI](01-efficient-ai.md)
+NAS is especially important for ML systems because it makes deployment goals first-class:
 
-Key ideas:
-- efficiency has algorithmic, compute, and data dimensions
-- scaling laws explain why more scale helps, but also why resource allocation matters
-- efficiency decisions must be made under real budgets, not abstract model-quality goals
+- latency,
+- memory,
+- energy,
+- hardware fit.
 
-### 3.2 Optimization dimensions
+The key lesson is that the best architecture is not necessarily:
+- the one with highest accuracy,
 
-Covered in:
-- [02. Model Optimization Framework](02-model-optimization-framework.md)
-
-Key ideas:
-- model representation optimization changes what the model is
-- numerical representation optimization changes how values are stored and computed
-- hardware implementation optimization changes how the resulting workload is executed
-
-### 3.3 Structural compression by removal
-
-Covered in:
-- [03. Pruning](03-pruning.md)
-
-Key ideas:
-- remove weights or larger structures
-- trade off sparsity against hardware usability
-- distinguish storage reduction from actual latency reduction
-
-### 3.4 Structural compression by transfer
-
-Covered in:
-- [04. Knowledge Distillation](04-knowledge-distillation.md)
-
-Key ideas:
-- teacher outputs contain richer supervision than hard labels alone
-- smaller dense students can inherit useful behavior from larger models
-- distillation often produces cleaner deployment artifacts than sparse pruning
-
-### 3.5 Structural compression by factorization
-
-Covered in:
-- [05. Structured Approximations](05-structured-approximations.md)
-
-Key ideas:
-- large matrices and tensors may admit lower-rank approximations
-- factorization reduces storage and memory movement
-- but can introduce new operator overhead and rank-selection problems
-
-### 3.6 Architecture optimization by search
-
-Covered in:
-- [06. Neural Architecture Search](06-neural-architecture-search.md)
-
-Key ideas:
-- architecture design can itself be optimized automatically
-- good NAS depends on search-space design, search strategy, and evaluation criteria
-- hardware-aware NAS matters because FLOPs alone do not determine deployment efficiency
+but:
+- the one that best satisfies the actual deployment objective.
 
 ---
 
-## 4. Main Conceptual Distinctions
+## 8. The Main Distinctions This Folder Tries to Keep Sharp
 
-Several distinctions in this folder are easy to blur together.
+Several distinctions are easy to blur together if the notes are read too casually.
 
-They should stay sharp.
+They should stay explicit.
 
-### 4.1 Pruning vs distillation
+### 8.1 Pruning vs distillation
 
 - pruning removes parts of an existing model
-- distillation trains a new smaller model using a teacher
+- distillation trains a new smaller model with teacher guidance
 
-### 4.2 Distillation vs structured approximations
+### 8.2 Distillation vs structured approximations
 
-- distillation changes the training target and student architecture
-- structured approximations rewrite the parameterization of large matrices or tensors
+- distillation changes the training target and student
+- structured approximations rewrite parameter objects into lower-rank forms
 
-### 4.3 Structured approximations vs NAS
+### 8.3 Structured approximations vs NAS
 
 - structured approximations compress an existing architecture
-- NAS searches for better architectures before or alongside later compression
+- NAS searches for better architectures upstream
 
-### 4.4 Structural optimization vs numerical optimization
+### 8.4 Structural optimization vs numerical optimization
 
-- structural optimization changes model structure or parameterization
-- numerical optimization changes representation precision and arithmetic form
+- structural optimization changes what the model contains or how it is parameterized
+- numerical optimization changes how the remaining values are represented and executed
 
-That last distinction is especially important, because the end of the Chapter 10 flow makes clear that structural optimization alone is often not enough.
+That last distinction is especially important, because structural improvement alone often does not solve the whole deployment problem.
 
 ---
 
-## 5. Why This Folder Matters for ML Systems
+## 9. Why Structural Optimization Alone Is Often Not Enough
+
+One of the most important lessons in the overall Chapter 10 flow is that structural optimization is only one dimension of the full efficiency stack.
+
+A model can become:
+
+- smaller,
+- less redundant,
+- or architecturally better matched to a task,
+
+and still miss deployment targets because:
+
+- weights are still high precision,
+- memory bandwidth is still dominant,
+- hardware support is still poor,
+- or software overhead still dominates.
+
+This is why the structural methods in this folder should be read as:
+
+- necessary,
+- often powerful,
+- but not sufficient by themselves.
+
+In other words:
+
+```text
+structure changes what work remains
+but precision and implementation decide how expensive that work still is
+```
+
+This is the bridge from the current folder contents to later optimization topics such as quantization and hardware-aware execution.
+
+---
+
+## 10. File Sequence and Future Expansion
+
+The current numbered files are:
+
+- [01. Efficient AI](01-efficient-ai.md)
+- [02. Model Optimization Framework](02-model-optimization-framework.md)
+- [03. Pruning](03-pruning.md)
+- [04. Knowledge Distillation](04-knowledge-distillation.md)
+- [05. Structured Approximations](05-structured-approximations.md)
+- [06. Neural Architecture Search](06-neural-architecture-search.md)
+
+The numbering is meant to be readable and expandable.
+
+This folder is not considered closed.
+New documents may be added later between or beneath these topics.
+
+That means the numbering scheme should be interpreted as a growing study structure, not as a frozen final table of contents.
+
+Future additions may include:
+
+- new top-level notes,
+- inserted intermediate notes,
+- or subtopic deep dives under existing branches.
+
+The structure should therefore preserve:
+
+- conceptual order,
+- local readability,
+- and room for expansion.
+
+---
+
+## 11. Why This Folder Matters for ML Systems
 
 This folder matters because model quality alone does not determine whether a model is usable.
 
 Real systems care about:
+
 - memory footprint,
 - parameter movement,
 - latency,
@@ -323,36 +522,40 @@ Real systems care about:
 - and cost at deployment scale.
 
 The methods in this folder matter for ML systems because they alter:
+
 - how much computation remains,
 - how much memory must be moved,
 - how dense or sparse the resulting operators are,
 - how cleanly the model maps onto target hardware,
-- and whether an architecture is well matched to the deployment target at all.
+- and whether the architecture is well matched to the actual deployment target.
 
-The folder also establishes a broader systems habit:
+More broadly, this folder is trying to build one durable systems habit:
 
 ```text
 an optimization method is useful only when it improves the real bottleneck
 under the actual deployment constraints
 ```
 
-That is the lens through which the rest of the optimization stack should be read.
+That is the lens through which all the structural methods here should be read.
 
 ---
 
-## 6. After This Folder You Should Understand
+## 12. After This Folder You Should Understand
 
 After finishing this folder, you should be able to explain:
 
-- why efficiency is a multi-dimensional systems problem rather than just "make the model smaller"
+- why efficiency is a multi-dimensional systems problem rather than just “make the model smaller”
 - how model representation, numerical precision, and hardware implementation form a connected optimization stack
 - how pruning, distillation, structured approximations, and NAS differ in mechanism and deployment implications
 - why parameter reduction does not automatically imply latency reduction
 - why dense models and hardware-friendly operators often matter more than paper compression ratios
-- and when architecture search is justified versus when existing efficient architectures are the better choice
+- and why architecture search should be judged by deployment objectives rather than novelty alone
 
 You should also be able to look at a deployment problem and ask:
 
-- is the bottleneck mainly structure, precision, hardware mapping, or something outside the model entirely?
+- is the bottleneck mainly structure?
+- precision?
+- hardware mapping?
+- or something outside the model entirely?
 
 That is the core systems habit this folder is supposed to build.
