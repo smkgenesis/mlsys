@@ -1,4 +1,4 @@
-# CUDA Performance Considerations: Memory Coalescing, Latency Hiding, and Thread Coarsening
+# 05. Memory Coalescing and Latency Hiding
 
 This note integrates the main performance ideas from Chapter 6 into one causal story:
 

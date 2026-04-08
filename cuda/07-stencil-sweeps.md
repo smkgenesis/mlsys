@@ -1,4 +1,4 @@
-# CUDA Stencil Sweeps: Thread Coarsening and Register Tiling
+# 07. Stencil Sweeps
 
 ## What
 

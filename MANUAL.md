@@ -198,7 +198,7 @@ Good:
 - `memory-coalescing.md`
 - `prefill-vs-decode.md`
 - `roofline-model.md`
-- `cuda-program-structure.md`
+- `01-cuda-program-structure.md`
 - `01-efficient-ai.md`
 - `03-pruning.md`
 - `05-structured-approximations.md`

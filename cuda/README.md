@@ -15,13 +15,13 @@ Does not belong here:
 - framework-agnostic kernel design principles; those belong in `kernels/`.
 
 Current notes:
-- [CUDA Program Structure: Data Parallelism, Kernels, Threading, Memory Transfer, and Compilation](cuda-program-structure.md)
-- [Multidimensional Grids and Data Mapping](multidimensional-grids-and-data-mapping.md)
-- [CUDA Compute Architecture and Scheduling](compute-architecture-and-scheduling.md)
-- [CUDA Memory Types, Tiling, Boundary Checks, and Occupancy](memory-types-tiling-and-occupancy.md)
-- [CUDA Performance Considerations: Memory Coalescing, Latency Hiding, and Thread Coarsening](memory-coalescing-and-latency-hiding.md)
-- [CUDA Convolution: Constant Memory and Halo Tiling](convolution-constant-memory-and-halo-tiling.md)
-- [CUDA Stencil Sweeps: Thread Coarsening and Register Tiling](stencil-sweeps.md)
+- [01. CUDA Program Structure](01-cuda-program-structure.md)
+- [02. Multidimensional Grids and Data Mapping](02-multidimensional-grids-and-data-mapping.md)
+- [03. Compute Architecture and Scheduling](03-compute-architecture-and-scheduling.md)
+- [04. Memory Types, Tiling, and Occupancy](04-memory-types-tiling-and-occupancy.md)
+- [05. Memory Coalescing and Latency Hiding](05-memory-coalescing-and-latency-hiding.md)
+- [06. Convolution](06-convolution.md)
+- [07. Stencil Sweeps](07-stencil-sweeps.md)
 
 ---
 
@@ -110,7 +110,7 @@ It is the conceptual progression by which CUDA starts to feel like a real execut
 
 ## 2. CUDA Begins with the Host/Device Split
 
-Deep dive: [cuda-program-structure.md](cuda-program-structure.md)
+Deep dive: [01. CUDA Program Structure](01-cuda-program-structure.md)
 
 The first thing CUDA forces you to understand is that the program is split into two sides:
 
@@ -148,7 +148,7 @@ Everything else in the folder builds on that.
 
 ## 3. Mapping Threads to Data Is the First Real Skill
 
-Deep dive: [multidimensional-grids-and-data-mapping.md](multidimensional-grids-and-data-mapping.md)
+Deep dive: [02. Multidimensional Grids and Data Mapping](02-multidimensional-grids-and-data-mapping.md)
 
 Once the host/device split is clear, the next question is:
 
@@ -184,7 +184,7 @@ If that mapping is wrong or awkward, the entire kernel becomes fragile or slow.
 
 ## 4. The Hardware Does Not Execute Blocks Abstractly
 
-Deep dive: [compute-architecture-and-scheduling.md](compute-architecture-and-scheduling.md)
+Deep dive: [03. Compute Architecture and Scheduling](03-compute-architecture-and-scheduling.md)
 
 After thread mapping, the next major step is to stop thinking of the CUDA grid as a pure abstraction.
 
@@ -230,7 +230,7 @@ against each other.
 
 ## 5. CUDA Performance Is Usually a Memory Story First
 
-Deep dive: [memory-types-tiling-and-occupancy.md](memory-types-tiling-and-occupancy.md)
+Deep dive: [04. Memory Types, Tiling, and Occupancy](04-memory-types-tiling-and-occupancy.md)
 
 At this point the folder moves from execution structure to memory structure.
 
@@ -263,7 +263,7 @@ That is the beginning of serious CUDA optimization reasoning.
 
 ## 6. Traffic Shape Matters as Much as Traffic Volume
 
-Deep dive: [memory-coalescing-and-latency-hiding.md](memory-coalescing-and-latency-hiding.md)
+Deep dive: [05. Memory Coalescing and Latency Hiding](05-memory-coalescing-and-latency-hiding.md)
 
 Once memory hierarchy is on the table, the next question becomes:
 
@@ -294,7 +294,7 @@ This note functions as the main “performance mindset” document in the folder
 
 ## 7. Convolution Is the First Full Pattern Case
 
-Deep dive: [convolution-constant-memory-and-halo-tiling.md](convolution-constant-memory-and-halo-tiling.md)
+Deep dive: [06. Convolution](06-convolution.md)
 
 Convolution is where the previous ideas become a complete pattern rather than isolated rules.
 
@@ -325,7 +325,7 @@ This note matters because it turns CUDA performance ideas into a concrete operat
 
 ## 8. Stencil Sweeps Show Where the Convolution Analogy Breaks
 
-Deep dive: [stencil-sweeps.md](stencil-sweeps.md)
+Deep dive: [07. Stencil Sweeps](07-stencil-sweeps.md)
 
 Stencil sweeps resemble convolution at first:
 
@@ -424,13 +424,13 @@ That is the real CUDA mindset.
 
 The current deep-dive notes are:
 
-- [CUDA Program Structure: Data Parallelism, Kernels, Threading, Memory Transfer, and Compilation](cuda-program-structure.md)
-- [Multidimensional Grids and Data Mapping](multidimensional-grids-and-data-mapping.md)
-- [CUDA Compute Architecture and Scheduling](compute-architecture-and-scheduling.md)
-- [CUDA Memory Types, Tiling, Boundary Checks, and Occupancy](memory-types-tiling-and-occupancy.md)
-- [CUDA Performance Considerations: Memory Coalescing, Latency Hiding, and Thread Coarsening](memory-coalescing-and-latency-hiding.md)
-- [CUDA Convolution: Constant Memory and Halo Tiling](convolution-constant-memory-and-halo-tiling.md)
-- [CUDA Stencil Sweeps: Thread Coarsening and Register Tiling](stencil-sweeps.md)
+- [01. CUDA Program Structure](01-cuda-program-structure.md)
+- [02. Multidimensional Grids and Data Mapping](02-multidimensional-grids-and-data-mapping.md)
+- [03. Compute Architecture and Scheduling](03-compute-architecture-and-scheduling.md)
+- [04. Memory Types, Tiling, and Occupancy](04-memory-types-tiling-and-occupancy.md)
+- [05. Memory Coalescing and Latency Hiding](05-memory-coalescing-and-latency-hiding.md)
+- [06. Convolution](06-convolution.md)
+- [07. Stencil Sweeps](07-stencil-sweeps.md)
 
 This folder is not considered complete.
 New documents may be added later between or beneath the current topics.

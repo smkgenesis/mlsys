@@ -1,4 +1,4 @@
-# Multidimensional Grids and Data Mapping
+# 02. Multidimensional Grids and Data Mapping
 
 ## What
 

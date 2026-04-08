@@ -1,4 +1,4 @@
-# CUDA Program Structure: Data Parallelism, Kernels, Threading, Memory Transfer, and Compilation
+# 01. CUDA Program Structure
 
 ## What
 

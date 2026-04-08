@@ -1,4 +1,4 @@
-# CUDA Convolution: Constant Memory and Halo Tiling
+# 06. Convolution
 
 ## What
 

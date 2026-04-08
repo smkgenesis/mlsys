@@ -1,4 +1,4 @@
-# CUDA Memory Types, Tiling, Boundary Checks, and Occupancy
+# 04. Memory Types, Tiling, and Occupancy
 
 This note organizes a standard introductory CUDA performance sequence into one causal story:
 

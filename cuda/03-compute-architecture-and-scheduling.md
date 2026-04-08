@@ -1,4 +1,4 @@
-# CUDA Compute Architecture and Scheduling
+# 03. Compute Architecture and Scheduling
 
 ## Why This Matters
 
