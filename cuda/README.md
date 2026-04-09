@@ -24,11 +24,12 @@ Current notes:
 - [05. Memory Coalescing and Latency Hiding](05-memory-coalescing-and-latency-hiding.md)
 - [06. Convolution](06-convolution.md)
 - [07. Stencil Sweeps](07-stencil-sweeps.md)
+- [08. Parallel Histograms](08-parallel-histograms.md)
 
 ---
 
 CUDA Execution and Optimization:
-Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels
+Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention
 
 This document describes the CUDA side of ML systems with deliberately mechanism-level emphasis.
 
@@ -43,7 +44,8 @@ The goal is to make the CUDA execution story explicit:
 - how blocks and warps are actually scheduled,
 - how different memory spaces behave,
 - why memory traffic usually dominates performance,
-- and how these ideas show up in concrete parallel patterns such as convolution and stencil sweeps.
+- how these ideas show up in concrete parallel patterns such as convolution and stencil sweeps,
+- and what changes when output ownership breaks and multiple threads contend on shared results.
 
 The documents in this folder are deep dives.
 This README is the parent document that ties them together into one continuous CUDA learning path.
@@ -104,6 +106,7 @@ heterogeneous framing
 -> coalescing and latency hiding
 -> convolution as a 2D pattern
 -> stencil sweeps as a 3D pattern
+-> parallel histograms as a shared-output contention pattern
 ```
 
 This is not just an ordered list.
@@ -383,40 +386,77 @@ This is one of the first places where CUDA optimization starts to look like genu
 
 ---
 
-## 10. The Main Distinctions This Folder Tries to Keep Sharp
+## 10. Histograms Show What Happens When Owner-Computes Fails
+
+Deep dive: [08. Parallel Histograms](08-parallel-histograms.md)
+
+The earlier pattern notes in this folder all fit the owner-computes rule reasonably well:
+
+- each thread owns a natural output element or tile,
+- and writes can be structured to avoid interference.
+
+Histograms are different.
+
+They introduce a new kind of pattern:
+
+- output location is data-dependent,
+- many threads may update the same output bin,
+- and correctness now depends on synchronization rather than just mapping.
+
+This is why histograms are a useful next step after convolution and stencil sweeps.
+They introduce:
+
+- read-modify-write race conditions,
+- atomic operations,
+- contention as a first-class performance bottleneck,
+- block-level privatization,
+- shared-memory local copies,
+- coarsening to reduce merge overhead,
+- and aggregation to reduce repeated updates.
+
+So this note is the first explicit shared-output pattern in the folder.
+
+---
+
+## 11. The Main Distinctions This Folder Tries to Keep Sharp
 
 Several distinctions matter across these notes.
 
-### 9.1 CUDA abstraction vs hardware execution
+### 11.1 CUDA abstraction vs hardware execution
 
 - the programmer launches grids and blocks
 - the hardware actually schedules blocks, warps, and memory transactions
 
-### 9.2 Shared memory vs cache
+### 11.2 Shared memory vs cache
 
 - shared memory is programmer-managed and explicit
 - cache is hardware-managed and implicit
 
-### 9.3 Occupancy vs performance
+### 11.3 Occupancy vs performance
 
 - occupancy helps hide latency
 - but maximizing occupancy is not the same as maximizing performance
 
-### 9.4 Arithmetic intensity vs real speed
+### 11.4 Arithmetic intensity vs real speed
 
 - more arithmetic per byte usually helps
 - but only if memory traffic, coalescing, and on-chip resource usage are also favorable
 
-### 9.5 Pattern analogy vs pattern identity
+### 11.5 Pattern analogy vs pattern identity
 
 - stencil sweeps resemble convolution
 - but their reuse structure and dimensionality lead to different optimization decisions
+
+### 11.6 Owner-computes vs shared-output contention
+
+- convolution and stencil sweeps mainly teach how to optimize independently owned outputs
+- histograms teach what happens when many threads must coordinate on shared outputs
 
 These distinctions are what turn CUDA from memorized terminology into usable engineering judgment.
 
 ---
 
-## 11. Why This Folder Matters for ML Systems
+## 12. Why This Folder Matters for ML Systems
 
 This folder matters because many ML systems bottlenecks eventually become CUDA questions when workloads hit GPUs.
 
@@ -425,6 +465,7 @@ These notes teach how to reason about:
 - mapping tensor work onto thread hierarchies,
 - reducing memory traffic,
 - using shared memory and registers effectively,
+- handling contention on shared outputs,
 - understanding when performance is bandwidth-bound,
 - and interpreting operator-level optimization through the hardware execution model.
 
@@ -447,7 +488,7 @@ That is the real CUDA mindset.
 
 ---
 
-## 12. File Sequence and Future Expansion
+## 13. File Sequence and Future Expansion
 
 The current deep-dive notes are:
 
@@ -458,6 +499,7 @@ The current deep-dive notes are:
 - [05. Memory Coalescing and Latency Hiding](05-memory-coalescing-and-latency-hiding.md)
 - [06. Convolution](06-convolution.md)
 - [07. Stencil Sweeps](07-stencil-sweeps.md)
+- [08. Parallel Histograms](08-parallel-histograms.md)
 
 This folder is not considered complete.
 New documents may be added later between or beneath the current topics.
@@ -477,7 +519,7 @@ So the current order should be read as:
 
 ---
 
-## 13. After This Folder You Should Understand
+## 14. After This Folder You Should Understand
 
 After finishing this folder, you should be able to explain:
 
@@ -487,6 +529,7 @@ After finishing this folder, you should be able to explain:
 - how CUDA memory spaces differ and why shared memory and registers matter
 - why coalescing, latency hiding, and tiling are central to performance
 - why convolution and stencil sweeps are similar in shape but different in optimization payoff
+- why histograms introduce a different pattern built around race conditions and contention management
 - and how to interpret a CUDA kernel in terms of its actual bottleneck rather than just its source syntax
 
 If this folder works well, CUDA should stop feeling like:
