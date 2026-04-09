@@ -18,6 +18,7 @@ Does not belong here:
 Current notes:
 - [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 - [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
+- [01.2 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-logic-and-computers.md)
 - [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
@@ -30,7 +31,7 @@ Current notes:
 ---
 
 Discrete Mathematics:
-Language -> Formula Structure -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
+Language -> Formula Structure -> Logic in Hardware -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
 
 This branch is about exact reasoning over discrete objects.
 
@@ -107,6 +108,29 @@ It is a natural bridge from:
 to:
 
 - computational representation
+
+---
+
+## 2.5 Logic Becomes Digital Computation
+
+Deep dive: [01.2 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-logic-and-computers.md)
+
+After formulas have become structured objects, the next natural question is:
+
+```text
+how does logic become a real machine?
+```
+
+This note answers that by connecting:
+
+- truth values to bits,
+- logical operators to gates,
+- gates to circuits,
+- and circuits to arithmetic components such as half adders, full adders, and ripple-carry adders.
+
+This is an important step because it prevents logic from remaining purely symbolic.
+It shows that abstraction and composition are not just proof ideas.
+They are also the design principles of digital hardware.
 
 ---
 
@@ -219,6 +243,7 @@ After reading this branch, you should be able to explain:
 
 - how logic shapes formal statements,
 - how normal forms turn formulas into algorithmically useful structures,
+- how propositional logic becomes gates, circuits, and arithmetic hardware,
 - how proof techniques differ,
 - how sets, relations, and functions provide the language of structure,
 - how the different forms of induction apply,
