@@ -15,15 +15,13 @@ Does not belong here:
 
 Current notes:
 - [01. Probability Language](/Users/minkyu/Documents/mlsys/math/probability-stats/01-probability-language.md)
-- [02. Discrete Random Variables](/Users/minkyu/Documents/mlsys/math/probability-stats/02-discrete-random-variables.md)
-- [03. Continuous and Mixed Random Variables](/Users/minkyu/Documents/mlsys/math/probability-stats/03-continuous-and-mixed-random-variables.md)
-- [04. Measures of Location and Spread](/Users/minkyu/Documents/mlsys/math/probability-stats/04-measures-of-location-and-spread.md)
-- [05. Moments, MGFs, and Basic Inequalities](/Users/minkyu/Documents/mlsys/math/probability-stats/05-moments-mgfs-and-inequalities.md)
+- [02. Random Variables and Distributions](/Users/minkyu/Documents/mlsys/math/probability-stats/02-random-variables-and-distributions.md)
+- [03. Distribution Summaries and Moments](/Users/minkyu/Documents/mlsys/math/probability-stats/03-distribution-summaries-and-moments.md)
 
 ---
 
 Probability and Statistics:
-Probability Language -> Random Variables -> Distributions -> Summary Measures -> Moments and Bounds
+Probability Language -> Random Variables and Distributions -> Distribution Summaries and Moments
 
 This branch is about reasoning under uncertainty and summarizing variable behavior quantitatively.
 
@@ -88,11 +86,9 @@ This note is first because probability becomes much easier once the objects are 
 
 ---
 
-## 2. Random Variables Turn Outcomes into Numbers
+## 2. Random Variables Turn Outcomes into Quantities
 
-Deep dives:
-- [02. Discrete Random Variables](/Users/minkyu/Documents/mlsys/math/probability-stats/02-discrete-random-variables.md)
-- [03. Continuous and Mixed Random Variables](/Users/minkyu/Documents/mlsys/math/probability-stats/03-continuous-and-mixed-random-variables.md)
+Deep dive: [02. Random Variables and Distributions](/Users/minkyu/Documents/mlsys/math/probability-stats/02-random-variables-and-distributions.md)
 
 After event language is in place, the branch shifts to random variables.
 
@@ -104,19 +100,20 @@ to:
 
 - uncertainty over numerical quantities.
 
-The discrete and continuous cases are separated because they change how probability is represented:
+This note now keeps the full representation story together:
 
-- sums versus integrals,
-- point masses versus densities,
-- and finite/countable ranges versus intervals.
+- discrete versus continuous versus mixed variables,
+- PMF versus PDF,
+- range space,
+- and the shared role of the CDF.
 
-Mixed random variables are included because real systems are often not purely one or the other.
+That makes the whole “what kind of random quantity is this?” question much easier to see as one coherent topic.
 
 ---
 
-## 3. Summary Measures Compress a Distribution
+## 3. Summary Measures Compress and Extend a Distribution
 
-Deep dive: [04. Measures of Location and Spread](/Users/minkyu/Documents/mlsys/math/probability-stats/04-measures-of-location-and-spread.md)
+Deep dive: [03. Distribution Summaries and Moments](/Users/minkyu/Documents/mlsys/math/probability-stats/03-distribution-summaries-and-moments.md)
 
 Once a distribution exists, the next question is:
 
@@ -124,34 +121,20 @@ Once a distribution exists, the next question is:
 how do we summarize it with a few useful numbers?
 ```
 
-This is where mean, median, mode, quartiles, variance, and standard deviation enter.
+This note combines:
 
-These are not replacements for the full distribution.
-They are compressed views that answer high-level questions about:
+- center and spread summaries,
+- quantiles,
+- moments,
+- MGFs,
+- and basic inequalities.
 
-- center,
-- spread,
-- and typical scale.
-
----
-
-## 4. Moments and Bounds Extend the Summary Toolkit
-
-Deep dive: [05. Moments, MGFs, and Basic Inequalities](/Users/minkyu/Documents/mlsys/math/probability-stats/05-moments-mgfs-and-inequalities.md)
-
-The final current note in this branch asks what we can do when:
-
-- we want more than a mean and variance,
-- but still do not want or need the full exact distribution.
-
-Moments and MGFs help summarize and characterize distributions.
-Markov and Chebyshev inequalities give general-purpose bounds.
-
-This is one of the first places where the branch starts to move from simple description toward reusable probabilistic reasoning tools.
+That combination is intentional.
+These are all ways of compressing or exploiting distributional information once the random variable has already been defined.
 
 ---
 
-## 5. Why This Branch Matters for ML Systems
+## 4. Why This Branch Matters for ML Systems
 
 Probability and statistics matter to ML systems because real systems are noisy, variable, and imperfectly observed.
 
@@ -175,7 +158,7 @@ That is why this branch matters far beyond classroom probability exercises.
 
 ---
 
-## 6. Future Expansion
+## 5. Future Expansion
 
 This branch is intentionally still early.
 
@@ -194,13 +177,14 @@ So this README should be read as a starting probability-statistics spine, not as
 
 ---
 
-## 7. After This Branch You Should Understand
+## 6. After This Branch You Should Understand
 
 After reading this branch, you should be able to explain:
 
 - the basic language of probability,
-- how random variables differ across discrete and continuous cases,
-- how distributions are summarized by center and spread,
+- how random variables are represented across discrete, continuous, and mixed cases,
+- how PMFs, PDFs, and CDFs relate,
+- how distributions are summarized by center, spread, and quantiles,
 - and how moments and basic inequalities help quantify behavior even without full exact distributional detail.
 
 That is the current uncertainty-and-measurement branch of the mathematical layer.
