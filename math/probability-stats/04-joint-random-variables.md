@@ -18,6 +18,8 @@ This note covers:
 - joint PMF and joint PDF,
 - joint CDF,
 - marginal distributions,
+- expectations over joint distributions,
+- covariance and correlation,
 - and the idea that the joint range is often only a subset of the Cartesian product of the individual ranges.
 
 ## Why It Matters
@@ -62,7 +64,8 @@ That is the role of:
 
 - joint PMFs or PDFs,
 - joint CDFs,
-- and marginal distributions.
+- marginal distributions,
+- and summary quantities built from the pair.
 
 ## Joint Support
 
@@ -245,6 +248,204 @@ So two different joint distributions can have the same marginals.
 
 That is why the joint object is fundamentally richer.
 
+## Expectations from a Joint Distribution
+
+Once a joint distribution is known, we can compute expectations of either variable by averaging against the joint law.
+
+For a joint discrete distribution:
+
+```text
+E[X] = ΣΣ x f_{X,Y}(x, y)
+E[Y] = ΣΣ y f_{X,Y}(x, y)
+```
+
+For a joint continuous distribution:
+
+```text
+E[X] = ∫∫ x f_{X,Y}(x, y) dx dy
+E[Y] = ∫∫ y f_{X,Y}(x, y) dx dy
+```
+
+So the joint distribution contains enough information to recover one-variable expectations too.
+
+The same applies to variances:
+
+```text
+Var[X] = E[(X - μ_X)^2]
+Var[Y] = E[(Y - μ_Y)^2]
+```
+
+computed against the joint distribution.
+
+## Expectation of a Function of Two Variables
+
+More generally, if `u(X, Y)` is any function of the pair, then:
+
+For a joint discrete distribution:
+
+```text
+E[u(X, Y)] = ΣΣ u(x, y) f_{X,Y}(x, y)
+```
+
+For a joint continuous distribution:
+
+```text
+E[u(X, Y)] = ∫∫ u(x, y) f_{X,Y}(x, y) dx dy
+```
+
+This is one of the most useful rules in multivariable probability because many important quantities are functions of both coordinates.
+
+Examples:
+
+```text
+u(X, Y) = X + Y
+u(X, Y) = XY
+u(X, Y) = max(X, Y)
+```
+
+The linearity rule still holds:
+
+```text
+E[a u(X, Y) + b v(X, Y)] = aE[u(X, Y)] + bE[v(X, Y)]
+```
+
+## Independence Revisited
+
+Joint distributions are also where independence becomes concrete.
+
+For two random variables, independence means the joint distribution factorizes into the product of the marginals.
+
+In the discrete case:
+
+```text
+f_{X,Y}(x, y) = f_X(x) f_Y(y)
+```
+
+In the continuous case:
+
+```text
+f_{X,Y}(x, y) = f_X(x) f_Y(y)
+```
+
+throughout the support.
+
+This is stronger than simply knowing the marginals separately.
+It says the pair structure contains no interaction beyond what is already present in the one-variable distributions.
+
+An important consequence is:
+
+```text
+if X and Y are independent, then E[XY] = E[X]E[Y]
+```
+
+But the reverse direction is generally not true.
+Knowing only that `E[XY] = E[X]E[Y]` is weaker than full independence.
+
+## Covariance
+
+Covariance measures linear co-movement between two random variables.
+
+It is defined by:
+
+```text
+Cov(X, Y) = E[(X - μ_X)(Y - μ_Y)]
+```
+
+An equivalent and often more convenient form is:
+
+```text
+Cov(X, Y) = E[XY] - E[X]E[Y]
+```
+
+Important facts:
+
+```text
+Cov(X, X) = Var[X]
+Cov(X, Y) = Cov(Y, X)
+```
+
+If `X` and `Y` are independent, then:
+
+```text
+Cov(X, Y) = 0
+```
+
+But again, zero covariance does not in general imply independence.
+
+So covariance is a useful dependence summary, but not a complete description of dependence.
+
+## Correlation
+
+Correlation rescales covariance so that the result is unit-free.
+
+It is defined by:
+
+```text
+ρ(X, Y) = Cov(X, Y) / (σ_X σ_Y)
+```
+
+when the standard deviations are nonzero.
+
+This normalization makes the scale easier to interpret:
+
+- positive correlation means positive linear association
+- negative correlation means negative linear association
+- zero correlation means no linear association
+
+The standard bound is:
+
+```text
+-1 <= ρ(X, Y) <= 1
+```
+
+If:
+
+```text
+Y = aX + b
+```
+
+for constants `a` and `b`, then the correlation is `+1` or `-1` depending on the sign of `a`.
+
+## Variance of Sums and Differences
+
+Joint reasoning matters immediately when we look at sums and differences.
+
+The key formulas are:
+
+```text
+Var[X + Y] = Var[X] + Var[Y] + 2Cov(X, Y)
+Var[X - Y] = Var[X] + Var[Y] - 2Cov(X, Y)
+```
+
+These formulas show exactly where dependence enters.
+
+If `X` and `Y` are independent, then covariance is zero and the formulas simplify to:
+
+```text
+Var[X + Y] = Var[X] + Var[Y]
+Var[X - Y] = Var[X] + Var[Y]
+```
+
+So independence is not only about conceptual simplicity.
+It directly changes quantitative behavior of combined variables.
+
+## Why This Extension Matters
+
+The first half of joint probability is about representation:
+
+- support,
+- PMF or PDF,
+- CDF,
+- marginals.
+
+This second half is about what we can *do* with that representation:
+
+- compute expectations,
+- measure interaction,
+- and quantify how combined variables behave.
+
+That is why covariance and correlation belong naturally inside the same joint-variables note rather than in a completely separate topic.
+
 ## Rectangles and Regions
 
 In one-variable probability, we ask for intervals.
@@ -272,6 +473,10 @@ It becomes “where is `(X, Y)` in the plane?”
 - Treating the joint CDF as if it were just two separate one-variable CDFs pasted together.
 - Forgetting that probabilities for continuous pairs are assigned to regions, not to isolated points.
 - Ignoring the difference between “what values can `X` and `Y` each take?” and “what pairs can `(X, Y)` take together?”
+- Assuming `E[XY] = E[X]E[Y]` is equivalent to independence in all cases.
+- Treating zero covariance as proof of independence.
+- Forgetting that covariance affects `Var[X + Y]` and `Var[X - Y]`.
+- Using correlation as if it captured every kind of dependence rather than specifically linear association.
 
 ## Why This Matters for ML Systems
 
@@ -290,6 +495,9 @@ Joint distributions matter because they preserve relationships between quantitie
 
 The broader lesson is that real systems often fail or bottleneck through interactions between variables rather than through any one variable alone.
 
+Covariance and correlation make that even more explicit.
+They give us compact ways to talk about whether two quantities rise together, move in opposite directions, or combine into larger or smaller variability than their separate one-variable summaries would suggest.
+
 ## Short Takeaway
 
-Joint random variables extend probability from one numerical quantity to several at once. The key new ideas are that the pair `(X, Y)` has its own support, its own joint PMF or PDF, its own joint CDF, and marginals obtained by summing or integrating out one coordinate, with the joint distribution carrying structural information that separate one-variable views can miss.
+Joint random variables extend probability from one numerical quantity to several at once. The key ideas are that the pair `(X, Y)` has its own support, joint distribution, and marginals, and that this joint view lets us compute expectations of functions of the pair, define covariance and correlation, and understand how dependence changes the behavior of sums, differences, and other combined quantities.

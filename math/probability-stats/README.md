@@ -158,6 +158,19 @@ to:
 
 It is also the beginning of a more realistic systems viewpoint, because many operational questions are really about how quantities interact rather than how each behaves alone.
 
+This note now includes not only:
+
+- joint supports,
+- joint PMFs or PDFs,
+- and marginals,
+
+but also:
+
+- expectations over pairs,
+- covariance,
+- correlation,
+- and the effect of dependence on sums and differences.
+
 ---
 
 ## 5. Why This Branch Matters for ML Systems
@@ -192,7 +205,6 @@ Natural future additions include:
 
 - common named distributions,
 - conditional distributions and expectation,
-- covariance and correlation,
 - LLN and CLT,
 - estimation,
 - confidence intervals,
