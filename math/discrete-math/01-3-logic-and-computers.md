@@ -1,4 +1,4 @@
-# 01.2 Logic and Computers
+# 01.3 Logic and Computers
 
 ## What
 

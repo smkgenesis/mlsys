@@ -18,7 +18,8 @@ Does not belong here:
 Current notes:
 - [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 - [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
-- [01.2 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-logic-and-computers.md)
+- [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
+- [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 - [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
@@ -31,7 +32,7 @@ Current notes:
 ---
 
 Discrete Mathematics:
-Language -> Formula Structure -> Logic in Hardware -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
+Language -> Formula Structure -> Quantified Structure -> Logic in Hardware -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
 
 This branch is about exact reasoning over discrete objects.
 
@@ -111,9 +112,33 @@ to:
 
 ---
 
-## 2.5 Logic Becomes Digital Computation
+## 2.5 Quantified Logic Extends Formula Structure
 
-Deep dive: [01.2 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-logic-and-computers.md)
+Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
+
+Once formulas have a regular structure, the next limitation becomes visible:
+
+```text
+propositional logic can combine whole statements,
+but it cannot directly talk about objects, properties, and relations
+```
+
+Quantificational logic addresses that limitation by introducing:
+
+- predicates,
+- variables,
+- universes of discourse,
+- and quantifiers such as `∀` and `∃`.
+
+This is the step where logical language becomes expressive enough to talk about mathematical structure rather than only truth-functional combinations of atomic statements.
+
+It is also where scope, free versus bound variables, quantifier order, and interpretation become central.
+
+---
+
+## 2.6 Logic Becomes Digital Computation
+
+Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
 After formulas have become structured objects, the next natural question is:
 
@@ -243,6 +268,7 @@ After reading this branch, you should be able to explain:
 
 - how logic shapes formal statements,
 - how normal forms turn formulas into algorithmically useful structures,
+- how quantificational logic extends symbolic reasoning from whole propositions to objects, properties, and relations,
 - how propositional logic becomes gates, circuits, and arithmetic hardware,
 - how proof techniques differ,
 - how sets, relations, and functions provide the language of structure,
