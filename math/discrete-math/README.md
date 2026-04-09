@@ -17,6 +17,7 @@ Does not belong here:
 
 Current notes:
 - [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
+- [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 - [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
@@ -29,7 +30,7 @@ Current notes:
 ---
 
 Discrete Mathematics:
-Language -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
+Language -> Formula Structure -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
 
 This branch is about exact reasoning over discrete objects.
 
@@ -85,7 +86,31 @@ Without this layer, later proof techniques are easy to misuse.
 
 ---
 
-## 2. Proof Is the Next Discipline
+## 2. Formula Structure Comes Before Algorithmic Logic
+
+Deep dive: [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
+
+Once propositional logic introduces formulas and connectives, the next useful question is:
+
+```text
+how should formulas be rewritten so their structure becomes regular?
+```
+
+This is where CNF, DNF, literals, and logical-law based normalization enter.
+
+This note matters because it is the first place where logical expressions are treated as structured objects that can be transformed for algorithmic purposes, especially through the connection to satisfiability.
+
+It is a natural bridge from:
+
+- logical meaning
+
+to:
+
+- computational representation
+
+---
+
+## 3. Proof Is the Next Discipline
 
 Deep dive: [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
 
@@ -101,7 +126,7 @@ This note is the first place where the branch shifts from understanding statemen
 
 ---
 
-## 3. Sets, Relations, and Functions Build the Core Objects
+## 4. Sets, Relations, and Functions Build the Core Objects
 
 Deep dives:
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
@@ -127,7 +152,7 @@ This is one of the main bridges from pure math toward later CS and systems abstr
 
 ---
 
-## 4. Induction Handles Infinite Families of Cases
+## 5. Induction Handles Infinite Families of Cases
 
 Deep dives:
 - [05. Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/05-mathematical-induction.md)
@@ -146,7 +171,7 @@ Ordinary induction, strong induction, and structural induction are separated her
 
 ---
 
-## 5. Size and Counting Become Deeper Than They First Look
+## 6. Size and Counting Become Deeper Than They First Look
 
 Deep dives:
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
@@ -170,7 +195,7 @@ global conclusions can often be forced by abstract structure alone
 
 ---
 
-## 6. Why This Branch Matters for ML Systems
+## 7. Why This Branch Matters for ML Systems
 
 Discrete mathematics matters to ML systems because exact reasoning still matters even in probabilistic and numerical systems.
 
@@ -188,11 +213,12 @@ It teaches the formal habits that prevent sloppy reasoning when systems become c
 
 ---
 
-## 7. After This Branch You Should Understand
+## 8. After This Branch You Should Understand
 
 After reading this branch, you should be able to explain:
 
 - how logic shapes formal statements,
+- how normal forms turn formulas into algorithmically useful structures,
 - how proof techniques differ,
 - how sets, relations, and functions provide the language of structure,
 - how the different forms of induction apply,
