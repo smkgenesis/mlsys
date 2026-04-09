@@ -1,4 +1,4 @@
-# Strong Induction
+# 06. Strong Induction
 
 ## What
 

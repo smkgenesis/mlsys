@@ -1,4 +1,4 @@
-# Discrete Random Variables and the CDF
+# 02. Discrete Random Variables
 
 ## What
 

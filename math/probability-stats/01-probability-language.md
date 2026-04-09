@@ -1,4 +1,4 @@
-# Basic Probability Language
+# 01. Probability Language
 
 ## What
 

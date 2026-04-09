@@ -167,7 +167,7 @@ Merge documents when they answer nearly the same question and repeat the same me
 Each document must go into the directory that best matches its dominant purpose.
 
 - `foundations/`: basic CS foundations only; use this for CS-first concepts such as recursion, stacks, core data structure reasoning, and similar material. Cross-domain reasoning templates or mathematically primary topics should usually go elsewhere.
-- `math/`: mathematics, probability, statistics, information theory, numerical reasoning, and mathematically primary discrete topics
+- `math/`: top-level mathematical guide; branch-specific material should usually live under subtracks such as `math/discrete-math/` or `math/probability-stats/` when those branches exist
 - `architecture/`: general computer architecture, ISA, memory hierarchy, and hardware cost/performance reasoning
 - `cuda/`: CUDA-specific execution and optimization knowledge
 - `python/`: Python language, runtime, concurrency, and packaging knowledge that supports ML systems engineering

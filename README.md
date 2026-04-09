@@ -82,7 +82,7 @@ The repository should optimize for:
 
 - `roadmap/`: cross-topic study strategy, capability planning, and learning method.
 - `foundations/`: basic computer science foundations only, such as core reasoning habits, recursion, stacks, and other CS-first concepts.
-- `math/`: mathematics, probability, statistics, information theory, and mathematically primary discrete topics.
+- `math/`: top-level guide for mathematical branches, currently centered on `discrete-math/` and `probability-stats/`, with room for future branches such as linear algebra, calculus, ODEs, and PDEs.
 - `architecture/`: general computer architecture, memory hierarchy, ISA, and hardware cost/performance reasoning.
 - `cuda/`: CUDA-specific execution model, launch model, and optimization patterns.
 - `python/`: Python language and runtime patterns that matter in ML systems code.

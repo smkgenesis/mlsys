@@ -62,6 +62,8 @@ Examples of topics that often need reframing before becoming files:
 Use the directory that best matches the document's dominant teaching purpose.
 
 - Put it in `architecture/` when the core lesson is hardware structure, hierarchy, ISA, or cost reasoning.
+- Put it in `math/discrete-math/` when the core lesson is logic, proof, sets, functions, induction, countability, or combinatorial reasoning.
+- Put it in `math/probability-stats/` when the core lesson is uncertainty, random variables, distributions, moments, or statistical interpretation.
 - Put it in `cuda/` when the core lesson is GPU execution behavior as exposed through CUDA kernels, launch structure, memory spaces, or CUDA-side optimization.
 - Put it in `triton/` when the material is specifically about the Triton programming model, pointer arithmetic, masks, tiling, or Triton kernel reading/writing.
 - Put it in `transformers/` when the core lesson is the causal computation path inside transformer inference or model-side sequence processing.

@@ -1,4 +1,4 @@
-# Continuous and Mixed Random Variables
+# 03. Continuous and Mixed Random Variables
 
 ## What
 

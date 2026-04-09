@@ -1,4 +1,4 @@
-# Mathematical Induction
+# 05. Mathematical Induction
 
 ## What
 
