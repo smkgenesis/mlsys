@@ -128,6 +128,96 @@ Different machines and implementations can change constant factors.
 
 So exact formulas are useful, but they are not the final abstraction.
 
+## How to Derive an Exact Runtime Formula from the Code
+
+The lecture does not jump directly from code to `O(n)` or `O(n^2)`.
+It first writes an exact formula in terms of `n`.
+
+Using the lecture's simplifying assumptions:
+
+- integer comparison costs `1`,
+- integer addition costs `1`,
+- and assignment is treated as `0`,
+
+we can count how many comparison and increment operations happen in each version of the minimum-finding code.
+
+### First Attempt
+
+The first version checks each `a[i]` against every array element:
+
+```text
+for (i = 0; i < n; i++) {
+    isMin = true;
+    for (j = 0; j < n; j++) {
+        if (a[j] < a[i]) isMin = false;
+    }
+    if (isMin) min = a[i];
+}
+```
+
+To get the exact running-time expression used in the lecture, count the dominant primitive operations:
+
+- outer-loop test `i < n`: `n + 1` times,
+- outer-loop increment: `n` times,
+- inner-loop test `j < n`: `n(n + 1)` times,
+- inner comparison `a[j] < a[i]`: `n^2` times.
+
+Under the lecture's cost model, that gives:
+
+```text
+T1(n) = (n + 1) + n + n(n + 1) + n^2
+      = 3n^2 + 3n + 1
+```
+
+The important point is not the exact constant choices.
+It is the counting method:
+
+1. identify the loop tests,
+2. count the loop increments,
+3. count the body operations,
+4. then sum them into a single expression in `n`.
+
+### Second Attempt
+
+The second version keeps a tentative minimum:
+
+```text
+min = a[0];
+for (i = 1; i < n; i++) {
+    if (a[i] < min) min = a[i];
+}
+```
+
+Again using the lecture's cost model:
+
+- loop test `i < n`: `n` times,
+- loop increment: `n - 1` times,
+- inner comparison `a[i] < min`: `n - 1` times.
+
+So:
+
+```text
+T2(n) = n + (n - 1) + (n - 1)
+      = 3n - 2
+```
+
+This is why the lecture can say much more than "the second code looks simpler."
+It can say that, under the stated counting assumptions, one algorithm grows quadratically and the other grows linearly.
+
+### The General Counting Recipe
+
+When you see code in this course, the safest workflow is:
+
+1. define what `n` means,
+2. choose the primitive operations being counted,
+3. count each loop condition carefully,
+4. count each loop increment carefully,
+5. count how many times the core comparison or update runs,
+6. add everything into `T(n)`,
+7. only then simplify to asymptotic notation.
+
+That exact-to-asymptotic pipeline is the bridge between raw code and `O`, `Ω`, and `Θ`.
+
 ## Order of Growth
 
 To compare algorithms more robustly, the lecture moves to order of growth.
@@ -199,6 +289,9 @@ Without this frame, later structures can easily feel like a list of implementati
 - Thinking data structures are only about storage and not about processing cost.
 - Treating two correct solutions as equally good without asking how work scales with input size.
 - Overvaluing exact timing formulas even when constants and platforms vary.
+- Jumping directly from code to Big-O without first writing an exact count in terms of `n`.
+- Forgetting that loop conditions are checked one more time than the number of successful iterations.
+- Forgetting to count loop increments when deriving the lecture's exact formulas.
 - Using Big-O as if it preserves every constant and lower-order term.
 - Forgetting that asymptotic notation is about behavior for sufficiently large input sizes.
 - Confusing upper bound, lower bound, and tight bound.
