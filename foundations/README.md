@@ -16,5 +16,6 @@ Does not belong here:
 
 Current notes:
 - [Black-Box and White-Box Thinking](black-box-vs-white-box.md)
+- [Java for C++ Programmers](java-for-cpp-programmers.md)
 - [Infix, Postfix, and Stack Evaluation](infix-postfix-and-stacks.md)
 - [Recursion and Explicit Stack Simulation](recursion-and-stacks.md)

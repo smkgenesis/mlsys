@@ -15,11 +15,12 @@ Does not belong here:
 
 Current notes:
 - [00. Introduction and Efficiency](/Users/minkyu/Documents/mlsys/foundations/data-structures/00-introduction-and-efficiency.md)
+- [01. Preprocessing, Worst Case, and Tradeoffs](/Users/minkyu/Documents/mlsys/foundations/data-structures/01-preprocessing-worst-case-and-tradeoffs.md)
 
 ---
 
 Data Structures:
-Why Data Structures -> Data Organization -> Efficiency Measurement -> Order of Growth -> Core Structures
+Why Data Structures -> Data Organization -> Efficiency Measurement -> Order of Growth -> Workload Tradeoffs -> Core Structures
 
 This branch is for learning data structures as a subject, not just as a list of implementations.
 
@@ -43,7 +44,9 @@ The current scope is only:
 - why data structures matter,
 - how data organization affects processing,
 - how to compare alternative implementations,
-- and how asymptotic notation abstracts away platform-specific constants.
+- how asymptotic notation abstracts away platform-specific constants,
+- how worst-case reasoning differs from content-sensitive running time,
+- and how preprocessing changes time and space tradeoffs for repeated queries.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -69,7 +72,21 @@ This note also introduces:
 
 ---
 
-## 2. Why This Subtrack Is Special
+## 2. Why Workload Tradeoffs Matter
+
+Deep dive: [01. Preprocessing, Worst Case, and Tradeoffs](/Users/minkyu/Documents/mlsys/foundations/data-structures/01-preprocessing-worst-case-and-tradeoffs.md)
+
+The second note extends the first one in an important direction:
+
+- running time can depend on input contents as well as input size,
+- worst-case complexity becomes the default comparison lens,
+- and preprocessing can reduce future query cost at the expense of time and space up front.
+
+This is the first point in the branch where the material starts to look like real data-structure design rather than standalone runtime counting.
+
+---
+
+## 3. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -83,7 +100,7 @@ That means:
 
 ---
 
-## 3. Why This Branch Matters
+## 4. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -94,11 +111,13 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 4. After This Branch You Should Understand
+## 5. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
 - why data organization matters for computation,
 - why two correct programs can still differ dramatically in efficiency,
 - how analytical cost comparison differs from empirical timing,
-- and how `O`, `Ω`, and `Θ` notation capture dominant growth behavior while ignoring irrelevant constant factors.
+- how `O`, `Ω`, and `Θ` notation capture dominant growth behavior while ignoring irrelevant constant factors,
+- why worst-case complexity is the usual baseline,
+- and how preprocessing changes the time and space cost of repeated queries.
