@@ -17,11 +17,12 @@ Current notes:
 - [01. Probability Language](/Users/minkyu/Documents/mlsys/math/probability-stats/01-probability-language.md)
 - [02. Random Variables and Distributions](/Users/minkyu/Documents/mlsys/math/probability-stats/02-random-variables-and-distributions.md)
 - [03. Distribution Summaries and Moments](/Users/minkyu/Documents/mlsys/math/probability-stats/03-distribution-summaries-and-moments.md)
+- [04. Joint Random Variables](/Users/minkyu/Documents/mlsys/math/probability-stats/04-joint-random-variables.md)
 
 ---
 
 Probability and Statistics:
-Probability Language -> Random Variables and Distributions -> Distribution Summaries and Moments
+Probability Language -> Random Variables and Distributions -> Distribution Summaries and Moments -> Joint Random Variables
 
 This branch is about reasoning under uncertainty and summarizing variable behavior quantitatively.
 
@@ -134,7 +135,32 @@ These are all ways of compressing or exploiting distributional information once 
 
 ---
 
-## 4. Why This Branch Matters for ML Systems
+## 4. Several Quantities Must Often Be Modeled Together
+
+Deep dive: [04. Joint Random Variables](/Users/minkyu/Documents/mlsys/math/probability-stats/04-joint-random-variables.md)
+
+Single-variable probability is not always enough.
+
+As soon as we care about relationships between quantities, we need:
+
+- joint support,
+- joint PMFs or PDFs,
+- joint CDFs,
+- and marginals.
+
+This is the step where probability moves from:
+
+- one random quantity at a time
+
+to:
+
+- structured multi-variable reasoning.
+
+It is also the beginning of a more realistic systems viewpoint, because many operational questions are really about how quantities interact rather than how each behaves alone.
+
+---
+
+## 5. Why This Branch Matters for ML Systems
 
 Probability and statistics matter to ML systems because real systems are noisy, variable, and imperfectly observed.
 
@@ -158,13 +184,14 @@ That is why this branch matters far beyond classroom probability exercises.
 
 ---
 
-## 5. Future Expansion
+## 6. Future Expansion
 
 This branch is intentionally still early.
 
 Natural future additions include:
 
 - common named distributions,
+- conditional distributions and expectation,
 - covariance and correlation,
 - LLN and CLT,
 - estimation,
@@ -177,7 +204,7 @@ So this README should be read as a starting probability-statistics spine, not as
 
 ---
 
-## 6. After This Branch You Should Understand
+## 7. After This Branch You Should Understand
 
 After reading this branch, you should be able to explain:
 
@@ -185,6 +212,7 @@ After reading this branch, you should be able to explain:
 - how random variables are represented across discrete, continuous, and mixed cases,
 - how PMFs, PDFs, and CDFs relate,
 - how distributions are summarized by center, spread, and quantiles,
+- how joint distributions and marginals differ,
 - and how moments and basic inequalities help quantify behavior even without full exact distributional detail.
 
 That is the current uncertainty-and-measurement branch of the mathematical layer.
