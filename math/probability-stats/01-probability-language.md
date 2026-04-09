@@ -84,6 +84,25 @@ Two coin tosses: {HH, HT, TH, TT}
 The sample space answers the question:
 "What can possibly happen?"
 
+For repeated experiments, sample spaces are often built from ordered tuples.
+
+Examples:
+
+```text
+Two die rolls: {(1,1), (1,2), ..., (6,6)}
+Three coin tosses: {HHH, HHT, HTH, HTT, THH, THT, TTH, TTT}
+```
+
+The ordering matters whenever the experiment distinguishes one trial from another.
+
+That is why:
+
+```text
+(1,2) and (2,1)
+```
+
+are different outcomes when the first and second draws are different stages of the experiment.
+
 ### Sample point
 
 A sample point is one individual outcome in the sample space.
@@ -115,6 +134,14 @@ An event can contain:
 - the entire sample space,
 - or no sample points.
 
+This “subset” viewpoint is one of the most important early moves in probability:
+
+```text
+probability is assigned to sets of outcomes, not just to individual outcomes
+```
+
+That is what makes event algebra possible.
+
 ### Common types of events
 
 Elementary event:
@@ -137,6 +164,11 @@ Mutually exclusive events:
 
 Exhaustive events:
 - events that together cover the entire sample space.
+
+Pairwise mutually exclusive events:
+- a collection of events where every different pair has empty intersection.
+
+This distinction matters because pairwise mutual exclusivity is exactly the condition used in countable additivity and in partitions of the sample space.
 
 ### Operations on events
 
@@ -191,6 +223,9 @@ A - B = {2}
 
 These operations are just set operations applied to events.
 
+This is why set fluency matters so much in early probability.
+Most “probability manipulations” begin as set manipulations before any numbers are attached.
+
 ### Mutually exclusive events
 
 Two events `A` and `B` are mutually exclusive if:
@@ -232,6 +267,14 @@ A1 ∪ A2 = Ω
 
 So `{A1, A2}` is a partition of `Ω`.
 
+Partitions matter because they give a structured way to break the whole probability space into non-overlapping cases.
+
+That is why they reappear later in:
+
+- total probability,
+- Bayes' theorem,
+- and case-based probabilistic reasoning in general.
+
 ### Probability of an event
 
 The probability of an event `A` is a real number between `0` and `1` that represents how likely `A` is to happen.
@@ -270,6 +313,9 @@ A = {2, 4, 6}
 P(A) = 3 / 6 = 1 / 2
 ```
 
+This is often the first probability rule students learn, but it is less general than it looks.
+It depends completely on the equal-likelihood assumption.
+
 ### Empirical probability
 
 Empirical probability estimates probability from repeated trials.
@@ -284,6 +330,9 @@ This is used as an estimate of `P(A)`.
 
 As the number of trials becomes large, the relative frequency tends to become more stable.
 This is the basic intuition behind the law of large numbers.
+
+So empirical probability is not primarily about exact formulas.
+It is about observed frequencies stabilizing through repetition.
 
 ### Axiomatic probability
 
@@ -326,6 +375,9 @@ P(A1 ∪ A2 ∪ ...) = P(A1) + P(A2) + ...
 This framework is more general than classical or empirical probability.
 Those are special settings that fit inside the axiomatic view.
 
+This is the most durable definition mathematically.
+It is the one that scales best beyond toy finite examples.
+
 ### Geometric probability
 
 Geometric probability is used when the sample space is continuous and probability is defined by geometric proportion.
@@ -339,6 +391,8 @@ P(A) = volume(A) / volume(Ω)
 ```
 
 This is the continuous analogue of favorable size divided by total size.
+
+It is useful when outcomes range over continuous regions rather than countable lists of points.
 
 ### Basic properties of probability
 
@@ -413,6 +467,12 @@ This means:
 Conditional probability is not just a formula.
 For a fixed event `A`, the mapping `B -> P(B | A)` behaves like a probability measure inside the conditioned world.
 
+That is the important intuition:
+
+```text
+conditioning changes the effective universe from Ω to A
+```
+
 ### Independence and dependence
 
 Two events `A` and `B` are independent if knowing that one happened does not change the probability of the other.
@@ -439,6 +499,9 @@ Important facts:
 For events `A1, A2, ..., An`:
 - pairwise independence means every pair satisfies the product rule,
 - mutual independence means every subset satisfies the product rule.
+
+This is one of the most common places to be sloppy.
+Pairwise independence is not the same thing as full mutual independence.
 
 ### Multiplication law
 
@@ -542,6 +605,18 @@ The important difference is:
 
 This is also why with replacement often leads to independent draws, while without replacement makes draws dependent.
 
+### A practical setup habit
+
+Early probability problems become much easier if they are set up in this order:
+
+1. define the experiment clearly
+2. write the sample space explicitly when possible
+3. define the event as a subset of that sample space
+4. decide whether outcomes are equally likely
+5. only then choose the probability rule
+
+This sounds basic, but most early mistakes come from skipping step 2 or 3.
+
 ## Tradeoffs
 
 The main difficulty in early probability is not usually arithmetic.
@@ -549,6 +624,14 @@ It is describing the experiment correctly.
 
 A sample space that is too vague or incomplete leads to bad reasoning later.
 A careful setup makes later probability calculations straightforward.
+
+Another important tradeoff is between intuitive simplicity and mathematical generality:
+
+- classical probability is easy to use but assumes equally likely outcomes,
+- empirical probability connects to observed data but is only approximate in finite samples,
+- axiomatic probability is more abstract but handles the broadest range of settings cleanly.
+
+Learning early probability well means keeping those levels distinct rather than treating them as interchangeable.
 
 ## Common Mistakes
 
@@ -567,7 +650,7 @@ A careful setup makes later probability calculations straightforward.
 - Ignoring how replacement changes the sample space.
 - Using probability formulas before the underlying experiment and event are clearly defined.
 
-## ML Systems Connection
+## Why This Matters for ML Systems
 
 This topic is mathematical groundwork rather than a direct ML systems topic, but it supports later systems-relevant reasoning.
 
@@ -584,3 +667,7 @@ Probability starts by defining the experiment, the possible outcomes, and the ev
 The broader lesson is also important:
 
 Clear reasoning about uncertainty depends on defining the underlying objects precisely before doing any calculation.
+
+## Short Takeaway
+
+Probability starts with clear setup: define the experiment, enumerate the possible outcomes, represent events as subsets of the sample space, and only then attach probability using the appropriate framework. The deepest early lesson is that most probability formulas are consequences of careful event structure, not shortcuts that can be used before the underlying model is defined.
