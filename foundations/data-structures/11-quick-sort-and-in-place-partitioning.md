@@ -8,7 +8,10 @@ The lecture focuses on:
 
 - pivot-based partitioning,
 - recursive quick sort,
-- and the in-place partition procedure that rearranges the array around the pivot.
+- the in-place partition procedure that rearranges the array around the pivot,
+- quick-sort running-time analysis,
+- pivot choice,
+- and radix sort as a contrast to comparison-based sorting.
 
 ## Why It Matters
 
@@ -125,6 +128,114 @@ Quick sort instead tries to do the important reorganization directly inside the 
 
 That is one of the central practical differences between the two recursive sorting strategies.
 
+## Quick Sort Running Time
+
+The lecture then turns to running time.
+
+The first tempting argument is:
+
+- partitioning a subarray of length `l` takes `O(l)` time,
+- and if every recursive call splits nicely in half,
+- quick sort should run in `O(n log n)` time.
+
+The lecture explicitly points out that this is not a valid worst-case assumption.
+
+## Why Balanced Splits Are Not Guaranteed
+
+Quick sort only gets a balanced recursion tree when pivot choices produce balanced partitions.
+
+The lecture gives the standard counterexample:
+
+- a sorted list can be a worst case
+
+if the pivot rule is unlucky, such as always choosing the first element.
+
+Then one side is tiny while the other side is almost the whole array again.
+
+## Worst-Case Quick Sort
+
+That leads to the lecture's key worst-case conclusion:
+
+- quick sort runs in `O(n^2)` time in the asymptotic worst case.
+
+This is the main contrast with merge sort:
+
+- merge sort's `O(n log n)` bound is structurally guaranteed,
+- quick sort's depends on the quality of the partitioning.
+
+## Pivot Choice Matters
+
+The lecture makes the dependence explicit:
+
+- efficiency depends on the choice of pivot
+
+and mentions strategies such as:
+
+- random choice
+- median-of-median
+
+The point here is not yet a full analysis of every pivot rule.
+It is to make one design fact visible:
+
+```text
+quick sort is only as good as the partitions its pivots create
+```
+
+## Randomized Quick Sort
+
+The lecture then shows a version that chooses a random index, swaps it into `a[left]`, and uses that as the pivot.
+
+That small change is conceptually important.
+
+It turns pivot choice from:
+
+- deterministic and highly input-sensitive
+
+into:
+
+- randomized and much harder for a bad input order to defeat systematically.
+
+The lecture's resulting claim is:
+
+- quick sort runs in `O(n log n)` time in expectation.
+
+## Comparison-Based Sorting Boundary
+
+The lecture also states a broader fact:
+
+- `O(n log n)` is the best asymptotic running time achievable by a comparison-based sorting algorithm.
+
+This gives useful context for both merge sort and quick sort.
+They are asymptotically optimal within the comparison model.
+
+## Radix Sort as the Contrast
+
+The lecture then introduces radix sort to show what happens when we move beyond comparison-based sorting.
+
+The examples use:
+
+- digit bins,
+- stable redistribution,
+- and both MSD and LSD viewpoints.
+
+The lecture emphasizes:
+
+- linked-list based bucket implementation,
+- stability,
+- and the running time of LSD radix sort:
+
+`O(d(n + r))`
+
+where:
+
+- `d` is the number of digits,
+- `r` is the radix.
+
+This is the important contrast:
+
+- comparison sorts meet the `O(n log n)` frontier,
+- radix sort can follow a different complexity path because it exploits internal digit structure rather than pure pairwise comparisons.
+
 ## What This Note Is Really Teaching
 
 This lecture is not only about quick sort as a name.
@@ -141,6 +252,14 @@ That is a very different sorting instinct from:
 - selecting minima,
 - or recursively merging sorted halves.
 
+The radix-sort section adds one more lesson:
+
+```text
+asymptotic limits depend on the computational model
+```
+
+If we are not restricted to comparison-based sorting, the frontier can change.
+
 ## Common Mistakes
 
 - Treating quick sort as if recursion alone explains it.
@@ -148,6 +267,9 @@ That is a very different sorting instinct from:
 - Losing track of what `j` represents during partitioning.
 - Forgetting the final pivot swap.
 - Confusing quick sort's in-place partitioning with merge sort's auxiliary-array merge.
+- Assuming the balanced-partition case is automatically the worst-case analysis.
+- Forgetting that randomized pivot choice changes expected behavior without removing the worst case entirely.
+- Treating radix sort as if it were just another comparison sort.
 
 ## Why This Matters for CS / Systems
 
@@ -160,7 +282,8 @@ It shows how to:
 - and avoid extra workspace when the representation permits it.
 
 That mindset appears far beyond quick sort.
+The radix-sort comparison adds a second systems lesson: if the representation exposes more structure than ordering-by-comparison alone, the achievable algorithmic frontier can change.
 
 ## Short Takeaway
 
-Quick sort works by choosing a pivot, partitioning the array in place around that pivot, and then recursively sorting the two resulting sides. The partition step is the real core: it maintains a boundary between elements smaller than the pivot and the rest, then places the pivot into its final position so the recursive calls are well defined.
+Quick sort works by choosing a pivot, partitioning the array in place around that pivot, and then recursively sorting the two resulting sides. Its worst case is `O(n^2)` when partitions are bad, but randomized pivot choice gives `O(n log n)` expected time. The lecture then uses radix sort to show the bigger lesson: `O(n log n)` is the comparison-sorting frontier, not the universal frontier for all sorting models.

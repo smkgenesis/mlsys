@@ -26,6 +26,7 @@ Current notes:
 - [09. Expression Processing with Stacks](/Users/minkyu/Documents/mlsys/foundations/data-structures/09-expression-processing-with-stacks.md)
 - [10. Sorting Basics and Divide-and-Conquer](/Users/minkyu/Documents/mlsys/foundations/data-structures/10-sorting-basics-and-divide-and-conquer.md)
 - [11. Quick Sort and In-Place Partitioning](/Users/minkyu/Documents/mlsys/foundations/data-structures/11-quick-sort-and-in-place-partitioning.md)
+- [12. Trees and Binary Tree Basics](/Users/minkyu/Documents/mlsys/foundations/data-structures/12-trees-and-binary-tree-basics.md)
 
 ---
 
@@ -68,7 +69,8 @@ The current scope is only:
 - recursion as stack-managed control flow that can be simulated explicitly,
 - stack-based expression processing through postfix evaluation and infix-to-postfix conversion,
 - the first sorting algorithms from bubble sort through merge sort,
-- and quick sort as an in-place recursive partitioning strategy.
+- quick sort as an in-place recursive partitioning strategy,
+- and the opening of the tree branch through recursive tree definitions and binary-tree representations.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -276,7 +278,24 @@ It introduces a distinctly different structural idea from merge sort: recursive 
 
 ---
 
-## 13. Why This Subtrack Is Special
+## 13. Why Trees Start Here
+
+Deep dive: [12. Trees and Binary Tree Basics](/Users/minkyu/Documents/mlsys/foundations/data-structures/12-trees-and-binary-tree-basics.md)
+
+This note opens the tree branch with:
+
+- rooted-tree definitions,
+- basic tree relations,
+- subtree, path, level, and height,
+- binary trees,
+- complete binary trees,
+- and multiple internal representations.
+
+This is the branch's first major move from linear structures to hierarchical recursive ones.
+
+---
+
+## 14. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -290,7 +309,7 @@ That means:
 
 ---
 
-## 14. Why This Branch Matters
+## 15. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -301,7 +320,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 15. After This Branch You Should Understand
+## 16. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -323,4 +342,5 @@ After the current material in this branch, you should be able to explain:
 - how recursion can be understood as explicit context plus stack-managed control flow,
 - how stacks support expression evaluation and notation conversion through delayed operator handling,
 - how the first major sorting algorithms differ in invariants, runtime, stability, and space tradeoffs,
-- and how quick sort uses in-place partitioning to define its recursive structure.
+- and how quick sort uses in-place partitioning to define its recursive structure,
+- and how rooted trees and binary trees are defined and represented internally.
