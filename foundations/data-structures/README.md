@@ -28,6 +28,9 @@ Current notes:
 - [11. Quick Sort and In-Place Partitioning](/Users/minkyu/Documents/mlsys/foundations/data-structures/11-quick-sort-and-in-place-partitioning.md)
 - [12. Trees and Binary Tree Basics](/Users/minkyu/Documents/mlsys/foundations/data-structures/12-trees-and-binary-tree-basics.md)
 
+Template workspace:
+- [templates/README.md](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/README.md)
+
 ---
 
 Data Structures:
