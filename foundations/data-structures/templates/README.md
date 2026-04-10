@@ -30,3 +30,5 @@ Current templates:
 - [01. Workload and Tradeoff Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/01-workload-and-tradeoff-template.md)
 - [02. Java Class and Reference Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/02-java-class-and-reference-template.md)
 - [03. Array and Binary Search Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/03-array-and-binary-search-template.md)
+- [04. Singly Linked List Basics Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/04-singly-linked-list-basics-template.md)
+- [05. Linked List Iterator Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/05-linked-list-iterator-template.md)
