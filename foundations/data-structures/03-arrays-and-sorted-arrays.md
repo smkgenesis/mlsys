@@ -1,4 +1,4 @@
-# Arrays and Sorted Arrays
+# 03. Arrays and Sorted Arrays
 
 ## What
 
@@ -70,8 +70,8 @@ It is there to make one question visible:
 what does it mean to access the k-th element?
 ```
 
-The answer depends on the representation.
-That is why data structures are about representation, not just abstract operations.
+The lecture's multiple-choice question is helpful because it shows that asymptotic questions only make sense when the data-structure model is already clear.
+Once the structure is treated as an array with direct indexing, access is `O(1)` when the index is given.
 
 ## Indexing Is an Addressing Discipline
 
@@ -132,6 +132,8 @@ The exact code details matter less than the invariant:
 
 Each iteration shrinks that interval substantially.
 
+The lecture also uses a binary-search variant to determine insertion position, which is important because searching and maintaining order are tied together in sorted arrays.
+
 ## Sequential Search Versus Binary Search
 
 The lecture contrasts:
@@ -171,7 +173,7 @@ So the lecture's summary is:
   - `O(n)` addition
   - `O(n)` deletion
 
-The stars matter because those constant-time update claims assume a very permissive model of unsorted updates.
+The stars matter because those constant-time update claims assume a permissive model of unsorted updates.
 The broader lesson is the real one:
 
 - sortedness improves search,

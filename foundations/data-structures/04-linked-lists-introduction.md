@@ -1,10 +1,10 @@
-# Linked Lists Introduction
+# 04. Linked Lists Introduction
 
 ## What
 
 This note introduces the linked list as the first alternative to array-based storage.
 
-The lecture focuses on a very small set of ideas:
+The lecture focuses on a small set of ideas:
 
 - arrays use contiguous storage,
 - linked lists can use noncontiguous blocks,
@@ -70,7 +70,7 @@ and the final node points to `null`.
 
 The list itself is entered through a distinguished reference such as `first`.
 
-So a linked list is not "just several nodes."
+So a linked list is not just "several nodes."
 It is:
 
 - an entry point,
@@ -84,7 +84,7 @@ The lecture also shows the empty list:
 - `first`
 - `null`
 
-This is important because the empty case is part of the structure, not an exception outside the model.
+This matters because the empty case is part of the structure, not something outside it.
 
 That detail will matter later when insertion and deletion rules are written more explicitly.
 
@@ -96,7 +96,7 @@ The lecture gives the high-level cost summary:
 - `O(1)` insertion*
 - `O(1)` deletion*
 
-The asterisks matter because these operation costs depend on what location or node reference you already have.
+The asterisks matter because these costs depend on what location or node reference you already have.
 
 The big contrast with arrays is the intended lesson:
 

@@ -17,16 +17,13 @@ Current notes:
 - [00. Introduction and Efficiency](/Users/minkyu/Documents/mlsys/foundations/data-structures/00-introduction-and-efficiency.md)
 - [01. Preprocessing, Worst Case, and Tradeoffs](/Users/minkyu/Documents/mlsys/foundations/data-structures/01-preprocessing-worst-case-and-tradeoffs.md)
 - [02. Java for C++ Programmers](/Users/minkyu/Documents/mlsys/foundations/data-structures/02-java-for-cpp-programmers.md)
-- [Black-Box and White-Box Thinking](/Users/minkyu/Documents/mlsys/foundations/data-structures/black-box-and-white-box-thinking.md)
-- [Infix, Postfix, and Stack Evaluation](/Users/minkyu/Documents/mlsys/foundations/data-structures/infix-postfix-and-stack-evaluation.md)
-- [Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/recursion-and-explicit-stack-simulation.md)
-- [Arrays and Sorted Arrays](/Users/minkyu/Documents/mlsys/foundations/data-structures/arrays-and-sorted-arrays.md)
-- [Linked Lists Introduction](/Users/minkyu/Documents/mlsys/foundations/data-structures/linked-lists-introduction.md)
+- [03. Arrays and Sorted Arrays](/Users/minkyu/Documents/mlsys/foundations/data-structures/03-arrays-and-sorted-arrays.md)
+- [04. Linked Lists Introduction](/Users/minkyu/Documents/mlsys/foundations/data-structures/04-linked-lists-introduction.md)
 
 ---
 
 Data Structures:
-Why Data Structures -> Data Organization -> Efficiency Measurement -> Order of Growth -> Workload Tradeoffs -> Java Object Model -> Interface vs Implementation -> Stack-Based Execution -> Recursion as Stack Behavior -> Arrays -> Sorted Arrays and Binary Search -> Linked Lists -> Core Structures
+Why Data Structures -> Data Organization -> Efficiency Measurement -> Order of Growth -> Workload Tradeoffs -> Java Object Model -> Arrays -> Sorted Arrays and Binary Search -> Linked Lists -> Core Structures
 
 This branch is for learning data structures as a subject, not just as a list of implementations.
 
@@ -55,9 +52,6 @@ The current scope is only:
 - how preprocessing changes time and space tradeoffs for repeated queries,
 - the Java reference model needed for later object-based implementations,
 - basic Java file I/O used in the course,
-- black-box versus white-box views of structures,
-- how stacks explain postfix evaluation,
-- how recursion can be understood as an implicit stack mechanism,
 - the array as the first concrete structure,
 - the tradeoff between unsorted and sorted arrays,
 - and the linked list as the first noncontiguous alternative.
@@ -111,50 +105,9 @@ It is to make later structure implementations readable and writable.
 
 ---
 
-## 4. Why Abstraction and Mechanism Both Matter
+## 4. Why Arrays Are the First Real Structure
 
-Deep dive: [Black-Box and White-Box Thinking](/Users/minkyu/Documents/mlsys/foundations/data-structures/black-box-and-white-box-thinking.md)
-
-Before specific structures accumulate, the branch also fixes an important reasoning habit:
-
-- black-box thinking explains the contract,
-- white-box thinking explains the implementation and cost.
-
-That distinction becomes essential once the same abstract structure can be realized with multiple concrete representations.
-
----
-
-## 5. Why Stack-Based Execution Appears Early
-
-Deep dive: [Infix, Postfix, and Stack Evaluation](/Users/minkyu/Documents/mlsys/foundations/data-structures/infix-postfix-and-stack-evaluation.md)
-
-This note shows one of the earliest situations where a data structure is not optional but necessary.
-
-It ties together:
-
-- representation,
-- evaluation order,
-- and the stack discipline that makes computation executable.
-
----
-
-## 6. Why Recursion Belongs in the Same Branch
-
-Deep dive: [Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/recursion-and-explicit-stack-simulation.md)
-
-Recursion belongs here because the call stack is itself a stack discipline.
-
-This note turns recursion from a mysterious control-flow trick into a data-structure idea:
-
-- suspended work,
-- saved local state,
-- and LIFO resumption.
-
----
-
-## 7. Why Arrays Are the First Real Structure
-
-Deep dive: [Arrays and Sorted Arrays](/Users/minkyu/Documents/mlsys/foundations/data-structures/arrays-and-sorted-arrays.md)
+Deep dive: [03. Arrays and Sorted Arrays](/Users/minkyu/Documents/mlsys/foundations/data-structures/03-arrays-and-sorted-arrays.md)
 
 This note is where the branch moves from general reasoning into the first concrete representation.
 
@@ -167,9 +120,9 @@ It introduces:
 
 ---
 
-## 8. Why Linked Lists Come Next
+## 5. Why Linked Lists Come Next
 
-Deep dive: [Linked Lists Introduction](/Users/minkyu/Documents/mlsys/foundations/data-structures/linked-lists-introduction.md)
+Deep dive: [04. Linked Lists Introduction](/Users/minkyu/Documents/mlsys/foundations/data-structures/04-linked-lists-introduction.md)
 
 The linked list appears immediately after arrays because it directly answers the array's main weakness.
 
@@ -183,7 +136,7 @@ This changes access and update costs in a different direction.
 
 ---
 
-## 9. Why This Subtrack Is Special
+## 6. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -197,7 +150,7 @@ That means:
 
 ---
 
-## 10. Why This Branch Matters
+## 7. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -208,7 +161,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 11. After This Branch You Should Understand
+## 8. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -220,9 +173,6 @@ After the current material in this branch, you should be able to explain:
 - how preprocessing changes the time and space cost of repeated queries,
 - how Java object references differ from primitive values,
 - how basic Java file I/O appears in the course,
-- how black-box and white-box views of the same structure differ,
-- why postfix evaluation naturally uses a stack,
-- and why recursion can be reinterpreted as explicit stack management.
 - why arrays support fast indexed access,
 - how sorted arrays trade update cost for faster search,
 - and why linked lists replace contiguous storage with explicit links.
