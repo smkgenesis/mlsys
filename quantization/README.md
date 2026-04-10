@@ -220,7 +220,12 @@ It covers the core concepts needed before this folder splits into more specializ
 - numeric encoding and storage,
 - format comparison,
 - precision-reduction tradeoffs,
-- and the first practical strategies such as post-training quantization.
+- post-training quantization,
+- quantization-aware training,
+- weight versus activation quantization,
+- static versus dynamic quantization,
+- granularity choices such as channelwise quantization,
+- and the role of quantization inside broader multi-technique optimization pipelines.
 
 This is the right shape for now because the subject is broad and tightly connected. It is better to establish one strong canonical note first than to fragment the folder too early.
 
@@ -243,8 +248,11 @@ Natural future expansions include:
 - symmetric versus asymmetric quantization,
 - granularity choices,
 - QAT,
+- weight versus activation quantization,
+- static versus dynamic quantization,
 - mixed precision for training,
 - FP8 and emerging formats,
+- extreme quantization,
 - and quantized kernel/runtime implications.
 
 So this folder should grow by splitting only when a subtopic becomes independently reusable enough to justify its own deep dive.
@@ -258,6 +266,12 @@ After reading the current quantization sequence, you should be able to explain:
 - why precision optimization is distinct from structural optimization,
 - why lower precision changes storage, bandwidth, throughput, and energy simultaneously,
 - why FP16, BF16, TF32, FP8, and INT8 serve different purposes,
+- why channelwise quantization is often the practical deployment default,
+- why weight and activation quantization should be reasoned about separately,
+- how static and dynamic quantization trade runtime efficiency for adaptability,
+- when PTQ is enough and when QAT is worth the added training cost,
+- why extreme quantization is qualitatively harder than ordinary INT8 deployment,
+- and why quantization is often strongest when combined with pruning, distillation, or architecture-level optimization.
 - why quantization is fundamentally a controlled approximation problem,
 - why calibration and range selection matter,
 - why training and inference usually need different precision strategies,

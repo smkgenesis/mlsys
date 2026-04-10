@@ -1,4 +1,4 @@
-# Java for C++ Programmers
+# 02. Java for C++ Programmers
 
 ## What
 
@@ -8,6 +8,7 @@ The lecture focuses on a narrow set of ideas:
 
 - Java programs are organized around classes,
 - compilation and execution happen through `javac` and `java`,
+- basic file I/O uses buffered readers and writers,
 - output uses `System.out.println`,
 - primitive variables and object variables behave differently,
 - object variables act like references,
@@ -61,6 +62,22 @@ Important observations from the examples:
 - while `a + b` with integer variables performs numeric addition.
 
 So the same symbol can participate in different behavior depending on the operand types.
+
+## File I/O
+
+The lecture also briefly introduces file I/O with:
+
+- `BufferedReader`
+- `FileReader`
+- `BufferedWriter`
+- `FileWriter`
+
+The example reads lines from an input file, converts them to integers, modifies them, and writes results to an output file.
+
+The important lesson is not a full I/O API survey.
+It is that basic Java programs in this course may interact with files through standard reader/writer objects and exception handling.
+
+That gives just enough background to read course code that is not limited to console input and output.
 
 ## Primitives Store Values
 
@@ -164,6 +181,7 @@ It is preparing you to read later data-structure code without constant low-level
 The key ideas are:
 
 - code is class-based,
+- simple file input/output may appear through buffered readers and writers,
 - object creation matters,
 - references are different from primitive values,
 - mutation through references is shared,
@@ -175,6 +193,7 @@ That is exactly the background needed before linked structures and object-based 
 
 - Thinking Java functions can be freely defined outside classes the way they often are in C or C++ examples.
 - Forgetting that `javac` compiles while `java` runs.
+- Forgetting that file I/O examples in Java usually require reader/writer objects and exception handling.
 - Assuming object assignment copies the whole object rather than the reference.
 - Declaring an object variable and then using it before creating the object.
 - Using `==` when the intended comparison is logical equality of object contents.

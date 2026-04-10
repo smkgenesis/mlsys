@@ -316,6 +316,250 @@ So granularity is another major tradeoff:
 - coarser quantization is simpler,
 - finer quantization often preserves accuracy better.
 
+Among these options, channelwise quantization is the current practical standard for convolutional filters.
+It usually gives most of the accuracy benefit of finer granularity without introducing the full complexity of much more fragmented scaling schemes.
+
+So in practice the broad pattern is:
+
+- layerwise is simple but often leaves accuracy on the table,
+- channelwise is the common deployment balance,
+- and finer granularity is reserved for cases where the extra complexity is justified.
+
+## Weights Versus Activations
+
+Quantization is also different depending on which tensors are being quantized.
+
+### Weight quantization
+
+Weight quantization reduces the precision of stored model parameters.
+
+This helps by:
+
+- shrinking model size,
+- reducing bandwidth needed to fetch parameters,
+- and enabling lower-precision arithmetic during inference.
+
+Weight quantization is usually the easiest place to start because weights are fixed after training and their distributions can be analyzed ahead of time.
+
+### Activation quantization
+
+Activation quantization reduces the precision of intermediate layer outputs during execution.
+
+This can further reduce:
+
+- memory traffic,
+- temporary buffer size,
+- and arithmetic cost on low-precision hardware.
+
+But it is usually harder than weight quantization because activations depend on the current input and can vary much more at runtime.
+
+That makes range selection and error control more difficult.
+
+So a useful practical distinction is:
+
+- weight quantization mainly compresses stored parameters,
+- activation quantization compresses live computation.
+
+Both matter, but activation quantization usually makes runtime behavior more delicate.
+
+## Static Versus Dynamic Quantization
+
+After choosing granularity and tensor type, another important question is:
+
+```text
+when are the quantization ranges determined?
+```
+
+### Static quantization
+
+Static quantization fixes the quantization ranges ahead of inference, usually through calibration.
+
+Its main advantage is efficiency:
+
+- no additional range-computation overhead at runtime,
+- predictable execution behavior,
+- and strong compatibility with deployment-oriented inference stacks.
+
+Its weakness is that the fixed range may not fit every input equally well.
+
+### Dynamic quantization
+
+Dynamic quantization computes activation ranges during runtime.
+
+Its main advantage is adaptability:
+
+- the range is chosen based on the current activation values,
+- which can improve accuracy on varying inputs.
+
+Its weakness is extra runtime cost:
+
+- range computation happens during inference,
+- which can reduce or even offset part of the expected speedup.
+
+So the tradeoff is direct:
+
+- static quantization favors runtime efficiency,
+- dynamic quantization favors input-adaptive accuracy.
+
+## PTQ Advantages and Limitations
+
+Post-training quantization is attractive because it is the fastest path from a trained model to a smaller and cheaper inference artifact.
+
+Its main advantages are:
+
+- no retraining,
+- low engineering overhead,
+- immediate memory savings,
+- and strong usefulness for deployment under time or compute constraints.
+
+This is why PTQ is often the default first choice for:
+
+- mobile deployment,
+- edge inference,
+- rapid productization,
+- and any case where retraining is expensive or unavailable.
+
+But PTQ also has clear limitations:
+
+- quantization error is introduced after the model has already finished learning,
+- some architectures are more sensitive than others,
+- and hardware support is not uniformly strong across all platforms.
+
+A common practical pattern is:
+
+- CNNs often tolerate PTQ reasonably well,
+- transformer-like models can be more sensitive,
+- and careful calibration plus channelwise scaling often become necessary to preserve quality.
+
+So PTQ is best understood as:
+
+- the easiest deployment-oriented quantization method,
+- but not the most accuracy-preserving one.
+
+## Quantization-Aware Training
+
+Quantization-aware training integrates quantization into the training loop rather than applying it only after training.
+
+The core idea is:
+
+- simulate low-precision behavior in the forward pass,
+- keep gradient updates workable during backpropagation,
+- and let the model adapt its parameters to the quantized regime.
+
+Conceptually, a common simulated quantization form is:
+
+```text
+q = round(x / s) * s
+```
+
+where the forward pass mimics quantization while training still updates parameters in a differentiable optimization process.
+
+Because rounding is not differentiable, QAT typically relies on gradient approximations such as the Straight-Through Estimator (STE).
+
+### Why QAT helps
+
+QAT usually preserves accuracy better than PTQ because the model learns under the same numerical constraints it will later face at inference time.
+
+This is especially important for:
+
+- quantization-sensitive models,
+- NLP and speech systems,
+- and deployment targets where low-precision inference is mandatory but accuracy loss must stay small.
+
+### Why QAT costs more
+
+QAT is not free.
+It adds:
+
+- more training complexity,
+- more tuning decisions,
+- and more training time.
+
+So the practical comparison is:
+
+- PTQ is faster and easier,
+- QAT is slower but more accuracy-preserving.
+
+In many real workflows, a hybrid path is sensible:
+
+- start with PTQ,
+- then use QAT if PTQ alone loses too much accuracy.
+
+## PTQ Versus QAT
+
+The decision between PTQ and QAT is usually not philosophical.
+It is operational.
+
+Use PTQ when:
+
+- deployment speed matters most,
+- retraining is difficult,
+- and moderate accuracy loss is acceptable.
+
+Use QAT when:
+
+- low-precision inference is required,
+- the model is numerically sensitive,
+- and accuracy preservation matters enough to justify extra training cost.
+
+This is one of the most practical quantization decisions in real systems:
+
+```text
+fast deployment versus accuracy recovery
+```
+
+## Extreme Quantization
+
+Beyond INT8 and INT4, extreme quantization pushes precision down to:
+
+- binary representations,
+- or ternary representations.
+
+These methods can drastically reduce:
+
+- storage,
+- arithmetic cost,
+- and power usage.
+
+But the tradeoff is severe.
+Extreme quantization greatly restricts representational flexibility and often requires:
+
+- specialized training methods,
+- gradient approximations such as STE,
+- and sometimes specialized hardware to realize the intended efficiency.
+
+So these methods are important, but they are not just "smaller INT8."
+They belong to a much more constrained part of the design space.
+
+## Multi-Technique Optimization
+
+Quantization is powerful by itself, but it becomes much more effective when combined with other optimization branches.
+
+The most important combinations are:
+
+- pruning plus quantization,
+- distillation plus quantization,
+- and architecture search or architecture-aware design plus quantization.
+
+These combinations work because each technique attacks a different part of the efficiency problem:
+
+- pruning reduces parameter count,
+- quantization reduces bits per parameter and activation,
+- distillation recovers or preserves behavior in a smaller student,
+- and architecture design can make the model more compatible with low-precision execution in the first place.
+
+This is why quantization should not be viewed as the final optimization step in isolation.
+It is often one part of a larger pipeline.
+
+The practical systems lesson is:
+
+```text
+structural efficiency, numerical efficiency, and execution efficiency compound
+```
+
+Quantization handles the numerical-efficiency piece.
+It is strongest when the rest of the optimization pipeline is aligned with it.
+
 ## Hardware Support and Real System Performance
 
 One of the most important practical lessons is that hardware support is decisive.
@@ -337,6 +581,37 @@ A hardware vendor may advertise very large low-precision throughput improvements
 - and any extra orchestration needed for mixed precision or quantization.
 
 So quantization always has to be evaluated as a whole-system optimization, not just as a hardware feature checkbox.
+
+## Common Mistakes
+
+- Treating weight quantization and activation quantization as if they posed the same runtime and accuracy challenges.
+- Assuming layerwise quantization is the natural default when channelwise quantization is often the practical standard.
+- Assuming dynamic quantization is always better because it is more adaptive, without accounting for its runtime overhead.
+- Assuming PTQ and QAT differ only in implementation effort rather than in how the model experiences quantization error.
+- Treating extreme quantization as just a more aggressive version of INT8 rather than a qualitatively different regime.
+- Evaluating quantization in isolation instead of asking how it interacts with pruning, distillation, or architecture design.
+
+## Why This Matters for ML Systems
+
+This stage of quantization analysis is where the folder becomes fully systems-oriented.
+
+The real deployment question is not simply:
+
+- can the model be quantized?
+
+It is:
+
+- which tensors should be quantized,
+- at what granularity,
+- when ranges should be chosen,
+- whether PTQ is sufficient or QAT is required,
+- and how quantization fits with the rest of the optimization pipeline.
+
+That is the level where quantization decisions start affecting end-to-end model viability rather than just benchmark numbers.
+
+## Short Takeaway
+
+Quantization becomes much more practical once its internal choices are made explicit: channelwise quantization is often the deployment default, weights and activations pose different challenges, static and dynamic quantization trade runtime cost for adaptability, PTQ and QAT trade deployment speed for accuracy retention, and aggressive precision reduction works best when combined with broader structural and execution optimizations.
 
 ## Common Mistakes
 
