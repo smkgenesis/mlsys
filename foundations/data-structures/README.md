@@ -23,6 +23,7 @@ Current notes:
 - [06. Circular Linked Lists](/Users/minkyu/Documents/mlsys/foundations/data-structures/06-circular-linked-lists.md)
 - [07. Stacks and Queues](/Users/minkyu/Documents/mlsys/foundations/data-structures/07-stacks-and-queues.md)
 - [08. Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/08-recursion-and-explicit-stack-simulation.md)
+- [09. Expression Processing with Stacks](/Users/minkyu/Documents/mlsys/foundations/data-structures/09-expression-processing-with-stacks.md)
 
 ---
 
@@ -62,7 +63,8 @@ The current scope is only:
 - iterator-based traversal as the linked-list alternative to array indexing,
 - circular linked lists with header nodes as a way to simplify cyclic list handling,
 - stack/queue abstract data types together with their linked-list and array implementations,
-- and recursion as stack-managed control flow that can be simulated explicitly.
+- recursion as stack-managed control flow that can be simulated explicitly,
+- and stack-based expression processing through postfix evaluation and infix-to-postfix conversion.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -216,7 +218,26 @@ This is where the branch makes one of its most important hidden mechanisms visib
 
 ---
 
-## 10. Why This Subtrack Is Special
+## 10. Why Expression Processing Belongs Here
+
+Deep dive: [09. Expression Processing with Stacks](/Users/minkyu/Documents/mlsys/foundations/data-structures/09-expression-processing-with-stacks.md)
+
+This note shows the next major use of stacks after ADT introduction and call-stack motivation.
+
+It covers:
+
+- postfix notation,
+- postfix evaluation,
+- infix-to-postfix conversion,
+- operator precedence,
+- `peek`,
+- and parenthesis handling through stack discipline.
+
+This is where stacks become a concrete language-processing tool.
+
+---
+
+## 11. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -230,7 +251,7 @@ That means:
 
 ---
 
-## 11. Why This Branch Matters
+## 12. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -241,7 +262,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 12. After This Branch You Should Understand
+## 13. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -260,4 +281,5 @@ After the current material in this branch, you should be able to explain:
 - why iterators serve as the traversal abstraction once direct indexing disappears,
 - how circular structure plus a header node can simplify list algorithms and edge cases,
 - how stacks and queues can be implemented on top of linked lists or arrays depending on the operation pattern,
-- and how recursion can be understood as explicit context plus stack-managed control flow.
+- how recursion can be understood as explicit context plus stack-managed control flow,
+- and how stacks support expression evaluation and notation conversion through delayed operator handling.
