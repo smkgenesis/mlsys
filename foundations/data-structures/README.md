@@ -21,6 +21,7 @@ Current notes:
 - [04. Linked Lists Introduction](/Users/minkyu/Documents/mlsys/foundations/data-structures/04-linked-lists-introduction.md)
 - [05. Linked List Iterators](/Users/minkyu/Documents/mlsys/foundations/data-structures/05-linked-list-iterators.md)
 - [06. Circular Linked Lists](/Users/minkyu/Documents/mlsys/foundations/data-structures/06-circular-linked-lists.md)
+- [07. Stacks and Queues](/Users/minkyu/Documents/mlsys/foundations/data-structures/07-stacks-and-queues.md)
 
 ---
 
@@ -58,7 +59,8 @@ The current scope is only:
 - the tradeoff between unsorted and sorted arrays,
 - the linked list as the first noncontiguous alternative,
 - iterator-based traversal as the linked-list alternative to array indexing,
-- and circular linked lists with header nodes as a way to simplify cyclic list handling.
+- circular linked lists with header nodes as a way to simplify cyclic list handling,
+- and stack/queue abstract data types together with their linked-list and array implementations.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -176,7 +178,25 @@ This is the branch's clearest example so far of changing representation to simpl
 
 ---
 
-## 8. Why This Subtrack Is Special
+## 8. Why Stacks and Queues Matter
+
+Deep dive: [07. Stacks and Queues](/Users/minkyu/Documents/mlsys/foundations/data-structures/07-stacks-and-queues.md)
+
+This note is where the branch moves from list variants to abstract data types.
+
+It introduces:
+
+- FIFO versus LIFO behavior,
+- queues and stacks as algorithmic building blocks,
+- linked-list implementations,
+- array-based stacks,
+- and circular queues as the fix for wasted space in naive array queues.
+
+This is also the first note where the difference between interface and representation becomes especially explicit.
+
+---
+
+## 9. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -190,7 +210,7 @@ That means:
 
 ---
 
-## 9. Why This Branch Matters
+## 10. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -201,7 +221,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 10. After This Branch You Should Understand
+## 11. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -218,4 +238,5 @@ After the current material in this branch, you should be able to explain:
 - why linked lists replace contiguous storage with explicit links,
 - how `first` and `last` change linked-list invariants,
 - why iterators serve as the traversal abstraction once direct indexing disappears,
-- and how circular structure plus a header node can simplify list algorithms and edge cases.
+- how circular structure plus a header node can simplify list algorithms and edge cases,
+- and how stacks and queues can be implemented on top of linked lists or arrays depending on the operation pattern.

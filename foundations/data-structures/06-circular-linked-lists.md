@@ -8,6 +8,11 @@ This note records the lecture's next structural variation on linked lists:
 - header nodes,
 - and iterators adapted to circular structure.
 
+At the end of the lecture, it also briefly positions:
+
+- doubly linked lists,
+- and when singly linked lists are still the better choice.
+
 The motivation is simple:
 
 ```text
@@ -210,6 +215,40 @@ It is there because it reduces special-case logic in the implementation.
 
 That is a very important data-structures idea.
 
+## Doubly Linked Lists as the Next Contrast
+
+The lecture closes by introducing doubly linked lists through one simple motivation:
+
+- we may want to traverse backwards
+
+That adds a `prev` link to each node.
+
+The course does not fully develop the implementation here.
+Instead, it uses doubly linked lists as a contrast point:
+
+- singly linked lists are lighter,
+- doubly linked lists are more symmetric,
+- and richer structure should be justified by actual needs.
+
+## When a Singly Linked List Is Still Better
+
+The lecture ends with a practical comparison question:
+
+```text
+when would you use a singly linked list instead of a doubly linked one?
+```
+
+The listed answers are straightforward:
+
+- when traversal is typically one-directional,
+- when we want less memory overhead,
+- and when the extra backward link is not worth the additional structural cost.
+
+This is a useful closing reminder for the linked-list sequence:
+
+- more structure can do more,
+- but it also costs more.
+
 ## Common Mistakes
 
 - Thinking circularity is only a visual change rather than a representation change.
@@ -218,6 +257,7 @@ That is a very important data-structures idea.
 - Forgetting that `atEnd()` is now `cur == header`.
 - Forgetting to initialize the empty structure with `header.next = header`.
 - Treating round-robin or cyclic workloads as if they naturally require a linear null-terminated list.
+- Assuming doubly linked lists are always the best default.
 
 ## Why This Matters for CS / Systems
 
@@ -226,8 +266,8 @@ This note matters because it sharpens a core data-structures instinct:
 - choose the representation that makes the common operations simple,
 - even if that means adding an extra structural object like a header node.
 
-Circular linked lists and sentinels show how much implementation complexity can be removed by a smarter invariant.
+Circular linked lists and sentinels show how much implementation complexity can be removed by a smarter invariant. The lecture's brief doubly linked list comparison adds the balancing lesson that extra structural power should still be paid for only when the workload truly needs it.
 
 ## Short Takeaway
 
-Circular linked lists remove the terminal `null` and loop the structure back on itself, which fits cyclic workloads such as round-robin scheduling. With a header node, the representation becomes even cleaner: the empty list is `header.next == header`, traversal ends when `cur == header`, and insertion and deletion logic lose many of the first-node and empty-list special cases that complicated singly linked lists.
+Circular linked lists remove the terminal `null` and loop the structure back on itself, which fits cyclic workloads such as round-robin scheduling. With a header node, the representation becomes even cleaner: the empty list is `header.next == header`, traversal ends when `cur == header`, and insertion and deletion logic lose many of the first-node and empty-list special cases that complicated singly linked lists. The lecture then closes by contrasting this with doubly linked lists, reinforcing that added structure should be justified by actual traversal needs.
