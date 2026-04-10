@@ -27,3 +27,5 @@ templates capture the smallest code skeleton we can reliably rebuild by hand.
 Current templates:
 
 - [00. Exact Runtime Counting Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/00-exact-runtime-counting-template.md)
+- [01. Workload and Tradeoff Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/01-workload-and-tradeoff-template.md)
+- [02. Java Class and Reference Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/02-java-class-and-reference-template.md)
