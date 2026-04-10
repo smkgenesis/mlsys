@@ -32,3 +32,4 @@ Current templates:
 - [03. Array and Binary Search Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/03-array-and-binary-search-template.md)
 - [04. Singly Linked List Basics Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/04-singly-linked-list-basics-template.md)
 - [05. Linked List Iterator Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/05-linked-list-iterator-template.md)
+- [06. Circular Linked List Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/06-circular-linked-list-template.md)
