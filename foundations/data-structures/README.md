@@ -25,6 +25,7 @@ Current notes:
 - [08. Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/08-recursion-and-explicit-stack-simulation.md)
 - [09. Expression Processing with Stacks](/Users/minkyu/Documents/mlsys/foundations/data-structures/09-expression-processing-with-stacks.md)
 - [10. Sorting Basics and Divide-and-Conquer](/Users/minkyu/Documents/mlsys/foundations/data-structures/10-sorting-basics-and-divide-and-conquer.md)
+- [11. Quick Sort and In-Place Partitioning](/Users/minkyu/Documents/mlsys/foundations/data-structures/11-quick-sort-and-in-place-partitioning.md)
 
 ---
 
@@ -66,7 +67,8 @@ The current scope is only:
 - stack/queue abstract data types together with their linked-list and array implementations,
 - recursion as stack-managed control flow that can be simulated explicitly,
 - stack-based expression processing through postfix evaluation and infix-to-postfix conversion,
-- and the first sorting algorithms from bubble sort through merge sort and quick sort ideas.
+- the first sorting algorithms from bubble sort through merge sort,
+- and quick sort as an in-place recursive partitioning strategy.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -253,13 +255,28 @@ It covers:
 - stability,
 - merging sorted lists,
 - merge sort,
-- and the core partitioning idea behind quick sort.
+- and the setup for quick sort.
 
 This is where the branch begins comparing full algorithm families rather than just isolated data-structure operations.
 
 ---
 
-## 12. Why This Subtrack Is Special
+## 12. Why Quick Sort Gets Its Own Note
+
+Deep dive: [11. Quick Sort and In-Place Partitioning](/Users/minkyu/Documents/mlsys/foundations/data-structures/11-quick-sort-and-in-place-partitioning.md)
+
+This note continues the sorting branch with:
+
+- pivot selection,
+- recursive quick sort,
+- and the in-place partition invariant.
+
+It stands on its own because quick sort is not just another `O(n log n)` sorter.
+It introduces a distinctly different structural idea from merge sort: recursive partitioning without an auxiliary merge buffer.
+
+---
+
+## 13. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -273,7 +290,7 @@ That means:
 
 ---
 
-## 13. Why This Branch Matters
+## 14. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -284,7 +301,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 14. After This Branch You Should Understand
+## 15. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -305,4 +322,5 @@ After the current material in this branch, you should be able to explain:
 - how stacks and queues can be implemented on top of linked lists or arrays depending on the operation pattern,
 - how recursion can be understood as explicit context plus stack-managed control flow,
 - how stacks support expression evaluation and notation conversion through delayed operator handling,
-- and how the first major sorting algorithms differ in invariants, runtime, stability, and space tradeoffs.
+- how the first major sorting algorithms differ in invariants, runtime, stability, and space tradeoffs,
+- and how quick sort uses in-place partitioning to define its recursive structure.

@@ -194,6 +194,15 @@ The final result is:
 
 This is an excellent example of why recursive algorithms need recursion-tree style reasoning rather than flat call counting.
 
+The lecture also makes the recursive call structure explicit:
+
+- there are `n - 1` splitting calls,
+- `n` terminal calls,
+- and `2n - 1` total calls.
+
+That count is useful, but the lecture's main warning is that total call count alone does not determine the tight running time.
+The deeper calls do much less work than the top-level calls.
+
 ## Merge Sort Tradeoffs
 
 The lecture also records two important practical facts:
@@ -207,7 +216,7 @@ So the gain in asymptotic time comes with a space cost.
 
 ## Quick Sort as the Next Recursive Strategy
 
-The lecture closes by introducing the core idea of quick sort.
+The lecture closes by introducing the core idea of quick sort, which is developed in the next note.
 
 Quick sort is presented as:
 
@@ -243,6 +252,7 @@ That is why sorting is such a central teaching topic.
 - Ignoring stability when comparing algorithms.
 - Using flat call counting to analyze merge sort and concluding `O(n^2)`.
 - Forgetting that merge sort's better time bound comes with extra auxiliary space.
+- Treating the introductory quick-sort slides as if they already explained the full partitioning implementation.
 
 ## Why This Matters for CS / Systems
 
@@ -259,4 +269,4 @@ It is also one of the clearest places to see how algorithm design decisions trad
 
 ## Short Takeaway
 
-This lecture introduces sorting as a comparison of design ideas, not just named algorithms. Bubble, selection, and insertion sort all run in `O(n^2)` worst-case time but rely on different invariants and behaviors. Merge sort introduces recursive divide-and-conquer and improves the time bound to `O(n log n)` at the cost of extra space, while quick sort is introduced as a second recursive strategy based on pivot partitioning.
+This lecture introduces sorting as a comparison of design ideas, not just named algorithms. Bubble, selection, and insertion sort all run in `O(n^2)` worst-case time but rely on different invariants and behaviors. Merge sort introduces recursive divide-and-conquer and improves the time bound to `O(n log n)` at the cost of extra space, while quick sort is introduced as the next recursive strategy based on pivot partitioning.
