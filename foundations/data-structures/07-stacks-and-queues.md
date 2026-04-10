@@ -13,7 +13,8 @@ The lecture introduces:
 - queues and stacks as algorithmic building blocks,
 - linked-list implementations,
 - array implementations,
-- and the need for a circular queue when a plain array queue wastes space.
+- the need for a circular queue when a plain array queue wastes space,
+- and a concrete stack application through matching parentheses.
 
 ## Why It Matters
 
@@ -232,6 +233,39 @@ This is a classic circular-buffer trick:
 - sacrifice one slot,
 - gain simple state tests.
 
+## Example of Using a Stack: Matching Parentheses
+
+The lecture then gives the first fully algorithmic use of a stack:
+
+- decide whether a string has matching parentheses
+
+The examples include:
+
+- balanced inputs such as `(abc)` and nested bracket patterns,
+- and unbalanced inputs such as a lone opening parenthesis or mismatched closing order.
+
+The stack logic is the important part:
+
+1. scan the string left to right,
+2. push each opening delimiter,
+3. on a closing delimiter, check whether the stack top has the matching opener,
+4. fail immediately if it does not,
+5. and succeed only if the stack is empty at the end.
+
+This is the lecture's clearest illustration that stacks are not just storage containers.
+They are algorithmic control structures.
+
+## Why the Parentheses Example Matters
+
+This example is simple but deep.
+
+It shows that LIFO behavior naturally matches nested structure:
+
+- the most recently opened delimiter
+- must be the first one closed
+
+That "most recent unfinished thing gets handled first" pattern appears constantly in parsing, expression processing, and runtime control flow.
+
 ## What This Note Is Really Teaching
 
 This lecture is not just introducing several implementations.
@@ -244,6 +278,14 @@ and the right representation depends on the operation pattern
 
 That is the same tradeoff mindset from arrays and linked lists, now expressed at the ADT level.
 
+The parentheses example adds one more lesson:
+
+```text
+the right data structure often becomes visible from the dependency order in the task
+```
+
+Nested matching needs LIFO, so a stack is the natural fit.
+
 ## Common Mistakes
 
 - Treating stacks and queues as specific concrete structures instead of access disciplines.
@@ -252,6 +294,7 @@ That is the same tradeoff mindset from arrays and linked lists, now expressed at
 - Forgetting that the plain array queue can waste space after repeated dequeues.
 - Missing the invariant role of `top`, `front`, and `rear`.
 - Forgetting that the circular queue's empty/full logic depends on reserved capacity.
+- Treating the parentheses-matching example as a memorized trick rather than as an application of LIFO dependency handling.
 
 ## Why This Matters for CS / Systems
 
@@ -267,4 +310,4 @@ The lecture's real contribution is to connect those familiar behaviors to repres
 
 ## Short Takeaway
 
-Queues and stacks are abstract access patterns, not single concrete structures. A queue is FIFO and naturally fits linked-list rear insertion plus front deletion, while a stack is LIFO and maps cleanly to either linked-list front operations or an array with a `top` index. A naive array queue wastes space after dequeues, which is why the lecture introduces the circular queue and its modular `front`/`rear` invariants.
+Queues and stacks are abstract access patterns, not single concrete structures. A queue is FIFO and naturally fits linked-list rear insertion plus front deletion, while a stack is LIFO and maps cleanly to either linked-list front operations or an array with a `top` index. A naive array queue wastes space after dequeues, which is why the lecture introduces the circular queue and its modular `front`/`rear` invariants. The parentheses example then shows what these ideas are for: stacks solve problems whose unfinished work must be resumed in reverse order.

@@ -22,6 +22,7 @@ Current notes:
 - [05. Linked List Iterators](/Users/minkyu/Documents/mlsys/foundations/data-structures/05-linked-list-iterators.md)
 - [06. Circular Linked Lists](/Users/minkyu/Documents/mlsys/foundations/data-structures/06-circular-linked-lists.md)
 - [07. Stacks and Queues](/Users/minkyu/Documents/mlsys/foundations/data-structures/07-stacks-and-queues.md)
+- [08. Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/08-recursion-and-explicit-stack-simulation.md)
 
 ---
 
@@ -60,7 +61,8 @@ The current scope is only:
 - the linked list as the first noncontiguous alternative,
 - iterator-based traversal as the linked-list alternative to array indexing,
 - circular linked lists with header nodes as a way to simplify cyclic list handling,
-- and stack/queue abstract data types together with their linked-list and array implementations.
+- stack/queue abstract data types together with their linked-list and array implementations,
+- and recursion as stack-managed control flow that can be simulated explicitly.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -190,13 +192,31 @@ It introduces:
 - queues and stacks as algorithmic building blocks,
 - linked-list implementations,
 - array-based stacks,
-- and circular queues as the fix for wasted space in naive array queues.
+- circular queues as the fix for wasted space in naive array queues,
+- and stack use through parentheses matching.
 
 This is also the first note where the difference between interface and representation becomes especially explicit.
 
 ---
 
-## 9. Why This Subtrack Is Special
+## 9. Why Recursion Belongs in This Branch
+
+Deep dive: [08. Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/08-recursion-and-explicit-stack-simulation.md)
+
+This note connects recursive problem solving to the stack discipline introduced just before it.
+
+It covers:
+
+- recursive binomial coefficients,
+- Tower of Hanoi,
+- the call stack,
+- and explicit stack-based simulation of recursive control flow.
+
+This is where the branch makes one of its most important hidden mechanisms visible.
+
+---
+
+## 10. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -210,7 +230,7 @@ That means:
 
 ---
 
-## 10. Why This Branch Matters
+## 11. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -221,7 +241,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 11. After This Branch You Should Understand
+## 12. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -239,4 +259,5 @@ After the current material in this branch, you should be able to explain:
 - how `first` and `last` change linked-list invariants,
 - why iterators serve as the traversal abstraction once direct indexing disappears,
 - how circular structure plus a header node can simplify list algorithms and edge cases,
-- and how stacks and queues can be implemented on top of linked lists or arrays depending on the operation pattern.
+- how stacks and queues can be implemented on top of linked lists or arrays depending on the operation pattern,
+- and how recursion can be understood as explicit context plus stack-managed control flow.
