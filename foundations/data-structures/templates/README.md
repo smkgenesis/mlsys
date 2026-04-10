@@ -23,3 +23,7 @@ Working rule:
 notes explain why the structure works;
 templates capture the smallest code skeleton we can reliably rebuild by hand.
 ```
+
+Current templates:
+
+- [00. Exact Runtime Counting Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/00-exact-runtime-counting-template.md)
