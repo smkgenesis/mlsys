@@ -25,11 +25,12 @@ Current notes:
 - [06. Convolution](06-convolution.md)
 - [07. Stencil Sweeps](07-stencil-sweeps.md)
 - [08. Parallel Histograms](08-parallel-histograms.md)
+- [09. Reduction](09-reduction.md)
 
 ---
 
 CUDA Execution and Optimization:
-Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention
+Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention -> Coordinated Aggregation
 
 This document describes the CUDA side of ML systems with deliberately mechanism-level emphasis.
 
@@ -45,7 +46,8 @@ The goal is to make the CUDA execution story explicit:
 - how different memory spaces behave,
 - why memory traffic usually dominates performance,
 - how these ideas show up in concrete parallel patterns such as convolution and stencil sweeps,
-- and what changes when output ownership breaks and multiple threads contend on shared results.
+- what changes when output ownership breaks and multiple threads contend on shared results,
+- and how collaborative aggregation patterns expose divergence, coalescing, shared-memory, and coarsening tradeoffs.
 
 The documents in this folder are deep dives.
 This README is the parent document that ties them together into one continuous CUDA learning path.
@@ -107,6 +109,7 @@ heterogeneous framing
 -> convolution as a 2D pattern
 -> stencil sweeps as a 3D pattern
 -> parallel histograms as a shared-output contention pattern
+-> reduction as a tree-structured aggregation pattern
 ```
 
 This is not just an ordered list.
@@ -418,7 +421,29 @@ So this note is the first explicit shared-output pattern in the folder.
 
 ---
 
-## 11. The Main Distinctions This Folder Tries to Keep Sharp
+## 11. Reduction Adds the Aggregation Tree Pattern
+
+Deep dive: [09. Reduction](09-reduction.md)
+
+Reduction introduces a different coordination problem from histograms.
+
+Instead of many threads contending on many shared bins, reduction asks many threads to cooperatively collapse a set of values into one summary result.
+
+This brings together several CUDA concerns in one place:
+
+- tree-structured collaboration
+- associativity and commutativity requirements
+- warp divergence
+- memory coalescing
+- shared-memory staging
+- segmented scaling to multiple blocks
+- and thread coarsening to reduce overhead
+
+That makes reduction one of the cleanest “all the CUDA optimization themes meet here” pattern notes in the folder.
+
+---
+
+## 12. The Main Distinctions This Folder Tries to Keep Sharp
 
 Several distinctions matter across these notes.
 
@@ -451,12 +476,13 @@ Several distinctions matter across these notes.
 
 - convolution and stencil sweeps mainly teach how to optimize independently owned outputs
 - histograms teach what happens when many threads must coordinate on shared outputs
+- reduction teaches how many threads cooperatively aggregate one logical result through a staged tree
 
 These distinctions are what turn CUDA from memorized terminology into usable engineering judgment.
 
 ---
 
-## 12. Why This Folder Matters for ML Systems
+## 13. Why This Folder Matters for ML Systems
 
 This folder matters because many ML systems bottlenecks eventually become CUDA questions when workloads hit GPUs.
 
@@ -488,7 +514,7 @@ That is the real CUDA mindset.
 
 ---
 
-## 13. File Sequence and Future Expansion
+## 14. File Sequence and Future Expansion
 
 The current deep-dive notes are:
 
@@ -500,13 +526,14 @@ The current deep-dive notes are:
 - [06. Convolution](06-convolution.md)
 - [07. Stencil Sweeps](07-stencil-sweeps.md)
 - [08. Parallel Histograms](08-parallel-histograms.md)
+- [09. Reduction](09-reduction.md)
 
 This folder is not considered complete.
 New documents may be added later between or beneath the current topics.
 
 Likely future additions include:
 
-- reduction and scan patterns
+- scan patterns
 - sorting and merge patterns
 - more CUDA-specific profiling guidance
 - synchronization and communication patterns
@@ -519,7 +546,7 @@ So the current order should be read as:
 
 ---
 
-## 14. After This Folder You Should Understand
+## 15. After This Folder You Should Understand
 
 After finishing this folder, you should be able to explain:
 
@@ -529,7 +556,8 @@ After finishing this folder, you should be able to explain:
 - how CUDA memory spaces differ and why shared memory and registers matter
 - why coalescing, latency hiding, and tiling are central to performance
 - why convolution and stencil sweeps are similar in shape but different in optimization payoff
-- why histograms introduce a different pattern built around race conditions and contention management
+- why histograms introduce a pattern built around race conditions and contention management
+- why reduction introduces a tree-structured aggregation pattern built around divergence, coalescing, shared-memory staging, and coarsening
 - and how to interpret a CUDA kernel in terms of its actual bottleneck rather than just its source syntax
 
 If this folder works well, CUDA should stop feeling like:
