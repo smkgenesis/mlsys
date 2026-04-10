@@ -19,6 +19,7 @@ Current notes:
 - [02. Java for C++ Programmers](/Users/minkyu/Documents/mlsys/foundations/data-structures/02-java-for-cpp-programmers.md)
 - [03. Arrays and Sorted Arrays](/Users/minkyu/Documents/mlsys/foundations/data-structures/03-arrays-and-sorted-arrays.md)
 - [04. Linked Lists Introduction](/Users/minkyu/Documents/mlsys/foundations/data-structures/04-linked-lists-introduction.md)
+- [05. Linked List Iterators](/Users/minkyu/Documents/mlsys/foundations/data-structures/05-linked-list-iterators.md)
 
 ---
 
@@ -54,7 +55,8 @@ The current scope is only:
 - basic Java file I/O used in the course,
 - the array as the first concrete structure,
 - the tradeoff between unsorted and sorted arrays,
-- and the linked list as the first noncontiguous alternative.
+- the linked list as the first noncontiguous alternative,
+- and iterator-based traversal as the linked-list alternative to array indexing.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -134,9 +136,31 @@ Instead of relying on contiguous storage and direct indexing, it uses:
 
 This changes access and update costs in a different direction.
 
+The lecture then pushes one step further:
+
+- once a structure has no natural index,
+- traversal needs its own abstraction,
+- which is why iterators appear immediately after the first linked-list operations.
+
 ---
 
-## 6. Why This Subtrack Is Special
+## 6. Why Iterators Appear So Early
+
+Deep dive: [05. Linked List Iterators](/Users/minkyu/Documents/mlsys/foundations/data-structures/05-linked-list-iterators.md)
+
+This note explains how the course bridges from array-style use to linked-list use.
+
+The main point is:
+
+- a linked list should not be treated as if it had array indices,
+- and a raw node reference is not yet the right user-facing abstraction,
+- so traversal is packaged as an iterator with methods such as `atEnd`, `getData`, and `next`.
+
+This is the branch's first explicit interface-level abstraction built on top of a structure.
+
+---
+
+## 7. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -150,7 +174,7 @@ That means:
 
 ---
 
-## 7. Why This Branch Matters
+## 8. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -161,7 +185,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 8. After This Branch You Should Understand
+## 9. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -175,4 +199,6 @@ After the current material in this branch, you should be able to explain:
 - how basic Java file I/O appears in the course,
 - why arrays support fast indexed access,
 - how sorted arrays trade update cost for faster search,
-- and why linked lists replace contiguous storage with explicit links.
+- why linked lists replace contiguous storage with explicit links,
+- how `first` and `last` change linked-list invariants,
+- and why iterators serve as the traversal abstraction once direct indexing disappears.
