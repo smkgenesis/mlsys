@@ -24,6 +24,7 @@ Current notes:
 - [07. Stacks and Queues](/Users/minkyu/Documents/mlsys/foundations/data-structures/07-stacks-and-queues.md)
 - [08. Recursion and Explicit Stack Simulation](/Users/minkyu/Documents/mlsys/foundations/data-structures/08-recursion-and-explicit-stack-simulation.md)
 - [09. Expression Processing with Stacks](/Users/minkyu/Documents/mlsys/foundations/data-structures/09-expression-processing-with-stacks.md)
+- [10. Sorting Basics and Divide-and-Conquer](/Users/minkyu/Documents/mlsys/foundations/data-structures/10-sorting-basics-and-divide-and-conquer.md)
 
 ---
 
@@ -64,7 +65,8 @@ The current scope is only:
 - circular linked lists with header nodes as a way to simplify cyclic list handling,
 - stack/queue abstract data types together with their linked-list and array implementations,
 - recursion as stack-managed control flow that can be simulated explicitly,
-- and stack-based expression processing through postfix evaluation and infix-to-postfix conversion.
+- stack-based expression processing through postfix evaluation and infix-to-postfix conversion,
+- and the first sorting algorithms from bubble sort through merge sort and quick sort ideas.
 
 Later notes should be added only when they are supported by the course material you provide.
 
@@ -237,7 +239,27 @@ This is where stacks become a concrete language-processing tool.
 
 ---
 
-## 11. Why This Subtrack Is Special
+## 11. Why Sorting Starts Here
+
+Deep dive: [10. Sorting Basics and Divide-and-Conquer](/Users/minkyu/Documents/mlsys/foundations/data-structures/10-sorting-basics-and-divide-and-conquer.md)
+
+This note opens the sorting branch.
+
+It covers:
+
+- bubble sort,
+- selection sort,
+- insertion sort,
+- stability,
+- merging sorted lists,
+- merge sort,
+- and the core partitioning idea behind quick sort.
+
+This is where the branch begins comparing full algorithm families rather than just isolated data-structure operations.
+
+---
+
+## 12. Why This Subtrack Is Special
 
 This subtrack may eventually be used differently from ordinary concept branches because data structures are often tested through hand coding and structural mutation.
 
@@ -251,7 +273,7 @@ That means:
 
 ---
 
-## 12. Why This Branch Matters
+## 13. Why This Branch Matters
 
 Data structures matter because organization is not separate from efficiency.
 
@@ -262,7 +284,7 @@ That is why the subject sits so early in computer-science curricula.
 
 ---
 
-## 13. After This Branch You Should Understand
+## 14. After This Branch You Should Understand
 
 After the current material in this branch, you should be able to explain:
 
@@ -282,4 +304,5 @@ After the current material in this branch, you should be able to explain:
 - how circular structure plus a header node can simplify list algorithms and edge cases,
 - how stacks and queues can be implemented on top of linked lists or arrays depending on the operation pattern,
 - how recursion can be understood as explicit context plus stack-managed control flow,
-- and how stacks support expression evaluation and notation conversion through delayed operator handling.
+- how stacks support expression evaluation and notation conversion through delayed operator handling,
+- and how the first major sorting algorithms differ in invariants, runtime, stability, and space tradeoffs.
