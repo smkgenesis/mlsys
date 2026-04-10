@@ -2,14 +2,20 @@
 
 ## What
 
-This note captures the second half of the lecture, where the course asks an important follow-up question:
+This note captures the lecture's move from plain traversal to iterator-based mutation.
+
+It begins with the course's important follow-up question:
 
 ```text
 if arrays have indices, what is the linked-list equivalent?
 ```
 
 The lecture's answer is not "a pointer/reference" in the informal sense.
-It is an iterator abstraction.
+It is an iterator abstraction, and in this lecture that abstraction is pushed far enough to support:
+
+- traversal,
+- insertion after the current position,
+- and deletion of the current node.
 
 ## Why It Matters
 
@@ -80,7 +86,7 @@ The important shift is:
 
 ## Iterator State
 
-The lecture's iterator class stores one field:
+The early iterator version stores one field:
 
 - `cur`
 
@@ -89,6 +95,14 @@ where `cur` is the current node.
 The constructor receives the list's `first` node and initializes the iterator there.
 
 So the iterator's entire job is to maintain one moving view of the traversal position.
+
+Later in the lecture, once deletion is introduced, the iterator is extended to hold:
+
+- `prev`
+- `cur`
+- and a reference back to the owning linked list
+
+This is the key structural change that makes deletion possible.
 
 ## getIterator
 
@@ -99,6 +113,9 @@ The list exposes traversal by returning a fresh iterator:
 That method matters because it keeps traversal as a list-level service rather than forcing client code to reach directly into node links.
 
 This is a small but important interface step.
+
+When insertion through the iterator is added, the lecture updates this interface so the iterator also knows which list it belongs to.
+That allows iterator methods to delegate structural updates back to the list when needed.
 
 ## atEnd
 
@@ -143,6 +160,12 @@ Now the iterator becomes the object that carries that current position.
 So the course is showing that an iterator is not just for reading.
 It can also serve as the handle for local structural updates.
 
+In the lecture's later version, the iterator-based method becomes a thin wrapper around the list's `InsertAfter(cur, x)`.
+That design is worth noticing:
+
+- the iterator owns traversal state,
+- the list still owns the structural update logic.
+
 ## The last Problem Appears Again
 
 After showing iterator-based `InsertAfter`, the lecture immediately asks:
@@ -155,6 +178,79 @@ If the iterator inserts after the current final node, then the list's `last` poi
 
 So the iterator abstraction does not erase structural invariants.
 It still has to cooperate with them.
+
+## Why Deletion Changes the Iterator Design
+
+The lecture then asks for:
+
+- `DeleteCurrent()`
+
+This is the point where a traversal-only iterator stops being enough.
+
+To delete the current node in a singly linked list, it is not enough to know:
+
+- the current node
+
+We also need:
+
+- the previous node
+
+because deletion has to reconnect the previous node to the current node's successor.
+
+That is why the iterator evolves from storing only `cur` to storing both:
+
+- `prev`
+- `cur`
+
+## Iterator with prev and cur
+
+The lecture's deletion-capable iterator keeps:
+
+- `prev = null`
+- `cur = first`
+
+at initialization.
+
+Then `next()` updates both:
+
+1. move `prev` to the old `cur`,
+2. move `cur` to `cur.next`.
+
+This is the central invariant of the deletion-capable iterator:
+
+- `prev` is the node just before `cur`,
+- unless `cur` is the first node, in which case `prev` is `null`.
+
+## DeleteCurrent
+
+The lecture's `DeleteCurrent()` follows a clean case split:
+
+1. if `cur == null`, fail immediately,
+2. save `cur.data`,
+3. move `cur` forward to `cur.next`,
+4. if `prev == null`, update `llist.first`,
+5. otherwise set `prev.next = cur`,
+6. if `cur == null`, update `llist.last = prev`,
+7. return the saved data.
+
+This method is one of the best examples so far of why linked-list mutation is really invariant maintenance.
+
+The deletion itself is small.
+The important part is preserving:
+
+- `first`,
+- `last`,
+- and the relationship between `prev` and `cur`.
+
+## What Deletion Reveals
+
+`DeleteCurrent()` exposes a deeper lesson about singly linked lists:
+
+- insertion after the current node is easy with only `cur`,
+- deletion of the current node requires `prev`,
+- insertion before the current node is awkward for the same reason.
+
+So the lecture is slowly revealing the directional asymmetry of the singly linked structure.
 
 ## What This Note Is Really Teaching
 
@@ -178,6 +274,9 @@ The iterator is the lecture's abstraction for that traversal state.
 - Forgetting that `getData()` only makes sense when the iterator is not at the end.
 - Forgetting to advance the iterator in traversal loops.
 - Adding iterator-based insertion without thinking about how it interacts with the list's `last` invariant.
+- Trying to support deletion while storing only `cur`.
+- Forgetting that deleting the first node requires updating the list's `first`.
+- Forgetting that deleting the final node requires updating the list's `last`.
 
 ## Why This Matters for CS / Systems
 
@@ -192,4 +291,4 @@ That distinction becomes more important as data structures grow more complex.
 
 ## Short Takeaway
 
-The lecture's answer to "what is the linked-list version of an array index?" is the iterator. An iterator stores the current traversal position, exposes operations like `atEnd`, `getData`, and `next`, and can also support local updates such as `InsertAfter`. It is the course's first explicit abstraction for separating traversal use from raw structural representation.
+The lecture's answer to "what is the linked-list version of an array index?" is the iterator. An iterator stores traversal state, exposes operations like `atEnd`, `getData`, and `next`, and in this lecture grows into a mutation-capable abstraction by adding `prev`, list ownership, `InsertAfter`, and `DeleteCurrent`. It is the course's first explicit separation between structural representation and traversal interface.
