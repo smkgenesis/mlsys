@@ -446,7 +446,59 @@ That makes reduction one of the cleanest “all the CUDA optimization themes mee
 
 ---
 
-## 12. The Main Distinctions This Folder Tries to Keep Sharp
+## 12. Scan Adds the Prefix-Propagation Pattern
+
+Deep dive: [10. Prefix Sum (Scan)](10-prefix-sum-scan.md)
+
+Scan is the natural next pattern after reduction because it starts from the same broad ingredients:
+
+- associative operators
+- tree-structured collaboration
+- shared-memory staging
+- divergence and coalescing concerns
+
+but then adds a new requirement:
+
+```text
+we do not want one final aggregate;
+we want every prefix result
+```
+
+That changes the optimization story in important ways.
+
+Scan introduces:
+
+- inclusive versus exclusive alignment
+- work efficiency as a first-class concern
+- Kogge-Stone versus Brent-Kung tradeoffs
+- coarsened local-prefix designs
+- hierarchical scan for arbitrary-length inputs
+- and single-pass domino-style inter-block coordination
+
+This makes scan one of the richest case studies in the folder.
+
+Reduction already teaches:
+
+- how threads cooperatively collapse values
+
+Scan goes one step further and teaches:
+
+- how to propagate prefix information across positions,
+- how extra parallelism can increase total work,
+- and how inter-block prefix passing creates memory-ordering and scheduling hazards.
+
+So the reduction -> scan transition is conceptually important.
+It marks the point where CUDA pattern design becomes not only:
+
+- “how do we parallelize this?”
+
+but also:
+
+- “what is the right balance between depth, total work, memory traffic, and synchronization complexity?”
+
+---
+
+## 13. The Main Distinctions This Folder Tries to Keep Sharp
 
 Several distinctions matter across these notes.
 
@@ -480,12 +532,13 @@ Several distinctions matter across these notes.
 - convolution and stencil sweeps mainly teach how to optimize independently owned outputs
 - histograms teach what happens when many threads must coordinate on shared outputs
 - reduction teaches how many threads cooperatively aggregate one logical result through a staged tree
+- scan teaches how those staged partial results can be propagated into every prefix while balancing work efficiency against speed
 
 These distinctions are what turn CUDA from memorized terminology into usable engineering judgment.
 
 ---
 
-## 13. Why This Folder Matters for ML Systems
+## 14. Why This Folder Matters for ML Systems
 
 This folder matters because many ML systems bottlenecks eventually become CUDA questions when workloads hit GPUs.
 
@@ -517,7 +570,7 @@ That is the real CUDA mindset.
 
 ---
 
-## 14. File Sequence and Future Expansion
+## 15. File Sequence and Future Expansion
 
 The current deep-dive notes are:
 
@@ -530,13 +583,13 @@ The current deep-dive notes are:
 - [07. Stencil Sweeps](07-stencil-sweeps.md)
 - [08. Parallel Histograms](08-parallel-histograms.md)
 - [09. Reduction](09-reduction.md)
+- [10. Prefix Sum (Scan)](10-prefix-sum-scan.md)
 
 This folder is not considered complete.
 New documents may be added later between or beneath the current topics.
 
 Likely future additions include:
 
-- scan patterns
 - sorting and merge patterns
 - more CUDA-specific profiling guidance
 - synchronization and communication patterns
@@ -549,7 +602,7 @@ So the current order should be read as:
 
 ---
 
-## 15. After This Folder You Should Understand
+## 16. After This Folder You Should Understand
 
 After finishing this folder, you should be able to explain:
 
@@ -561,6 +614,7 @@ After finishing this folder, you should be able to explain:
 - why convolution and stencil sweeps are similar in shape but different in optimization payoff
 - why histograms introduce a pattern built around race conditions and contention management
 - why reduction introduces a tree-structured aggregation pattern built around divergence, coalescing, shared-memory staging, and coarsening
+- why scan extends that aggregation story into prefix propagation, work-efficiency tradeoffs, hierarchical composition, and inter-block synchronization
 - and how to interpret a CUDA kernel in terms of its actual bottleneck rather than just its source syntax
 
 If this folder works well, CUDA should stop feeling like:
