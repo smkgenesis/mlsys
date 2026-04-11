@@ -27,6 +27,7 @@ Current notes:
 - [10. Sorting Basics and Divide-and-Conquer](/Users/minkyu/Documents/mlsys/foundations/data-structures/10-sorting-basics-and-divide-and-conquer.md)
 - [11. Quick Sort and In-Place Partitioning](/Users/minkyu/Documents/mlsys/foundations/data-structures/11-quick-sort-and-in-place-partitioning.md)
 - [12. Trees and Binary Tree Basics](/Users/minkyu/Documents/mlsys/foundations/data-structures/12-trees-and-binary-tree-basics.md)
+- [13. Tree Representations and Complete Binary Trees](/Users/minkyu/Documents/mlsys/foundations/data-structures/13-tree-representations-and-complete-binary-trees.md)
 
 Template workspace:
 - [templates/README.md](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/README.md)
@@ -74,6 +75,7 @@ The current scope is only:
 - the first sorting algorithms from bubble sort through merge sort,
 - quick sort as an in-place recursive partitioning strategy,
 - and the opening of the tree branch through recursive tree definitions and binary-tree representations.
+- and the implementation side of the tree branch through complete-binary-tree indexing and leftmost-child/right-sibling encoding.
 
 Later notes should be added only when they are supported by the course material you provide.
 

@@ -41,3 +41,4 @@ Current templates:
 - [12. Quick Sort and Partition Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/12-quick-sort-and-partition-template.md)
 - [13. Radix Sort Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/13-radix-sort-template.md)
 - [14. Tree Representation Basics Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/14-tree-representation-basics-template.md)
+- [15. Leftmost-Child Right-Sibling and Complete Binary Tree Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/15-leftmost-child-right-sibling-and-complete-binary-tree-template.md)
