@@ -33,3 +33,5 @@ Current templates:
 - [04. Singly Linked List Basics Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/04-singly-linked-list-basics-template.md)
 - [05. Linked List Iterator Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/05-linked-list-iterator-template.md)
 - [06. Circular Linked List Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/06-circular-linked-list-template.md)
+- [07. Stack and Queue Core Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/07-stack-and-queue-core-template.md)
+- [08. Circular Queue Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/08-circular-queue-template.md)
