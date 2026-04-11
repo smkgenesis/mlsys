@@ -22,6 +22,7 @@ Current notes:
 - [04. Knowledge Distillation](04-knowledge-distillation.md)
 - [05. Structured Approximations](05-structured-approximations.md)
 - [06. Neural Architecture Search](06-neural-architecture-search.md)
+- [07. Architectural Efficiency Techniques](07-architectural-efficiency-techniques.md)
 
 ---
 
@@ -194,6 +195,10 @@ This framework matters because it prevents a common failure mode:
 It also gives the structure for the rest of this folder.
 
 Most of the current notes live in the **model representation** branch.
+The next note opens the **hardware implementation** branch more directly.
+
+Template workspace:
+- [templates/README.md](/Users/minkyu/Documents/mlsys/training/templates/README.md)
 
 ---
 
