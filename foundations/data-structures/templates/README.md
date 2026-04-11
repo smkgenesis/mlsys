@@ -37,3 +37,4 @@ Current templates:
 - [08. Circular Queue Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/08-circular-queue-template.md)
 - [09. Recursion and Explicit Stack Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/09-recursion-and-explicit-stack-template.md)
 - [10. Expression Processing Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/10-expression-processing-template.md)
+- [11. Sorting Basics and Merge Sort Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/11-sorting-basics-and-merge-sort-template.md)
