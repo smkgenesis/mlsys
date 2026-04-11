@@ -26,11 +26,12 @@ Current notes:
 - [07. Stencil Sweeps](07-stencil-sweeps.md)
 - [08. Parallel Histograms](08-parallel-histograms.md)
 - [09. Reduction](09-reduction.md)
+- [10. Prefix Sum (Scan)](10-prefix-sum-scan.md)
 
 ---
 
 CUDA Execution and Optimization:
-Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention -> Coordinated Aggregation
+Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention -> Coordinated Aggregation -> Prefix Propagation
 
 This document describes the CUDA side of ML systems with deliberately mechanism-level emphasis.
 
@@ -47,7 +48,8 @@ The goal is to make the CUDA execution story explicit:
 - why memory traffic usually dominates performance,
 - how these ideas show up in concrete parallel patterns such as convolution and stencil sweeps,
 - what changes when output ownership breaks and multiple threads contend on shared results,
-- and how collaborative aggregation patterns expose divergence, coalescing, shared-memory, and coarsening tradeoffs.
+- how collaborative aggregation patterns expose divergence, coalescing, shared-memory, and coarsening tradeoffs,
+- and how prefix-propagation patterns add work-efficiency, hierarchy, and inter-block synchronization tradeoffs on top of those earlier issues.
 
 The documents in this folder are deep dives.
 This README is the parent document that ties them together into one continuous CUDA learning path.
@@ -110,6 +112,7 @@ heterogeneous framing
 -> stencil sweeps as a 3D pattern
 -> parallel histograms as a shared-output contention pattern
 -> reduction as a tree-structured aggregation pattern
+-> prefix sum as a prefix-propagation pattern that turns recurrences into parallel work
 ```
 
 This is not just an ordered list.
