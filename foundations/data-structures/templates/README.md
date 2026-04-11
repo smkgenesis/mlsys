@@ -38,3 +38,4 @@ Current templates:
 - [09. Recursion and Explicit Stack Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/09-recursion-and-explicit-stack-template.md)
 - [10. Expression Processing Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/10-expression-processing-template.md)
 - [11. Sorting Basics and Merge Sort Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/11-sorting-basics-and-merge-sort-template.md)
+- [12. Quick Sort and Partition Template](/Users/minkyu/Documents/mlsys/foundations/data-structures/templates/12-quick-sort-and-partition-template.md)
