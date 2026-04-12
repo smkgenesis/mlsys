@@ -411,3 +411,190 @@ Even in engineering contexts, the same underlying skills matter:
 - understand the logical form,
 - choose an appropriate proof strategy,
 - and make the reasoning explicit.
+
+## Worked Exercise Patterns from Chapter 2
+
+The following exercise set has already been worked through from the Chapter 2 material.
+
+### 2.1 Negative odd integers still satisfy the odd definition
+
+- `-1` is odd because it can be written as `2k + 1` with `k = -1`.
+
+Main lesson:
+
+- definition checking comes before intuition about what “usually” counts as odd.
+
+### 2.2 Inverse, converse, and contrapositive
+
+For `P -> Q`:
+
+- inverse: `not P -> not Q`
+- converse: `Q -> P`
+- contrapositive: `not Q -> not P`
+
+Main lesson:
+
+- these are fixed logical rewrites, not free paraphrases.
+
+### 2.3 The product of two odd integers is odd
+
+- write `p = 2m + 1` and `q = 2n + 1`
+- then `pq = 2(2mn + m + n) + 1`
+
+Main pattern:
+
+- direct proof by substituting the definition and rewriting into the target form.
+
+### 2.4 `sqrt(3)` is irrational
+
+- assume `sqrt(3) = a/b` in lowest terms
+- square to get `a^2 = 3b^2`
+- conclude both `a` and `b` are divisible by `3`
+- contradiction
+
+Main pattern:
+
+- irrationality by lowest-terms contradiction.
+
+### 2.5 `cuberoot(2)` is irrational
+
+- assume `cuberoot(2) = a/b` in lowest terms
+- cube both sides: `a^3 = 2b^3`
+- conclude `a` is even, then `b` is even
+- contradiction
+
+Main lesson:
+
+- the irrationality template extends to higher roots by matching the power in the equation.
+
+### 2.6 For any positive integer `n`, `sqrt(n)` is either an integer or irrational
+
+- assume `sqrt(n) = a/b` in lowest terms
+- square to get `a^2 = nb^2`
+- deduce the denominator must be `1`
+
+Main pattern:
+
+- eliminate the middle case “rational but non-integer.”
+
+### 2.7 Fair seven-sided die
+
+- the argument is not a strict symbolic proof
+- use symmetry and continuous deformation of a fair cube into a seven-faced shape
+
+Main lesson:
+
+- some early existence arguments rely on geometric intuition rather than exact algebra.
+
+### 2.8 Even square numbers are divisible by 4
+
+- if `n = 2k`, then `n^2 = 4k^2`
+
+Main pattern:
+
+- use the definition of even and factor out the needed divisor directly.
+
+### 2.9 Perfect-square claims: proof versus counterexample
+
+- `(a)` true: if `c = m^2` and `d = n^2`, then `cd = (mn)^2`
+- `(b)` true: if `c = d`, then `cd = c^2`, so both are perfect squares
+- `(c)` false: square roots lose sign information, so `c > d` does not force chosen integer roots `x > y`
+
+Main lesson:
+
+- when square roots appear, keep track of sign choices explicitly.
+
+### 2.10 Contradiction proof for a parity implication
+
+Claim:
+
+- if `17n + 2` is odd, then `n` is odd
+
+Worked method:
+
+- assume `17n + 2` is odd and `n` is not odd
+- since `n` is an integer, “not odd” means even
+- derive that `17n + 2` is even, contradiction
+
+Main lesson:
+
+- contradiction and contrapositive can feel similar, but contradiction starts by assuming the premise and negation of the conclusion together.
+
+### 2.11 Critiquing a bad proof
+
+Faulty step:
+
+- `x > y` does not imply `x^2 > y^2` for all real numbers
+
+Counterexample:
+
+- `x = -1`, `y = -2`
+
+Main lesson:
+
+- in proof critique, identify the first unjustified transformation, especially around inequalities.
+
+### 2.12 Converse of the contrapositive
+
+Starting from `p -> q`:
+
+- contrapositive: `not q -> not p`
+- converse of that: `not p -> not q`
+
+This is the inverse.
+
+Main pattern:
+
+- compute logical relatives symbolically before translating back into words.
+
+### 2.13 Writing claims with quantifiers and implications
+
+Key translation habits:
+
+- “every” becomes `forall`
+- “there exists” becomes `exists`
+- “distinct” becomes inequality such as `x != y`
+- “even” should be written explicitly, for example `exists k (n = 2k)`
+
+Main lesson:
+
+- translation problems are about exact logical structure, not only mathematical meaning.
+
+### 2.14 Nonconstructive existence of irrational `x, y` with `x^y` rational
+
+Let:
+
+- `a = sqrt(2)^sqrt(2)`
+
+Then split into two cases:
+
+- if `a` is rational, take `x = sqrt(2)`, `y = sqrt(2)`
+- if `a` is irrational, take `x = a`, `y = sqrt(2)`, giving `x^y = 2`
+
+Main pattern:
+
+- prove existence by showing that every possible case yields a witness.
+
+### 2.15 Reusing Chapter 1 inside a Chapter 2 proof
+
+Once one person `X` is fixed in the six-person argument:
+
+- each of the remaining five people is either known by `X`
+- or not known by `X`
+
+By the pigeonhole principle, one category contains at least three people.
+
+Main lesson:
+
+- later proof chapters still rely on earlier classification arguments.
+
+## Chapter 2 Pattern Library
+
+The recurring patterns in this chapter are:
+
+- use definitions first for parity, squares, and implication forms
+- choose deliberately between direct proof, contrapositive, and contradiction
+- for irrationality, assume lowest terms and force a common factor
+- for critique problems, locate the first invalid step rather than only the wrong conclusion
+- for quantifier translation, make every hidden condition explicit
+- for nonconstructive existence, split into cases and make each branch produce the desired object

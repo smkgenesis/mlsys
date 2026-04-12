@@ -51,7 +51,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 1 -> The Pigeonhole Principle
+Chapter 2 -> Basic Proof Techniques
 ```
 
 ---
@@ -90,9 +90,10 @@ The branch was originally organized as a topic-first deep-dive sequence:
 That material is still useful and remains in the folder.
 
 But for current exam prep, we are switching to a chapter-driven order based on the course material you are sending.
-So for now, the active sequence begins with:
+So for now, the active sequence is:
 
 - [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -134,11 +135,36 @@ So even though the named theorem is simple, the chapter is really building:
 
 ---
 
-## 3. Chapter 1 Exercises and Pattern Library
+## 3. Chapter 2: Basic Proof Techniques
 
-The worked exercise patterns for Chapter 1 now live inside the chapter note itself:
+Deep dive: [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+
+Chapter 2 turns the course from “what patterns force a result?” into “what counts as a proof of that result?”
+
+The chapter's main ideas are:
+
+- implication and its logically related forms,
+- converse, inverse, and contrapositive,
+- direct proof,
+- proof by contrapositive,
+- proof by contradiction,
+- constructive versus nonconstructive existence,
+- and careful critique of arguments that look plausible but contain an invalid step.
+
+So the chapter is really building:
+
+- proof-method selection,
+- exact reading of logical form,
+- and early proof-writing discipline.
+
+---
+
+## 4. Chapter Exercise Pattern Notes
+
+The worked exercise patterns for each active chapter now live inside the chapter note itself:
 
 - [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
 
 That is the better place for them because:
 
@@ -148,7 +174,7 @@ That is the better place for them because:
 
 ---
 
-## 4. Earlier Topic-First Notes Still Available
+## 5. Earlier Topic-First Notes Still Available
 
 The remaining discrete-math notes were written earlier in a topic-first order and are still useful as references:
 
@@ -168,7 +194,7 @@ These should now be read as supporting material rather than the active chapter f
 
 ---
 
-## 5. Logic Comes First as Background
+## 6. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -186,7 +212,7 @@ Without this layer, later proof techniques are easy to misuse.
 
 ---
 
-## 2. Formula Structure Comes Before Algorithmic Logic
+## 7. Formula Structure Comes Before Algorithmic Logic
 
 Deep dive: [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 
@@ -210,7 +236,7 @@ to:
 
 ---
 
-## 2.5 Quantified Logic Extends Formula Structure
+## 8. Quantified Logic Extends Formula Structure
 
 Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 
@@ -234,7 +260,7 @@ It is also where scope, free versus bound variables, quantifier order, and inter
 
 ---
 
-## 2.6 Logic Becomes Digital Computation
+## 9. Logic Becomes Digital Computation
 
 Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
