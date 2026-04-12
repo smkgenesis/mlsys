@@ -253,6 +253,179 @@ So it is often best used as:
 - a lower-bound argument,
 - or a first structural observation.
 
+## Worked Exercise Patterns from Chapter 1
+
+The following exercise set has already been worked through from the Chapter 1 material.
+
+### 1.1 Basic notation and number facts
+
+Covered:
+
+- cardinality `|X|`
+- floor and ceiling
+- divisors
+- prime divisors
+
+Main pattern:
+
+```text
+decode notation first;
+then compute the concrete value carefully.
+```
+
+### 1.2 Largest prime divisor is not monotone
+
+Main lesson:
+
+- larger integer does not imply larger largest-prime-divisor
+
+Main pattern:
+
+- small counterexample construction
+
+### 1.3 Floor and ceiling relation
+
+Main lesson:
+
+- `floor(x) = ceiling(x) - 1` exactly when `x` is not an integer
+
+Main pattern:
+
+- split into integer versus non-integer cases
+
+### 1.4 Pigeons moving on a sphere/grid-style parity problem
+
+Main lesson:
+
+- coloring/parity can create bucket imbalance
+
+Main pattern:
+
+- put two points on the boundary
+- use a two-color or two-region argument
+- then apply pigeonhole
+
+### 1.5 Same number of friends
+
+Main lesson:
+
+- possible degree values appear to be `0` through `n-1`,
+- but the extremes `0` and `n-1` cannot coexist
+
+Main pattern:
+
+- eliminate impossible extreme combination
+- then apply pigeonhole to degree counts
+
+### 1.6 Four points on a sphere and a closed hemisphere
+
+Main lesson:
+
+- great-circle boundary points belong to both closed hemispheres
+
+Main pattern:
+
+- put two chosen points on the boundary
+- distribute the remaining points between the two hemispheres
+- force two into one side by pigeonhole
+
+### 1.7 Three birthdays in the same month
+
+Main pattern:
+
+- if every month had at most two people, total would be at most `24`
+- one more person forces a month with at least three
+
+### 1.8 One denomination appears at least 100 times
+
+Main pattern:
+
+- extended pigeonhole threshold
+
+\[
+(k-1)m + 1
+\]
+
+with:
+
+- `m = 6` denominations
+- `k = 100`
+
+### 1.9 Same class and same shirt color
+
+Main lesson:
+
+- sometimes the right buckets are combinations, not single features
+
+Main pattern:
+
+- use `(class, color)` as the bucket
+- total buckets = `8 * 3 = 24`
+
+### 1.10 Four integers between 1 and 60
+
+Main lesson:
+
+- interval partitioning can be the cleanest pigeonhole move
+
+Main pattern:
+
+- split `1..60` into three blocks of length 20
+- four integers force two into one block
+- same block means difference at most 19
+
+### 1.11 Product of first k primes plus 1
+
+Main lesson:
+
+- Euclid-style construction is not always prime
+
+Main pattern:
+
+- if the number is composite, its prime factors are new
+- but finding the first example is basically example search
+
+Known example:
+
+\[
+2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 + 1 = 2311 = 13 \cdot 179
+\]
+
+### 1.12 Same prime factors less than or equal to 5
+
+Main lesson:
+
+- divisibility by `2, 3, 5` defines an 8-type signature
+
+Main pattern:
+
+- classify each integer by a subset of `{2,3,5}`
+- there are `2^3 = 8` possible signatures
+- 9 integers force a repeated signature
+
+### 1.13 Hash collisions
+
+Main lesson:
+
+- collision problems reduce to occupancy problems
+
+Main pattern:
+
+- strings are objects
+- hash values are buckets
+- largest bucket minimum size is `ceil(m/p)`
+- collisions in a bucket = occupancy minus 1
+
+So for this chapter, the recurring pattern library already includes:
+
+- direct bucket counting
+- extended thresholds
+- interval partitioning
+- composite buckets such as ordered pairs
+- divisibility signatures
+- extremal impossibility arguments
+- and geometry/parity reductions into bucket language
+
 ## Why This Matters Beyond Pure Math
 
 The pigeonhole principle is not just a classroom theorem.
