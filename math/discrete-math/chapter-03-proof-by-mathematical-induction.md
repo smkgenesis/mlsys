@@ -294,32 +294,35 @@ Mathematical induction is a rigorous proof method for discrete infinite families
 
 The following exercise set has already been worked through from the Chapter 3 material.
 
-### 3.2 Ambiguous ellipses and the increasing-difference sequence
+### 3.1 Closed form for the sum of the first odd integers
 
-The expression
+The sum
 
-```text
-1 + 2 + 4 + 7 + 11 + 16 + ... + 512
-```
+$$
+\sum_{i=0}^{n-1}(2i+1)
+$$
 
-can be interpreted as a sequence whose successive differences increase by `1`.
-If `a_1 = 1` and `a_{n+1} = a_n + n`, then induction gives:
+has closed form
 
-\[
-a_n = 1 + \frac{n(n-1)}{2}
-\]
-
-Using this closed form, `512` cannot be a term because
-
-\[
-1 + \frac{n(n-1)}{2} = 512
-\]
-
-has no integer solution.
+$$
+n^2
+$$
 
 Main lesson:
 
-- induction can justify a recursively described sequence before any later number-theoretic check is made.
+- the first $n$ odd integers sum to a perfect square, and this is a standard induction warm-up.
+
+### 3.2 Pigeonhole Principle by induction on $\lvert Y \rvert$
+
+Instead of inducting on the size of the domain $\lvert X \rvert$, one can induct on the size of the codomain $\lvert Y \rvert$:
+
+- remove one bucket $y \in Y$
+- if two objects already map to $y$, the collision is immediate
+- otherwise remove at most one object from the domain and apply the induction hypothesis to the reduced function
+
+Main lesson:
+
+- choosing the induction variable is often the real problem.
 
 ### 3.3 Extended Pigeonhole Principle by induction
 
@@ -337,52 +340,100 @@ Main lesson:
 
 Key formulas:
 
-\[
+$$
 \sum_{i=1}^{n} 2^{2i-1} = \frac{2}{3}(4^n - 1)
-\]
+$$
 
 and
 
-\[
+$$
 \prod_{i=1}^{n} 2^{-i} = 2^{-\,\frac{n(n+1)}{2}}
-\]
+$$
 
 Main pattern:
 
 - for sums, write `S_{k+1} = S_k + new term`
 - for products, write `P_{k+1} = P_k * new factor`
 
-### 3.7 Sum of squares
+### 3.5 Sum of squares
 
-The classical identity
+The expression
 
-\[
+$$
 \sum_{i=0}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
-\]
+$$
 
 is a standard induction example.
 
 Main lesson:
 
 - many induction proofs are algebra-management exercises after the correct split
-\[
+$$
 \sum_{i=0}^{k+1} = \sum_{i=0}^{k} + \text{last term}
-\]
+$$
 has been written down.
+
+### 3.6 Finite geometric sum approaching `2`
+
+For
+
+$$
+S(n) = \sum_{i=0}^{n} 2^{-i}
+$$
+
+the worked values suggest the closed form
+
+$$
+S(n) = 2 - 2^{-n}.
+$$
+
+This can be proved by induction. Then
+
+$$
+\lvert 2 - S(n) \rvert = 2^{-n},
+$$
+
+so to be within $\varepsilon$ of $2$ it is enough that
+
+$$
+2^{-n} < \varepsilon.
+$$
+
+Main lesson:
+
+- induction can establish a closed form, and the closed form can then answer an approximation question.
+
+### 3.7 Sum of cubes
+
+The classical identity is
+
+$$
+\sum_{i=0}^{n} i^3 = \left(\sum_{i=0}^{n} i\right)^2.
+$$
+
+Equivalently,
+
+$$
+\sum_{i=0}^{n} i^3 = \left(\frac{n(n+1)}{2}\right)^2.
+$$
+
+Main lesson:
+
+- some induction targets become easier after rewriting the right-hand side into a familiar closed form.
 
 ### 3.8 Weighted sums with powers of `2`
 
 Worked identities:
 
-\[
+$$
 \sum_{i=1}^{n} 2^{i-1} i = 2^n(n-1) + 1
-\]
+$$
 
 and
 
-\[
+$$
 \sum_{i=1}^{n} 2^{i-1} i^2 = 2^n(n^2 - 2n + 3) - 3
-\]
+$$
 
 Main pattern:
 
@@ -406,11 +457,18 @@ Main lesson:
 
 ### 3.10 Why `512` cannot be the last term in the increasing-difference interpretation
 
-After proving
+The expression
 
-\[
-a_n = 1 + \frac{n(n-1)}{2}
-\]
+```text
+1 + 2 + 4 + 7 + 11 + 16 + ... + 512
+```
+
+can be interpreted as a sequence whose successive differences increase by `1`.
+If `a_1 = 1` and `a_{n+1} = a_n + n`, then induction gives
+
+$$
+a_n = 1 + \frac{n(n-1)}{2}.
+$$
 
 by induction, set `a_n = 512` and observe there is no integer `n`.
 
@@ -433,9 +491,9 @@ Main lesson:
 
 Any induction proof starting from an arbitrary base index `n0` can be shifted to a proof starting at `0` by defining
 
-\[
+$$
 Q(m) := P(m+n_0)
-\]
+$$
 
 Main lesson:
 

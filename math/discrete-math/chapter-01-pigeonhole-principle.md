@@ -342,9 +342,9 @@ Main pattern:
 
 - extended pigeonhole threshold
 
-\[
+$$
 (k-1)m + 1
-\]
+$$
 
 with:
 
@@ -387,9 +387,9 @@ Main pattern:
 
 Known example:
 
-\[
+$$
 2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 + 1 = 2311 = 13 \cdot 179
-\]
+$$
 
 ### 1.12 Same prime factors less than or equal to 5
 
