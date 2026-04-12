@@ -381,6 +381,224 @@ Strong induction maps naturally onto computer science reasoning:
 
 So this is not just a discrete-math trick. It is one of the cleanest ways to reason about recursive structure.
 
+## Worked Exercise Patterns from Chapter 4
+
+The following exercise set has already been worked through from the Chapter 4 material.
+
+### 4.1 Divisibility in a recurrence
+
+For the recurrence
+
+$$
+a_1 = 0,\quad a_2 = 6,\quad a_3 = 9,\quad a_n = a_{n-1} + a_{n-3} \text{ for } n > 3,
+$$
+
+the clean proof pattern is:
+
+- verify the first three base cases,
+- assume every earlier value up to $a_k$ is divisible by $3$,
+- use
+  $$
+  a_{k+1} = a_k + a_{k-2}
+  $$
+  and note that both summands are divisible by $3$.
+
+Main lesson:
+
+- recurrence structure tells you how many base cases are needed.
+
+### 4.2 Every $n \ge 8$ is of the form $3a + 5b$
+
+The key move is not to build $k+1$ from $k$, but from $k-2$:
+
+$$
+k+1 = (k-2) + 3.
+$$
+
+So the proof works by:
+
+- checking $8, 9, 10$ directly,
+- assuming every value from $8$ through $k$ has the required form,
+- applying the hypothesis to $k-2$,
+- then adding one more $3$.
+
+Main lesson:
+
+- strong induction is often about finding the right smaller case, not necessarily the immediate predecessor.
+
+### 4.3 L-tromino tiling of a $2^n \times 2^n$ square with one missing corner
+
+The recursive tiling pattern is:
+
+- split the large square into four equal quadrants,
+- the missing corner lies in exactly one quadrant,
+- place one L-shaped tile at the center so that the other three quadrants each now have one missing corner,
+- apply the induction hypothesis to all four smaller quadrants.
+
+Main lesson:
+
+- geometric induction often works by decomposing one large object into several smaller copies of the same problem.
+
+### 4.4 Integrality of $x^n + x^{-n}$
+
+Given that
+
+$$
+x + \frac{1}{x}
+$$
+
+is an integer, define
+
+$$
+a_n = x^n + \frac{1}{x^n}.
+$$
+
+The useful recurrence comes from multiplying:
+
+$$
+\left(x + \frac{1}{x}\right)\left(x^n + \frac{1}{x^n}\right)
+=
+x^{n+1} + \frac{1}{x^{n+1}} + x^{n-1} + \frac{1}{x^{n-1}}.
+$$
+
+So
+
+$$
+a_{n+1}
+=
+\left(x + \frac{1}{x}\right)a_n - a_{n-1}.
+$$
+
+With base cases $a_0 = 2$ and $a_1 = x + 1/x$, strong induction shows every $a_n$ is an integer.
+
+Main lesson:
+
+- when the target does not obviously recurse, algebra often reveals a hidden recurrence first.
+
+### 4.5 Bounding a three-term recurrence
+
+For
+
+$$
+a_1 = 1,\quad a_2 = 2,\quad a_3 = 3,\quad a_n = a_{n-1} + a_{n-2} + a_{n-3},
+$$
+
+the right claim is
+
+$$
+a_n < 2^n.
+$$
+
+The induction step uses:
+
+$$
+a_{k+1} = a_k + a_{k-1} + a_{k-2}
+< 2^k + 2^{k-1} + 2^{k-2}
+= 7 \cdot 2^{k-2}
+< 8 \cdot 2^{k-2}
+= 2^{k+1}.
+$$
+
+Main lesson:
+
+- strong induction is often combined with termwise bounding.
+
+### 4.6 Strong induction can be reduced to ordinary induction
+
+To show strong induction gives no extra proving power, define a stronger statement
+
+$$
+Q(n) := P(0) \land P(1) \land \cdots \land P(n).
+$$
+
+Then ordinary induction on $Q(n)$ reproduces the effect of strong induction on $P(n)$.
+
+Main lesson:
+
+- ordinary induction on a stronger statement can simulate strong induction on the original one.
+
+### 4.7 Uniqueness of prime factorization
+
+The proof structure is:
+
+- suppose
+  $$
+  n = \prod_{i=1}^{k} p_i^{e_i} = \prod_{i=1}^{\ell} r_i^{f_i},
+  $$
+- use Euclid's lemma to show the first prime on the left must also appear on the right,
+- show the corresponding exponents must match,
+- divide out the common prime power,
+- apply strong induction to the smaller remaining integer.
+
+Main lesson:
+
+- strong induction is natural when a proof repeatedly removes a smaller factor and recurses on what remains.
+
+### 4.8 Induction and Well-Ordering are equivalent
+
+Two conversions matter:
+
+- induction implies well-ordering by inducting on the size of a nonempty finite set and showing it must have a minimum,
+- well-ordering implies induction by assuming there is a counterexample set and choosing its least element.
+
+Main lesson:
+
+- the “least counterexample” method is the well-ordering version of induction logic.
+
+### 4.9 Prime decomposition of $100$ by the FTA existence procedure
+
+A worked decomposition path is:
+
+- start with $S = \{100\}$ and split $100 = 2 \cdot 50$,
+- then split $50 = 2 \cdot 25$,
+- then split $25 = 5 \cdot 5$,
+- now all factors are prime.
+
+So
+
+$$
+100 = 2^2 \cdot 5^2.
+$$
+
+Main lesson:
+
+- the proof of existence of prime factorization is also an actual recursive factorization procedure.
+
+### 4.10 Postage using 2-cent and 3-cent stamps
+
+To prove every $n \ge 2$ cents can be made with at most $n/2$ stamps:
+
+- verify $n=2$ and $n=3$ directly,
+- assume all values from $2$ through $k$ work,
+- write
+  $$
+  k+1 = (k-1) + 2,
+  $$
+- apply the hypothesis to $k-1$ and then add one 2-cent stamp.
+
+The stamp count becomes
+
+$$
+\frac{k-1}{2} + 1 = \frac{k+1}{2},
+$$
+
+so the bound is preserved.
+
+Main lesson:
+
+- once a representation theorem is true for a short initial block, adding one fixed piece can propagate it indefinitely.
+
+## Chapter 4 Pattern Library
+
+The recurring patterns in this chapter are:
+
+- write enough base cases to support the earliest backward jump used in the step
+- ask which smaller case actually builds the new case
+- for recurrences, let the recurrence dictate the proof memory
+- for decomposition problems, reduce the object to smaller instances of the same type
+- for number theory, remove one prime or one factor and recurse on the smaller remainder
+- when comparing induction principles, strengthen the proposition rather than the method
+
 ## Short Takeaway
 
 Strong induction is ordinary induction with a larger induction hypothesis: instead of assuming only the previous case, you assume all earlier cases up to `k`, which makes the method fit recurrences, games, factorization, and recursive decomposition much more naturally.
