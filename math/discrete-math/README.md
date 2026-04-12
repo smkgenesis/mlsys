@@ -16,6 +16,7 @@ Does not belong here:
 - CS-first topics whose main role is introductory computer science rather than mathematical structure; those belong in [foundations/README.md](/Users/minkyu/Documents/mlsys/foundations/README.md).
 
 Current notes:
+- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
 - [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 - [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 - [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
@@ -27,12 +28,11 @@ Current notes:
 - [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
-- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
 
 ---
 
 Discrete Mathematics:
-Language -> Formula Structure -> Quantified Structure -> Logic in Hardware -> Proof -> Structured Objects -> Induction -> Infinite Size -> Counting Arguments
+Chapter-Driven Course Sequence -> Problem Patterns -> Formal Language -> Proof -> Structured Objects -> Induction -> Infinite Size
 
 This branch is about exact reasoning over discrete objects.
 
@@ -46,7 +46,15 @@ The goal is to develop the formal habits that later technical work depends on:
 - and turning counting arguments into rigorous conclusions.
 
 The documents in this folder are deep dives.
-This README is the parent document that ties them together into one continuous discrete-math learning path.
+This README now also functions as the operating document for working through the course chapter by chapter.
+
+At the moment, the active focus is:
+
+```text
+Chapter 1 -> The Pigeonhole Principle
+```
+
+and the worked exercises below are organized with that chapter-first priority in mind.
 
 ---
 
@@ -70,7 +78,260 @@ The recurring questions are:
 
 ---
 
-## 1. Logic Comes First
+## 1. Current Chapter-Driven Focus
+
+The branch was originally organized as a topic-first deep-dive sequence:
+
+- logic
+- proof
+- sets and functions
+- induction
+- countability
+- combinatorial reasoning
+
+That material is still useful and remains in the folder.
+
+But for current exam prep, we are switching to a chapter-driven order based on the course material you are sending.
+So for now, the active sequence begins with:
+
+- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+
+Later chapters can be rethreaded into this README the same way as you send them.
+
+The practical rule for now is:
+
+```text
+chapter order drives the active study flow;
+older topic-first notes remain available as supporting references.
+```
+
+---
+
+## 2. Chapter 1: The Pigeonhole Principle
+
+Deep dive: [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+
+Chapter 1 is doing more than just introducing one theorem.
+It sets the tone for the course:
+
+- proof is different from testing or intuition,
+- generalization turns examples into reusable statements,
+- sets/functions/cardinality are the right abstraction layer,
+- and many arguments reduce to choosing the right objects and buckets.
+
+The chapter's main ideas are:
+
+- proof and formal reasoning matter,
+- generalization removes irrelevant detail,
+- sets, cardinality, and functions support abstraction,
+- the ordinary pigeonhole principle,
+- the extended pigeonhole principle,
+- and basic number-theoretic language used in the exercises.
+
+So even though the named theorem is simple, the chapter is really building:
+
+- problem-classification habits,
+- abstraction habits,
+- and early existence-proof intuition.
+
+---
+
+## 3. Chapter 1 Exercise Patterns Worked So Far
+
+The following exercise set has already been worked through from the Chapter 1 material.
+
+### 1.1 Basic notation and number facts
+
+Covered:
+
+- cardinality `|X|`
+- floor and ceiling
+- divisors
+- prime divisors
+
+Main pattern:
+
+```text
+decode notation first;
+then compute the concrete value carefully.
+```
+
+### 1.2 Largest prime divisor is not monotone
+
+Main lesson:
+
+- larger integer does not imply larger largest-prime-divisor
+
+Main pattern:
+
+- small counterexample construction
+
+### 1.3 Floor and ceiling relation
+
+Main lesson:
+
+- `floor(x) = ceiling(x) - 1` exactly when `x` is not an integer
+
+Main pattern:
+
+- split into integer versus non-integer cases
+
+### 1.4 Pigeons moving on a sphere/grid-style parity problem
+
+Main lesson:
+
+- coloring/parity can create bucket imbalance
+
+Main pattern:
+
+- put two points on the boundary
+- use a two-color or two-region argument
+- then apply pigeonhole
+
+### 1.5 Same number of friends
+
+Main lesson:
+
+- possible degree values appear to be `0` through `n-1`,
+- but the extremes `0` and `n-1` cannot coexist
+
+Main pattern:
+
+- eliminate impossible extreme combination
+- then apply pigeonhole to degree counts
+
+### 1.6 Four points on a sphere and a closed hemisphere
+
+Main lesson:
+
+- great-circle boundary points belong to both closed hemispheres
+
+Main pattern:
+
+- put two chosen points on the boundary
+- distribute the remaining points between the two hemispheres
+- force two into one side by pigeonhole
+
+### 1.7 Three birthdays in the same month
+
+Main pattern:
+
+- if every month had at most two people, total would be at most `24`
+- one more person forces a month with at least three
+
+### 1.8 One denomination appears at least 100 times
+
+Main pattern:
+
+- extended pigeonhole threshold
+
+\[
+(k-1)m + 1
+\]
+
+with:
+
+- `m = 6` denominations
+- `k = 100`
+
+### 1.9 Same class and same shirt color
+
+Main lesson:
+
+- sometimes the right buckets are combinations, not single features
+
+Main pattern:
+
+- use `(class, color)` as the bucket
+- total buckets = `8 * 3 = 24`
+
+### 1.10 Four integers between 1 and 60
+
+Main lesson:
+
+- interval partitioning can be the cleanest pigeonhole move
+
+Main pattern:
+
+- split `1..60` into three blocks of length 20
+- four integers force two into one block
+- same block means difference at most 19
+
+### 1.11 Product of first k primes plus 1
+
+Main lesson:
+
+- Euclid-style construction is not always prime
+
+Main pattern:
+
+- if the number is composite, its prime factors are new
+- but finding the first example is basically example search
+
+Known example:
+
+\[
+2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 + 1 = 2311 = 13 \cdot 179
+\]
+
+### 1.12 Same prime factors less than or equal to 5
+
+Main lesson:
+
+- divisibility by `2, 3, 5` defines an 8-type signature
+
+Main pattern:
+
+- classify each integer by a subset of `{2,3,5}`
+- there are `2^3 = 8` possible signatures
+- 9 integers force a repeated signature
+
+### 1.13 Hash collisions
+
+Main lesson:
+
+- collision problems reduce to occupancy problems
+
+Main pattern:
+
+- strings are objects
+- hash values are buckets
+- largest bucket minimum size is `ceil(m/p)`
+- collisions in a bucket = occupancy minus 1
+
+So for this chapter, the recurring pattern library already includes:
+
+- direct bucket counting
+- extended thresholds
+- interval partitioning
+- composite buckets such as ordered pairs
+- divisibility signatures
+- extremal impossibility arguments
+- and geometry/parity reductions into bucket language
+
+---
+
+## 4. Earlier Topic-First Notes Still Available
+
+The remaining discrete-math notes were written earlier in a topic-first order and are still useful as references:
+
+- [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
+- [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
+- [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
+- [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
+- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+- [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
+- [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
+- [05. Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/05-mathematical-induction.md)
+- [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
+- [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
+- [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
+
+These should now be read as supporting material rather than the active chapter flow.
+
+---
+
+## 5. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
