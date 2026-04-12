@@ -25,7 +25,7 @@ Current notes:
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
-- [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
+- [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
 
@@ -51,7 +51,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 3 -> Proof by Mathematical Induction
+Chapter 4 -> Strong Induction
 ```
 
 ---
@@ -95,6 +95,7 @@ So for now, the active sequence is:
 - [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
+- [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -167,6 +168,7 @@ The worked exercise patterns for each active chapter now live inside the chapter
 - [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
+- [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 
 That is the better place for them because:
 
@@ -188,7 +190,7 @@ The remaining discrete-math notes were written earlier in a topic-first order an
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
-- [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
+- [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
 
@@ -225,7 +227,29 @@ So the chapter is really building:
 
 ---
 
-## 7. Logic Comes First as Background
+## 7. Chapter 4: Strong Induction
+
+Deep dive: [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
+
+Chapter 4 extends ordinary induction by widening the induction hypothesis.
+Instead of assuming only one previous case, it allows the proof step to use all earlier cases in a valid range.
+
+The chapter's main ideas are:
+
+- why multiple base cases may be needed,
+- how strong induction differs from ordinary induction in proof form,
+- when a recurrence or decomposition forces a stronger hypothesis,
+- and why strong induction is often the natural tool in number theory and recursive structures.
+
+So the chapter is really building:
+
+- a reusable strong-induction answer template,
+- recognition of multi-step recurrence dependencies,
+- and the habit of matching proof method to structural dependency.
+
+---
+
+## 8. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -243,7 +267,7 @@ Without this layer, later proof techniques are easy to misuse.
 
 ---
 
-## 8. Formula Structure Comes Before Algorithmic Logic
+## 9. Formula Structure Comes Before Algorithmic Logic
 
 Deep dive: [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 
@@ -267,7 +291,7 @@ to:
 
 ---
 
-## 9. Quantified Logic Extends Formula Structure
+## 10. Quantified Logic Extends Formula Structure
 
 Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 
@@ -291,7 +315,7 @@ It is also where scope, free versus bound variables, quantifier order, and inter
 
 ---
 
-## 10. Logic Becomes Digital Computation
+## 11. Logic Becomes Digital Computation
 
 Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
@@ -360,7 +384,7 @@ This is one of the main bridges from pure math toward later CS and systems abstr
 
 Deep dives:
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
-- [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
+- [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 
 Induction is where discrete mathematics becomes scalable.

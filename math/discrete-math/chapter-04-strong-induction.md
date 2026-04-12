@@ -1,4 +1,4 @@
-# 06. Strong Induction
+# Chapter 4. Strong Induction
 
 ## What
 
@@ -218,6 +218,96 @@ So strong induction is one of the main tools in elementary number theory.
 
 ## Practical Template
 
+The most useful way to internalize strong induction is as a reusable proof skeleton.
+
+## Strong Induction Template
+
+To prove a statement $P(n)$ for all $n \ge n_0$:
+
+### 1. State the claim clearly
+
+Write the statement in the form:
+
+$$
+P(n): \text{ ... }
+$$
+
+This matters because strong induction is not a style choice first.
+It is a proof about a family of indexed statements.
+
+### 2. Verify all required base cases
+
+Prove every initial case needed to start the recursion or decomposition.
+
+Depending on the problem, this may mean:
+
+- one base case,
+- two base cases,
+- or an initial block such as $P(n_0), P(n_0+1), \dots, P(n_1)$.
+
+The number of base cases should match the amount of history the induction step requires.
+
+### 3. Write the strong induction hypothesis
+
+For some arbitrary but fixed $k \ge n_1$, assume:
+
+$$
+P(j) \text{ is true for every integer } j \text{ with } n_0 \le j \le k.
+$$
+
+This is the defining difference from ordinary induction.
+You are allowed to use all earlier cases in the valid range, not only $P(k)$.
+
+### 4. Prove the next case
+
+Show that $P(k+1)$ is true.
+
+This usually happens in one of three ways:
+
+- a recurrence uses several earlier values such as $a_k$, $a_{k-1}$, or $a_{k-2}$,
+- a number or object is decomposed into smaller pieces,
+- or a game/recursive structure is reduced to smaller positions.
+
+The central question is always:
+
+```text
+which earlier cases are needed to build the new one?
+```
+
+### 5. Conclude formally
+
+Finish with:
+
+> Therefore, by strong induction, $P(n)$ is true for all $n \ge n_0$.
+
+This closing sentence matters because it is the point where:
+
+- the verified base cases,
+- the induction hypothesis,
+- and the induction step
+
+combine into the universal conclusion.
+
+## Fast Answer Template
+
+In exam conditions, the following compact structure is usually enough:
+
+### Base cases
+
+Verify the required initial values.
+
+### Induction hypothesis
+
+Assume that for some $k \ge n_1$, the statement $P(j)$ holds for every integer $j$ with $n_0 \le j \le k$.
+
+### Induction step
+
+Show that $P(k+1)$ holds by expressing the $(k+1)$st case in terms of one or more earlier cases and then applying the induction hypothesis.
+
+### Conclusion
+
+Therefore, by strong induction, $P(n)$ holds for all $n \ge n_0$.
+
 When solving a strong-induction problem, it helps to ask:
 
 1. What is the exact statement `P(n)`?
@@ -236,6 +326,29 @@ These questions usually tell you whether strong induction is the right tool.
 - A theorem about `n` uses facts about divisors or factors smaller than `n`.
 
 If the next case depends on more than the immediate predecessor, strong induction should be one of the first things you try.
+
+## Worked Pattern: Divisibility in a Recurrence
+
+Consider a recurrence such as:
+
+$$
+a_1 = 0,\quad a_2 = 6,\quad a_3 = 9,\quad a_n = a_{n-1} + a_{n-3} \text{ for } n > 3.
+$$
+
+To prove every $a_n$ is divisible by $3$:
+
+- base cases: check $a_1, a_2, a_3$
+- induction hypothesis: assume all earlier values up to $a_k$ are divisible by $3$
+- induction step: use
+  $$
+  a_{k+1} = a_k + a_{k-2}
+  $$
+  and note both terms are divisible by $3$
+
+This is the cleanest prototype of strong induction:
+
+- the next case depends on multiple earlier cases,
+- so the proof naturally wants more than just $P(k)$.
 
 ## Common Pitfalls
 
