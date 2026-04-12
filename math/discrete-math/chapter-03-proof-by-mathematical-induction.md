@@ -1,4 +1,4 @@
-# 05. Mathematical Induction
+# Chapter 3. Proof by Mathematical Induction
 
 ## What
 
@@ -289,3 +289,165 @@ For later ML systems study, the transfer is indirect but real:
 ## Short Takeaway
 
 Mathematical induction is a rigorous proof method for discrete infinite families of statements: prove the first case, prove that each case implies the next, and the entire sequence follows.
+
+## Worked Exercise Patterns from Chapter 3
+
+The following exercise set has already been worked through from the Chapter 3 material.
+
+### 3.2 Ambiguous ellipses and the increasing-difference sequence
+
+The expression
+
+```text
+1 + 2 + 4 + 7 + 11 + 16 + ... + 512
+```
+
+can be interpreted as a sequence whose successive differences increase by `1`.
+If `a_1 = 1` and `a_{n+1} = a_n + n`, then induction gives:
+
+\[
+a_n = 1 + \frac{n(n-1)}{2}
+\]
+
+Using this closed form, `512` cannot be a term because
+
+\[
+1 + \frac{n(n-1)}{2} = 512
+\]
+
+has no integer solution.
+
+Main lesson:
+
+- induction can justify a recursively described sequence before any later number-theoretic check is made.
+
+### 3.3 Extended Pigeonhole Principle by induction
+
+The extended principle says:
+
+- if more than `kn` objects are placed into `n` boxes, then some box contains at least `k+1` objects
+
+When forced into induction form, the cleanest induction variable is the number of boxes.
+
+Main lesson:
+
+- some theorems are more naturally proved directly, but can still be reframed into induction by choosing the right size parameter.
+
+### 3.4 Odd powers of `2` and negative powers of `2`
+
+Key formulas:
+
+\[
+\sum_{i=1}^{n} 2^{2i-1} = \frac{2}{3}(4^n - 1)
+\]
+
+and
+
+\[
+\prod_{i=1}^{n} 2^{-i} = 2^{-\,\frac{n(n+1)}{2}}
+\]
+
+Main pattern:
+
+- for sums, write `S_{k+1} = S_k + new term`
+- for products, write `P_{k+1} = P_k * new factor`
+
+### 3.7 Sum of squares
+
+The classical identity
+
+\[
+\sum_{i=0}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
+\]
+
+is a standard induction example.
+
+Main lesson:
+
+- many induction proofs are algebra-management exercises after the correct split
+\[
+\sum_{i=0}^{k+1} = \sum_{i=0}^{k} + \text{last term}
+\]
+has been written down.
+
+### 3.8 Weighted sums with powers of `2`
+
+Worked identities:
+
+\[
+\sum_{i=1}^{n} 2^{i-1} i = 2^n(n-1) + 1
+\]
+
+and
+
+\[
+\sum_{i=1}^{n} 2^{i-1} i^2 = 2^n(n^2 - 2n + 3) - 3
+\]
+
+Main pattern:
+
+- isolate the last term,
+- substitute the induction hypothesis,
+- then simplify aggressively until the target form reappears.
+
+### 3.9 The “all horses are the same color” fake proof
+
+The flaw is in the induction step at `n = 1`.
+The two subsets
+
+- `A = {h_1}`
+- `B = {h_2}`
+
+have empty intersection, so there is no common horse connecting the colors of `A` and `B`.
+
+Main lesson:
+
+- in induction, the step must work for every admissible `k`, especially the first transition from the base case.
+
+### 3.10 Why `512` cannot be the last term in the increasing-difference interpretation
+
+After proving
+
+\[
+a_n = 1 + \frac{n(n-1)}{2}
+\]
+
+by induction, set `a_n = 512` and observe there is no integer `n`.
+
+Main lesson:
+
+- induction often supplies the closed form that makes a later yes/no question easy.
+
+### 3.11 Thue sequence
+
+Two important recursive patterns were highlighted:
+
+- recursive objects may require a stronger induction claim than the one first asked for
+- string properties such as reverse and complement must be tracked structurally
+
+Main lesson:
+
+- not all induction problems are algebraic; some are recursive-structure problems.
+
+### 3.12 Weak induction is sufficient
+
+Any induction proof starting from an arbitrary base index `n0` can be shifted to a proof starting at `0` by defining
+
+\[
+Q(m) := P(m+n_0)
+\]
+
+Main lesson:
+
+- many “more general” induction principles are equivalent after an index shift.
+
+## Chapter 3 Pattern Library
+
+The recurring patterns in this chapter are:
+
+- always write the four-part induction skeleton explicitly:
+  base case, induction hypothesis, induction step, conclusion
+- look for the old case inside the new case before doing algebra
+- for sums and products, split off the final term or factor first
+- if the direct induction target does not close, consider a stronger claim
+- when a proof by induction looks suspicious, test the first nontrivial step

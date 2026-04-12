@@ -1,4 +1,4 @@
-# 02. Basic Proof Techniques
+# Chapter 2. Basic Proof Techniques
 
 ## What
 

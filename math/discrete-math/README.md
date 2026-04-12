@@ -16,15 +16,15 @@ Does not belong here:
 - CS-first topics whose main role is introductory computer science rather than mathematical structure; those belong in [foundations/README.md](/Users/minkyu/Documents/mlsys/foundations/README.md).
 
 Current notes:
-- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+- [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
 - [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 - [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 - [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 - [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
-- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+- [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
-- [05. Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/05-mathematical-induction.md)
+- [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
@@ -51,7 +51,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 2 -> Basic Proof Techniques
+Chapter 3 -> Proof by Mathematical Induction
 ```
 
 ---
@@ -92,8 +92,9 @@ That material is still useful and remains in the folder.
 But for current exam prep, we are switching to a chapter-driven order based on the course material you are sending.
 So for now, the active sequence is:
 
-- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
-- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+- [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
+- [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
+- [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -108,7 +109,7 @@ older topic-first notes remain available as supporting references.
 
 ## 2. Chapter 1: The Pigeonhole Principle
 
-Deep dive: [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+Deep dive: [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
 
 Chapter 1 is doing more than just introducing one theorem.
 It sets the tone for the course:
@@ -137,7 +138,7 @@ So even though the named theorem is simple, the chapter is really building:
 
 ## 3. Chapter 2: Basic Proof Techniques
 
-Deep dive: [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+Deep dive: [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 
 Chapter 2 turns the course from “what patterns force a result?” into “what counts as a proof of that result?”
 
@@ -163,8 +164,9 @@ So the chapter is really building:
 
 The worked exercise patterns for each active chapter now live inside the chapter note itself:
 
-- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
-- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+- [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
+- [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
+- [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 
 That is the better place for them because:
 
@@ -182,10 +184,10 @@ The remaining discrete-math notes were written earlier in a topic-first order an
 - [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 - [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 - [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
-- [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+- [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
-- [05. Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/05-mathematical-induction.md)
+- [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
@@ -194,7 +196,36 @@ These should now be read as supporting material rather than the active chapter f
 
 ---
 
-## 6. Logic Comes First as Background
+## 6. Chapter 3: Proof by Mathematical Induction
+
+Deep dive: [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
+
+Chapter 3 is where proof technique becomes scalable.
+Instead of proving one case and stopping, the chapter teaches how to prove an infinite family of statements by organizing them into:
+
+- base case,
+- induction hypothesis,
+- induction step,
+- and conclusion.
+
+The chapter's main ideas are:
+
+- the difference between everyday induction and mathematical induction,
+- the exact logical role of the induction hypothesis,
+- choosing the right induction variable,
+- sum and product identities,
+- non-algebraic induction proofs such as pigeonhole arguments,
+- and recognizing when a proof by induction silently fails.
+
+So the chapter is really building:
+
+- proof skeleton discipline,
+- “old case inside the new case” pattern recognition,
+- and confidence with infinite families of discrete claims.
+
+---
+
+## 7. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -212,7 +243,7 @@ Without this layer, later proof techniques are easy to misuse.
 
 ---
 
-## 7. Formula Structure Comes Before Algorithmic Logic
+## 8. Formula Structure Comes Before Algorithmic Logic
 
 Deep dive: [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 
@@ -236,7 +267,7 @@ to:
 
 ---
 
-## 8. Quantified Logic Extends Formula Structure
+## 9. Quantified Logic Extends Formula Structure
 
 Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 
@@ -260,7 +291,7 @@ It is also where scope, free versus bound variables, quantifier order, and inter
 
 ---
 
-## 9. Logic Becomes Digital Computation
+## 10. Logic Becomes Digital Computation
 
 Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
@@ -285,7 +316,7 @@ They are also the design principles of digital hardware.
 
 ## 3. Proof Is the Next Discipline
 
-Deep dive: [02. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/02-basic-proof-techniques.md)
+Deep dive: [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 
 Once the language of claims is clear, the next question is:
 
@@ -328,7 +359,7 @@ This is one of the main bridges from pure math toward later CS and systems abstr
 ## 5. Induction Handles Infinite Families of Cases
 
 Deep dives:
-- [05. Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/05-mathematical-induction.md)
+- [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [06. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/06-strong-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 
@@ -348,7 +379,7 @@ Ordinary induction, strong induction, and structural induction are separated her
 
 Deep dives:
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
-- [09. Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/09-pigeonhole-principle.md)
+- [Chapter 1. The Pigeonhole Principle](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-01-pigeonhole-principle.md)
 
 The later part of this branch shifts from proof mechanics to deeper discrete structure.
 

@@ -1,4 +1,4 @@
-# 09. Pigeonhole Principle
+# Chapter 1. The Pigeonhole Principle
 
 ## What
 
