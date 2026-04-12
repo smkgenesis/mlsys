@@ -199,7 +199,213 @@ Again, the point is architectural:
 - smaller parameter tensors reduce memory footprint,
 - lower memory movement also helps power and bandwidth behavior.
 
-## 5. Adaptive Computation Methods
+## 5. Sparsity Exploitation
+
+Sparsity exploitation asks whether zero or near-zero values can be turned into real execution savings rather than just theoretical parameter reduction.
+
+The lecture defines sparsity as the fraction of tensor elements that are zero, or approximately zero under a thresholded notion of near-zero values.
+
+The systems point is more important than the formal definition:
+
+```text
+sparsity is only potential efficiency
+until hardware, storage format, and execution kernel can actually skip the zeros
+```
+
+That is why sparsity belongs in architectural efficiency rather than only in pruning.
+
+Pruning may create sparse models.
+Architectural efficiency determines whether the sparsity actually becomes:
+
+- lower arithmetic cost,
+- lower memory traffic,
+- lower energy use,
+- or lower latency.
+
+### Unstructured and Structured Sparsity
+
+The lecture emphasizes a critical distinction.
+
+#### Unstructured sparsity
+
+Unstructured sparsity removes individual weights without enforcing a regular pattern.
+
+Its main advantage is flexibility:
+
+- it can be applied almost anywhere,
+- and it often appears naturally after pruning.
+
+Its main weakness is hardware mismatch:
+
+- irregular nonzero patterns are hard for GPUs and TPUs to exploit efficiently,
+- sparse indexing overhead rises,
+- and memory access becomes less regular.
+
+So unstructured sparsity often gives a large paper-level sparsity number without guaranteed runtime speedup.
+
+#### Structured sparsity
+
+Structured sparsity removes larger regular units:
+
+- filters,
+- channels,
+- neurons,
+- layers,
+- or fixed sparse patterns such as blocks or N:M masks.
+
+This is much easier for accelerators to exploit because the resulting compute pattern is more predictable.
+
+The practical rule is:
+
+```text
+unstructured sparsity is more flexible;
+structured sparsity is more hardware-friendly
+```
+
+### Sparsity Utilization Methods
+
+The lecture groups several ways to turn sparsity into useful execution behavior.
+
+#### Sparse matrix operations
+
+The most direct method is to skip zero-valued entries during matrix or tensor operations.
+
+This is the idealized promise of sparsity:
+
+- fewer multiplies,
+- fewer loads,
+- and potentially lower power.
+
+But these savings are realized only if sparse storage, indexing, and execution overhead do not erase the benefit.
+
+#### Low-rank approximation
+
+The lecture places low-rank approximation alongside sparsity exploitation because it also reduces effective dense workload.
+
+The core idea is to factor a large dense matrix into smaller matrices that preserve the main information while discarding redundancy.
+
+So even though low-rank structure is not the same thing as literal zeros, it belongs in the same practical family of:
+
+- reducing storage,
+- reducing compute,
+- and reshaping the workload for more efficient execution.
+
+#### Sparsity-aware training
+
+The lecture also notes that training itself can be made sparse-aware:
+
+- sparse updates,
+- sparse gradient handling,
+- or training procedures that preserve useful sparse structure.
+
+This matters because some efficient sparse behaviors are easier to maintain during training than to impose only after the model is finished.
+
+### Hardware Support
+
+The lecture is explicit that sparsity only matters operationally if hardware and software can exploit it.
+
+#### GPUs
+
+GPUs can exploit sparsity well when the pattern matches accelerator assumptions.
+
+Examples:
+
+- structured pruning,
+- block sparsity,
+- and accelerator-supported patterns such as 2:4 sparsity.
+
+The lecture points out that modern GPUs provide sparse tensor-core style acceleration for these more regular formats, but irregular sparse patterns remain much harder to accelerate.
+
+#### TPUs
+
+TPUs benefit when sparse computation can still be expressed in large, regular matrix-style operations.
+
+This makes structured sparsity and sparse-aware large-matrix execution especially relevant for transformer-like workloads.
+
+#### FPGAs
+
+FPGAs are useful because they can be customized around specific sparse dataflows.
+
+That flexibility makes them appealing for irregular or application-specific sparse workloads, though the engineering cost is higher than for more general-purpose accelerators.
+
+### Structured Patterns
+
+The lecture highlights two especially important structured sparsity formats.
+
+#### Block sparsity
+
+Block sparsity keeps the matrix sparse at a coarse scale while preserving dense computation within each nonzero block.
+
+That is attractive because:
+
+- storage remains compact,
+- indexing is simpler than fully irregular sparsity,
+- and many operations can still be expressed as fewer dense block operations.
+
+#### N:M sparsity
+
+N:M sparsity enforces a fixed number of nonzeros within each group of `M` elements.
+
+The lecture emphasizes this pattern because it gives hardware:
+
+- predictable memory access,
+- predictable skip behavior,
+- and a practical balance between flexibility and acceleration.
+
+This is exactly the kind of regularity modern accelerators prefer.
+
+### Challenges and Limitations
+
+The lecture is also very clear that sparsity is not automatically a win.
+
+Main problems include:
+
+- irregular unstructured sparsity that hardware struggles to accelerate,
+- algorithmic and implementation overhead from sparse formats and kernels,
+- accuracy degradation under aggressive pruning or approximation,
+- possible energy overhead from sparse metadata and irregular execution,
+- and limited benefit for models or tasks that genuinely rely on dense representations.
+
+So the systems lesson is:
+
+```text
+sparsity reduces potential work,
+but exploitation overhead can cancel that gain
+```
+
+### Combined Optimizations
+
+The lecture closes this section by stressing that sparsity is strongest when combined thoughtfully with other methods.
+
+#### Sparsity and pruning
+
+Pruning often creates the sparse pattern in the first place.
+Whether the result is useful depends heavily on whether the sparsity is structured enough for hardware to exploit.
+
+#### Sparsity and quantization
+
+This combination can reduce both:
+
+- how many values matter,
+- and how many bits represent those values.
+
+But it also magnifies hardware-software alignment problems, especially for irregular sparse patterns.
+
+#### Sparsity and model design
+
+Sparsity can amplify already efficient architectural ideas such as:
+
+- factorized operations,
+- low-rank designs,
+- and dynamic computation.
+
+But again, the lecture's condition remains the same:
+
+```text
+the sparse structure must line up with the target execution stack
+```
+
+## 6. Adaptive Computation Methods
 
 The lecture then moves from static design to runtime adaptation.
 
@@ -266,7 +472,7 @@ Adaptive inference is the broader idea:
 
 The lecture uses this to unify dynamic layer usage, variable depth, and other runtime adaptation strategies.
 
-## 6. Dynamic Computation Challenges
+## 7. Dynamic Computation Challenges
 
 The lecture is careful not to oversell adaptive computation.
 It lists several practical difficulties.
@@ -324,7 +530,7 @@ So evaluation has to look beyond static FLOP counts and account for:
 - latency variability,
 - and hardware-specific execution behavior.
 
-## 7. What This Note Is Really Teaching
+## 8. What This Note Is Really Teaching
 
 This lecture is not only listing techniques.
 It is teaching a broader systems rule:
@@ -340,6 +546,7 @@ Without it:
 
 - pruning may not accelerate,
 - quantization may not deliver end-to-end gains,
+- sparsity may remain only theoretical sparsity rather than realized speedup,
 - and model scaling may outrun hardware limits.
 
 ## Common Mistakes
