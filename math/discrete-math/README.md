@@ -24,6 +24,7 @@ Current notes:
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
+- [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
@@ -53,7 +54,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 6 -> Relations and Functions
+Chapter 7 -> Countable and Uncountable Sets
 ```
 
 ---
@@ -100,6 +101,7 @@ So for now, the active sequence is:
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
+- [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -175,6 +177,7 @@ The worked exercise patterns for each active chapter now live inside the chapter
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
+- [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
 
 That is the better place for them because:
 
@@ -199,6 +202,7 @@ The remaining discrete-math notes were written earlier in a topic-first order an
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
+- [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
 
@@ -306,7 +310,30 @@ So the chapter is really building:
 
 ---
 
-## 10. Logic Comes First as Background
+## 10. Chapter 7: Countable and Uncountable Sets
+
+Deep dive: [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
+
+Chapter 7 asks what “size” means once sets become infinite.
+Instead of counting elements directly, it compares sets by whether they admit bijections, injections, or diagonal anti-enumeration arguments.
+
+The chapter's main ideas are:
+
+- countable versus uncountable sets,
+- explicit enumerations and pairing functions,
+- countable unions of countable sets,
+- power sets as strictly larger infinities,
+- and diagonalization as a proof that no listing can capture everything.
+
+So the chapter is really building:
+
+- comfort treating bijection as the definition of equal infinite size,
+- the habit of reducing countability questions to coding and enumeration questions,
+- and the diagonalization instinct that later reappears in computability and undecidability.
+
+---
+
+## 11. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -348,7 +375,7 @@ to:
 
 ---
 
-## 11. Quantified Logic Extends Formula Structure
+## 12. Quantified Logic Extends Formula Structure
 
 Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 
@@ -372,7 +399,7 @@ It is also where scope, free versus bound variables, quantifier order, and inter
 
 ---
 
-## 12. Logic Becomes Digital Computation
+## 13. Logic Becomes Digital Computation
 
 Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
