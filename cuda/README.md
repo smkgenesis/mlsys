@@ -27,11 +27,12 @@ Current notes:
 - [08. Parallel Histograms](08-parallel-histograms.md)
 - [09. Reduction](09-reduction.md)
 - [10. Prefix Sum (Scan)](10-prefix-sum-scan.md)
+- [11. Merge](11-merge.md)
 
 ---
 
 CUDA Execution and Optimization:
-Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention -> Coordinated Aggregation -> Prefix Propagation
+Heterogeneous Framing -> Host/Device Split -> Thread Mapping -> Scheduling -> Memory Hierarchy -> Memory Traffic -> Pattern-Level Kernels -> Shared-Output Contention -> Coordinated Aggregation -> Prefix Propagation -> Data-Dependent Ordered Composition
 
 This document describes the CUDA side of ML systems with deliberately mechanism-level emphasis.
 
@@ -49,7 +50,8 @@ The goal is to make the CUDA execution story explicit:
 - how these ideas show up in concrete parallel patterns such as convolution and stencil sweeps,
 - what changes when output ownership breaks and multiple threads contend on shared results,
 - how collaborative aggregation patterns expose divergence, coalescing, shared-memory, and coarsening tradeoffs,
-- and how prefix-propagation patterns add work-efficiency, hierarchy, and inter-block synchronization tradeoffs on top of those earlier issues.
+- how prefix-propagation patterns add work-efficiency, hierarchy, and inter-block synchronization tradeoffs on top of those earlier issues,
+- and how ordered merge patterns introduce data-dependent input discovery, search overhead, and much harder buffer-management problems.
 
 The documents in this folder are deep dives.
 This README is the parent document that ties them together into one continuous CUDA learning path.
@@ -113,6 +115,7 @@ heterogeneous framing
 -> parallel histograms as a shared-output contention pattern
 -> reduction as a tree-structured aggregation pattern
 -> prefix sum as a prefix-propagation pattern that turns recurrences into parallel work
+-> merge as a data-dependent ordered-composition pattern
 ```
 
 This is not just an ordered list.
@@ -498,26 +501,55 @@ but also:
 
 ---
 
-## 13. The Main Distinctions This Folder Tries to Keep Sharp
+## 13. Merge Adds the Data-Dependent Ordered Pattern
+
+Deep dive: [11. Merge](11-merge.md)
+
+Merge is the natural next step after scan because it keeps the theme of cooperation across many elements but changes the structure of the work in a much more difficult way.
+
+Earlier patterns in this folder usually let us determine each thread's input region with simple index arithmetic.
+Merge does not.
+
+Instead:
+
+- output ownership can be assigned statically,
+- but input ownership must be discovered dynamically from the sorted data,
+- which requires co-rank search,
+- and turns memory management into the real optimization challenge.
+
+This note introduces:
+
+- output-first partitioning,
+- co-rank as a boundary-search primitive,
+- block-level tiling for coalesced global memory access,
+- circular buffers for reusing partially consumed tiles,
+- and thread coarsening as an essential way to amortize search cost.
+
+So merge matters not only as a sorting primitive.
+It matters because it is one of the cleanest CUDA examples of an irregular, data-dependent pattern that still admits high-performance structure if the search, tiling, and buffering layers are designed carefully.
+
+---
+
+## 14. The Main Distinctions This Folder Tries to Keep Sharp
 
 Several distinctions matter across these notes.
 
-### 11.1 CUDA abstraction vs hardware execution
+### 14.1 CUDA abstraction vs hardware execution
 
 - the programmer launches grids and blocks
 - the hardware actually schedules blocks, warps, and memory transactions
 
-### 11.2 Shared memory vs cache
+### 14.2 Shared memory vs cache
 
 - shared memory is programmer-managed and explicit
 - cache is hardware-managed and implicit
 
-### 11.3 Occupancy vs performance
+### 14.3 Occupancy vs performance
 
 - occupancy helps hide latency
 - but maximizing occupancy is not the same as maximizing performance
 
-### 11.4 Arithmetic intensity vs real speed
+### 14.4 Arithmetic intensity vs real speed
 
 - more arithmetic per byte usually helps
 - but only if memory traffic, coalescing, and on-chip resource usage are also favorable
