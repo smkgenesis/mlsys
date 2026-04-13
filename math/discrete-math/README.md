@@ -22,6 +22,7 @@ Current notes:
 - [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 - [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
+- [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
@@ -51,7 +52,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 4 -> Strong Induction
+Chapter 5 -> Sets
 ```
 
 ---
@@ -96,6 +97,7 @@ So for now, the active sequence is:
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
+- [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -169,6 +171,7 @@ The worked exercise patterns for each active chapter now live inside the chapter
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
+- [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 
 That is the better place for them because:
 
@@ -191,6 +194,7 @@ The remaining discrete-math notes were written earlier in a topic-first order an
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
+- [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
 
@@ -249,7 +253,32 @@ So the chapter is really building:
 
 ---
 
-## 8. Logic Comes First as Background
+## 8. Chapter 5: Sets
+
+Deep dive: [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
+
+Chapter 5 shifts the course from proof form into the language of mathematical objects.
+Instead of asking only whether a claim is true, it asks what kind of collection is being described, how those collections interact, and how their sizes behave.
+
+The chapter's main ideas are:
+
+- membership versus subset,
+- equality by double inclusion,
+- power sets and their cardinalities,
+- set-builder notation,
+- complements, unions, intersections, and differences,
+- Cartesian products and ordered pairs,
+- and counting with overlapping sets.
+
+So the chapter is really building:
+
+- comfort with formal object notation,
+- the habit of reading braces and nesting carefully,
+- and the set-theoretic language that later relations, functions, and counting arguments rely on.
+
+---
+
+## 9. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -357,6 +386,7 @@ This note is the first place where the branch shifts from understanding statemen
 ## 4. Sets, Relations, and Functions Build the Core Objects
 
 Deep dives:
+- [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 
