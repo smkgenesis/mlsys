@@ -25,6 +25,7 @@ Current notes:
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 - [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
+- [Chapter 8. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-08-structural-induction.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
@@ -54,7 +55,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 7 -> Countable and Uncountable Sets
+Chapter 8 -> Structural Induction
 ```
 
 ---
@@ -102,6 +103,7 @@ So for now, the active sequence is:
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 - [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
+- [Chapter 8. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-08-structural-induction.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -178,6 +180,7 @@ The worked exercise patterns for each active chapter now live inside the chapter
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 - [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
+- [Chapter 8. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-08-structural-induction.md)
 
 That is the better place for them because:
 
@@ -203,6 +206,7 @@ The remaining discrete-math notes were written earlier in a topic-first order an
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
 - [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 - [Chapter 7. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-07-countable-and-uncountable-sets.md)
+- [Chapter 8. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-08-structural-induction.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
 
@@ -333,7 +337,32 @@ So the chapter is really building:
 
 ---
 
-## 11. Logic Comes First as Background
+## 11. Chapter 8: Structural Induction
+
+Deep dive: [Chapter 8. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-08-structural-induction.md)
+
+Chapter 8 shifts induction away from integer indices and onto recursively built objects.
+Instead of proving a statement for all values of `n`, it asks what happens for:
+
+- the base object,
+- and each legal constructor that builds a bigger object from smaller ones.
+
+The chapter's main ideas are:
+
+- inductive definitions by base cases and constructor rules,
+- structural induction as induction on how an object is built,
+- recursive definitions of operations on strings and tree-like objects,
+- and choosing the proof argument that matches the recursive clause of the definition.
+
+So the chapter is really building:
+
+- a reusable structural-induction answer template,
+- confidence with recursively defined strings, balanced expressions, and paired objects,
+- and the habit of proving algebraic properties from constructors rather than from informal intuition.
+
+---
+
+## 12. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -351,7 +380,7 @@ Without this layer, later proof techniques are easy to misuse.
 
 ---
 
-## 9. Formula Structure Comes Before Algorithmic Logic
+## 13. Formula Structure Comes Before Algorithmic Logic
 
 Deep dive: [01.1 Normal Forms](/Users/minkyu/Documents/mlsys/math/discrete-math/01-1-normal-forms.md)
 
@@ -375,7 +404,7 @@ to:
 
 ---
 
-## 12. Quantified Logic Extends Formula Structure
+## 14. Quantified Logic Extends Formula Structure
 
 Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 
@@ -399,7 +428,7 @@ It is also where scope, free versus bound variables, quantifier order, and inter
 
 ---
 
-## 13. Logic Becomes Digital Computation
+## 15. Logic Becomes Digital Computation
 
 Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
