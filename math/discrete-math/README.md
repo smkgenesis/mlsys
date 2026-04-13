@@ -23,6 +23,7 @@ Current notes:
 - [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 - [Chapter 2. Basic Proof Techniques](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-02-basic-proof-techniques.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
+- [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 - [03. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/03-sets.md)
 - [04. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/04-relations-and-functions.md)
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
@@ -52,7 +53,7 @@ This README now also functions as the operating document for working through the
 At the moment, the active focus is:
 
 ```text
-Chapter 5 -> Sets
+Chapter 6 -> Relations and Functions
 ```
 
 ---
@@ -98,6 +99,7 @@ So for now, the active sequence is:
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
+- [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 
 Later chapters can be rethreaded into this README the same way as you send them.
 
@@ -172,6 +174,7 @@ The worked exercise patterns for each active chapter now live inside the chapter
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
+- [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 
 That is the better place for them because:
 
@@ -195,6 +198,7 @@ The remaining discrete-math notes were written earlier in a topic-first order an
 - [Chapter 3. Proof by Mathematical Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-03-proof-by-mathematical-induction.md)
 - [Chapter 4. Strong Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-04-strong-induction.md)
 - [Chapter 5. Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-05-sets.md)
+- [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
 - [07. Structural Induction](/Users/minkyu/Documents/mlsys/math/discrete-math/07-structural-induction.md)
 - [08. Countable and Uncountable Sets](/Users/minkyu/Documents/mlsys/math/discrete-math/08-countable-and-uncountable-sets.md)
 
@@ -278,7 +282,31 @@ So the chapter is really building:
 
 ---
 
-## 9. Logic Comes First as Background
+## 9. Chapter 6: Relations and Functions
+
+Deep dive: [Chapter 6. Relations and Functions](/Users/minkyu/Documents/mlsys/math/discrete-math/chapter-06-relations-and-functions.md)
+
+Chapter 6 turns set-theoretic objects into structured mappings.
+Instead of working only with collections, it asks how objects are paired, how outputs depend on inputs, and when those mappings can be inverted.
+
+The chapter's main ideas are:
+
+- relations as subsets of Cartesian products,
+- functions as relations with existence and uniqueness,
+- domain, codomain, and image,
+- inverse relations versus inverse functions,
+- injective, surjective, and bijective behavior,
+- and finite-set consequences of injectivity and surjectivity.
+
+So the chapter is really building:
+
+- the habit of checking mapping constraints explicitly,
+- comfort distinguishing image from codomain,
+- and the structural language that later proofs about size, equivalence, and computation depend on.
+
+---
+
+## 10. Logic Comes First as Background
 
 Deep dive: [01. Propositional Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-propositional-logic.md)
 
@@ -320,7 +348,7 @@ to:
 
 ---
 
-## 10. Quantified Logic Extends Formula Structure
+## 11. Quantified Logic Extends Formula Structure
 
 Deep dive: [01.2 Quantificational Logic](/Users/minkyu/Documents/mlsys/math/discrete-math/01-2-quantificational-logic.md)
 
@@ -344,7 +372,7 @@ It is also where scope, free versus bound variables, quantifier order, and inter
 
 ---
 
-## 11. Logic Becomes Digital Computation
+## 12. Logic Becomes Digital Computation
 
 Deep dive: [01.3 Logic and Computers](/Users/minkyu/Documents/mlsys/math/discrete-math/01-3-logic-and-computers.md)
 
